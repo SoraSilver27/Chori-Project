@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Maquinaria;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+class ComponenteController extends Controller
+{
+    public function store(Request $request): Response
+    {
+        $request->validate([
+            ''=> [''],
+        ]);
+
+        $repuesto = Repuesto::create([
+            ''=> $request->,
+        ]);
+        event(new Registered($repuesto));
+        return response()->noContent();
+    }
+}
