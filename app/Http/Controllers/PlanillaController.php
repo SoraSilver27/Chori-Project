@@ -3,29 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Planilla;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\StorePlanillaRequest;
+use App\Http\Requests\UpdatePlanillaRequest;
 
 class PlanillaController extends Controller
 {
-    public function store(Request $request): Response
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'Es_de'=> ['enum'], //esto hay que verlo bien
-            'Fecha' => ['required','date'],
-            'Encargado' => ['required','string'],
-            'Telefono_encargado' => ['required','string'],
-        ]);
+        //
+    }
 
-        $planilla = Planilla::create([
-            'Es_de'=> $request->Es_de,
-            'Fecha' => $request->Fecha,
-            'Encargado' => $request->Encargado,
-            'Telefono_encargado' => $request->Telefono_encargado,
-        ]);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
-        event(new Registered($planilla));
-        return response()->noContent();
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StorePlanillaRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Planilla $planilla)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Planilla $planilla)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdatePlanillaRequest $request, Planilla $planilla)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Planilla $planilla)
+    {
+        //
     }
 }

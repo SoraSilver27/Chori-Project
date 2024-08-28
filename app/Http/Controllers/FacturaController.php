@@ -3,30 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Factura;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\StoreFacturaRequest;
+use App\Http\Requests\UpdateFacturaRequest;
 
 class FacturaController extends Controller
 {
-    public function store(Request $request): Response
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'Numero_de_compra'=> ['required','int'],
-            'Fecha' => ['required','date'],
-            'Proveedor' => ['required','string'],
-            'Encargado' => ['required','string'],
-        ]);
+        //
+    }
 
-        $factura = Factura::create([
-            'Numero_de_compra'=> $request->Numero_de_compra,
-            'Fecha' => $request->Fecha,
-            'Proveedor' => $request->Proveedor,
-            'Encargado' => $request->Encargado,
-        ]);
-        event(new Registered($factura));
-        return response()->noContent();
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreFacturaRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Factura $factura)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Factura $factura)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateFacturaRequest $request, Factura $factura)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Factura $factura)
+    {
+        //
     }
 }
-
-

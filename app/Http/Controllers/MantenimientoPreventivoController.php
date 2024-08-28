@@ -2,31 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mantenimiento_preventivo;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\MantenimientoPreventivo;
+use App\Http\Requests\StoreMantenimientoPreventivoRequest;
+use App\Http\Requests\UpdateMantenimientoPreventivoRequest;
 
 class MantenimientoPreventivoController extends Controller
 {
-    public function store(Request $request): Response
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'Es_de'=> ['required','string'],
-            'Intervalo_de_mantenimiento' => ['enum'],
-            'Horas_de_servicio' => ['required','int'],
-            'Ultimo_mentenimiento' => ['date'],
-            'Que_se_hace' => ['required','string','max:40'],
-        ]);
+        //
+    }
 
-        $mantenimiento_preventivo = Mantenimiento_preventivo::create([
-            'Es_de'=> $request->Es_de,
-            'Intervalo_de_mantenimiento' => $request->Intervalo_de_mantenimiento,
-            'Horas_de_servicio' => $request->Horas_de_servicio,
-            'Ultimo_mentenimiento' => $request->Ultimo_mentenimiento,
-            'Que_se_hace' => $request->Que_se_hace,
-        ]);
-        event(new Registered($mantenimiento_preventivo));
-        return response()->noContent();
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreMantenimientoPreventivoRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(MantenimientoPreventivo $mantenimientoPreventivo)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(MantenimientoPreventivo $mantenimientoPreventivo)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateMantenimientoPreventivoRequest $request, MantenimientoPreventivo $mantenimientoPreventivo)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(MantenimientoPreventivo $mantenimientoPreventivo)
+    {
+        //
     }
 }

@@ -2,27 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Planilla_preventiva;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\PlanillaPreventiva;
+use App\Http\Requests\StorePlanillaPreventivaRequest;
+use App\Http\Requests\UpdatePlanillaPreventivaRequest;
 
 class PlanillaPreventivaController extends Controller
 {
-    public function store(Request $request): Response
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'ID_mantenimiento'=> ['int'],
-            'Horas_de_servicio' => ['int'],
-            'Trabajo_mantenimiento' => ['required','string','max:50'],
-        ]);
+        //
+    }
 
-        $planillaPreventiva = Planilla_preventiva::create([
-            'ID_mantenimiento'=> $request->ID_mantenimiento,
-            'Horas_de_servicio' => $request->Horas_de_servicio,
-            'Trabajo_mantenimiento' => $request->Trabajo_mantenimiento,
-        ]);
-        event(new Registered($planillaPreventiva));
-        return response()->noContent();
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StorePlanillaPreventivaRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(PlanillaPreventiva $planillaPreventiva)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(PlanillaPreventiva $planillaPreventiva)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdatePlanillaPreventivaRequest $request, PlanillaPreventiva $planillaPreventiva)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(PlanillaPreventiva $planillaPreventiva)
+    {
+        //
     }
 }

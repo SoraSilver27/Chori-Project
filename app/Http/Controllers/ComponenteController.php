@@ -3,34 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Componente;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\StoreComponenteRequest;
+use App\Http\Requests\UpdateComponenteRequest;
 
 class ComponenteController extends Controller
 {
-    public function store(Request $request): Response //Esto sirve para registrar un nuevo componente.
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'Nombre'=> ['required','string','max:40'],
-            'Numero_de_serie' => ['string','max:10'],
-            'Imagen' => ['binary'],
-            'Modelo' => ['string','max:40'],
-            'Descripcion' => ['string','max:120'],
-            'Ubicacion' => ['required','string','max:20'],
-            'Estado' => ['boolean'],
-        ]);
+        //
+    }
 
-        $componente = Componente::create([
-            'Nombre'=> $request->Nombre,
-            'Numero_de_serie' => $request->Numero_de_serie,
-            'Imagen' => $request->Imagen,
-            'Modelo' => $request->Modelo,
-            'Descripcion' => $request->Descripcion,
-            'Ubicacion' => $request->Ubicacion,
-        ]);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
-        event(new Registered($componente));
-        return response()->noContent();
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreComponenteRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Componente $componente)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Componente $componente)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateComponenteRequest $request, Componente $componente)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Componente $componente)
+    {
+        //
     }
 }

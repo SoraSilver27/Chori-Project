@@ -3,32 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repuesto;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\StoreRepuestoRequest;
+use App\Http\Requests\UpdateRepuestoRequest;
 
 class RepuestoController extends Controller
 {
-    public function store(Request $request): Response //Esto es para registrar un nuevo repuesto
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'Nombre' => ['required','string',"max:40"],
-            'Imagen' => ['binary'],
-            'Descripcion' => ['required','string', 'max:50'],
-            'Fabricante' => ['string','max:50'],
-            'Modelo' => ['string', 'max:40'],
+        //
+    }
 
-        ]);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
-        $repuesto = Repuesto::create([
-            'Nombre' => $request->Nombre,
-            'Imagen' => $request->Imagen,
-            'Descripcion' => $request->Descripcion,
-            'Fabricante' => $request->Fabricante,
-            'Modelo' => $request->Modelo,
-        ]);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreRepuestoRequest $request)
+    {
+        //
+    }
 
-        event(new Registered($repuesto));
-        return response()->noContent();
+    /**
+     * Display the specified resource.
+     */
+    public function show(Repuesto $repuesto)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Repuesto $repuesto)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateRepuestoRequest $request, Repuesto $repuesto)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Repuesto $repuesto)
+    {
+        //
     }
 }

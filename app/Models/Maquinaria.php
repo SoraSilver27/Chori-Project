@@ -4,21 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Maquinaria extends Model
 {
-    protected $table = "maquinaria";
-    protected $primaryKey = 'ID';
-    public $timestamps = false;
+    use HasFactory;
     protected $fillable = [
-        'Nombre',
-        'Numero_de_serie',
-        'Imagen',
-        'Modelo',
-        'En_seguimiento',
-        'Fecha_adquisicion',
-        'Observaciones_generales',
+        "nombre",
+        "numero_de_serie",
+        "estado",
+        "modelo",
+        "imagen",
+        "en_seguimiento",
+        "fecha_adquisicion",
+        "observaciones_generales",
     ];
 
-
+    public function detalles() : HasMany{
+        return $this->hasMany(MaquinariaDetalle::class, 'id_maquinaria', 'id');
+    }
 }

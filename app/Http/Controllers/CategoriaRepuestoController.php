@@ -2,28 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria_repuesto;
-use App\Models\Maquinaria;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\CategoriaRepuesto;
+use App\Http\Requests\StoreCategoriaRepuestoRequest;
+use App\Http\Requests\UpdateCategoriaRepuestoRequest;
 
 class CategoriaRepuestoController extends Controller
 {
-    public function store(Request $request): Response
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $request->validate([
-            'Nombre'=> ['required','string'],
-            'Descripcion' => ['string','max:50'],
-            'Imagen' => ['binary'],
-        ]);
+        //
+    }
 
-        $categoria = Categoria_repuesto::create([
-            'Nombre'=> $request->Nombre,
-            'Descripcion' => $request->Descripcion,
-            'Imagen' => $request->Imagen,
-        ]);
-        event(new Registered($categoria));
-        return response()->noContent();
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreCategoriaRepuestoRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(CategoriaRepuesto $categoriaRepuesto)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(CategoriaRepuesto $categoriaRepuesto)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateCategoriaRepuestoRequest $request, CategoriaRepuesto $categoriaRepuesto)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(CategoriaRepuesto $categoriaRepuesto)
+    {
+        //
     }
 }

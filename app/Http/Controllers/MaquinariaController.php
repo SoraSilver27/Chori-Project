@@ -2,37 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMaquinariaRequest;
+use App\Http\Requests\UpdateMaquinariaRequest;
+use App\Http\Resources\MaquinariaResource;
 use App\Models\Maquinaria;
-use Illuminate\Auth\Events\Registered;
+use App\Http\Resources\MaquinariaCollection;
+use App\Filters\MaquinariaFilter;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-//Espero que funcione
+
 
 class MaquinariaController extends Controller
 {
-    public function store(Request $request): Response //Esto es para registrar una nueva maquinaria
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
     {
-        $request->validate([
-            'Nombre' => ['required','string',"max:40"],
-            'Numero_de_serie' => ['string', "max:40"],
-            'Imagen' => ['binary'],
-            'Modelo' => ['string','max:50'],
-            'Fecha_adquisicion' => ['required', 'date'],
-            'Observaciones_generales' => ['string', 'max:600'],
+        //
+        $filter = new MaquinariaFilter();
+        $queryItems = $filter->transform($request);
+        $includeDetalles = $request->query("includeDetalles");
+        $maquinarias = Maquinaria::where($queryItems);
+        if($includeDetalles){
+            $maquinarias = $maquinarias->with("detalles");
+        }
+        return new MaquinariaCollection($maquinarias->get());
 
-        ]);
+    }
 
-        $maquinaria = Maquinaria::create([
-            'Nombre' => $request->Nombre,
-            'Numero_de_serie' => $request->Numero_de_serie,
-            'Imagen' => $request->Imagen,
-            'Modelo' => $request->Modelo,
-            'Fecha_adquisicion' => $request->Fecha_adquisicion,
-            'Observaciones_generales' => $request->Observaciones_generales,
-        ]);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
-        event(new Registered($maquinaria));
-        return response()->noContent();
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreMaquinariaRequest $request)
+    {
+        //
+        return new MaquinariaResource(Maquinaria::create($request->all()));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Maquinaria $maquinaria)
+    {
+        //
+        $includeDetalles = request()->query("includeDetalles");
+        if($includeDetalles){
+            return new MaquinariaResource($maquinaria->loadMissing("detalles"));
+        }
+        return new MaquinariaResource($maquinaria);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Maquinaria $maquinaria)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateMaquinariaRequest $request, Maquinaria $maquinaria)
+    {
+        //
+        $maquinaria->update($request->all());
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Maquinaria $maquinaria)
+    {
+        //
     }
 }
