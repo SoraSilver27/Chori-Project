@@ -10,7 +10,17 @@ class MaquinariaDetalle extends Model
 {
     use HasFactory;
     public $timestamps = true;
-    protected $fillable = ["capacidad_de_produccion","voltaje","peso","tipo","velocidad_ajustable","pantalla_digital","facil_desmontaje","garantia","problemas_recurrentes",];
+    protected $fillable = [
+        "capacidad_de_produccion",
+        "voltaje",
+        "peso",
+        "tipo",
+        "velocidad_ajustable",
+        "pantalla_digital",
+        "facil_desmontaje",
+        "garantia",
+        "problemas_recurrentes"
+    ];
 
     public function maquinaria() : BelongsTo{
         return $this->belongsTo(Maquinaria::class, 'id', 'maquinaria_id');

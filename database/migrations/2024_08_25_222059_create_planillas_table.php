@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('planillas', function (Blueprint $table) {
-            $table->id();
+            $table->id("id");
             $table->boolean("es_de");
             $table->id("id_maquina")->autoIncrement(false);
             $table->id("id_componente")->autoIncrement(false);

@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('planilla_correctivas', function (Blueprint $table) {
-            $table->id();
+            $table->id("id_planilla");
             $table->string("problema_detectado");
             $table->string("solucion_encontrada");
             $table->string("que_se_pudo_realizar");
             $table->boolean("requirio_tercerizacion");
             $table->boolean("amerita_seguimiento");
-            $table->foreign("id")->references("id")->on("planillas");
+            $table->foreign("id_planilla")->references("id")->on("planillas");
             $table->timestamps();
         });
     }

@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('planilla_preventivas', function (Blueprint $table) {
-            $table->id();
+            $table->id("id_planilla");
             $table->id("mantenimiento")->autoIncrement(false);
             $table->id("horas_de_servicio")->autoIncrement(false);
             $table->string("trabajo_mantenimiento");
-            $table->foreign("id")->references("id")->on("planillas");
+            $table->foreign("id_planilla")->references("id")->on("planillas");
             $table->foreign("mantenimiento")->references("id")->on("mantenimiento_preventivos");
             $table->timestamps();
         });

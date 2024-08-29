@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MantenimientoPreventivo extends Model
 {
@@ -18,4 +20,13 @@ class MantenimientoPreventivo extends Model
         "ultimo_mantenimiento",
         "que_se_hace"
     ];
+    public function preventivas() : HasMany{
+        return $this->hasMany(PlanillaPreventiva::class, "mantenimiento","id");
+    }
+    public function maquinaria() : BelongsTo{
+        return $this->belongsTo(Maquinaria::class, "id", "id_maquina");
+    }
+    public function componente() : BelongsTo{
+        return $this->belongsTo(Componente::class, "id", "id_componente");
+    }
 }

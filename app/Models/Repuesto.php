@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Repuesto extends Model
 {
@@ -17,4 +18,7 @@ class Repuesto extends Model
         'fabricante',
         'modelo',
     ];
+    public function categoria() : BelongsTo{
+        return $this->belongsTo(CategoriaRepuesto::class, "nombre", "categoria");
+    }
 }

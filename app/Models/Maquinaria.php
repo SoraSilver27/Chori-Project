@@ -23,4 +23,13 @@ class Maquinaria extends Model
     public function detalles() : HasMany{
         return $this->hasMany(MaquinariaDetalle::class, 'id_maquinaria', 'id');
     }
+    public function componentes() : HasMany{
+        return $this->hasMany(Componente::class, "ubicacion","id");
+    }
+    public function planillas() : HasMany{
+        return $this->hasMany(Planilla::class, "id_maquina", "id");
+    }
+    public function preventivos() : HasMany{
+        return $this->hasMany(MantenimientoPreventivo::class, "id_maquina", "id");
+    }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean("es_de");
             $table->id("id_maquina")->nullable()->autoIncrement(false);
             $table->id("id_componente")->nullable()->autoIncrement(false);
-            $table->enum("intervalo_de_mantenimiento", ["semanal","mensual","anual"]);
+            $table->enum("intervalo_de_mantenimiento", ["Semanal","Mensual","Anual"]);
             $table->integer("horas_de_servicio");
             $table->date("ultimo_mantenimiento");
             $table->string("que_se_hace");
