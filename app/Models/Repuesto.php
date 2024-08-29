@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Repuesto extends Model
 {
     use HasFactory;
+    protected $timestamps = true;
+    protected $fillable = [
+        'cantidad',
+        'nombre',
+        'descripcion',
+        'imagen',
+        'fabricante',
+        'modelo',
+    ];
 }

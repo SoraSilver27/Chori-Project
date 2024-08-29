@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('repuestos', function (Blueprint $table) {
-            $table->id();
-            $table->id("categoria")->autoIncrement(false);
-            $table->integer("cantidad");
+            $table->string("categoria")->primary();
+            $table->integer("cantidad")->default(0);
             $table->string("nombre");
             $table->string("descripcion");
-            $table->binary("imagen");
+            $table->binary("imagen")->nullable();
             $table->string("fabricante");
             $table->string("modelo");
             $table->foreign("categoria")->references("nombre")->on("categoria_repuestos");

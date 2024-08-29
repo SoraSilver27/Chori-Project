@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('planilla_correctivas', function (Blueprint $table) {
-            $table->id("id");
+            $table->id();
             $table->string("problema_detectado");
             $table->string("solucion_encontrada");
             $table->string("que_se_pudo_realizar");

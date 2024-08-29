@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categoria_repuestos', function (Blueprint $table) {
-            $table->id("nombre"); //no sé si quedó como int o como string. -Gabriel
+            $table->string("nombre")->primary();
             $table->string("descripcion");
-            $table->binary("imagen");
+            $table->binary("imagen")->nullable();
             $table->timestamps();
         });
     }

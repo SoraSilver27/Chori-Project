@@ -17,11 +17,11 @@ return new class extends Migration
             $table->integer("voltaje");
             $table->integer("peso");
             $table->string("tipo");
-            $table->boolean("velocidad_ajustable");
-            $table->boolean("pantalla_digital");
-            $table->boolean("facil_desmontaje");
-            $table->boolean("garantia");
-            $table->string("problemas_recurrentes");
+            $table->boolean("velocidad_ajustable")->default(0);
+            $table->boolean("pantalla_digital")->default(0);
+            $table->boolean("facil_desmontaje")->default(0);
+            $table->boolean("garantia")->default(0);
+            $table->string("problemas_recurrentes")->default("Sin problemas recurrentes");
             $table->foreign("id_maquinaria")->references("id")->on("maquinarias");
             $table->timestamps();
         });

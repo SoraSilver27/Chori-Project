@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Factura extends Model
 {
     use HasFactory;
+    protected $timestamps = true;
+    protected $fillable = [
+        'numero_de_compra',
+        'fecha',
+        'proveedor',
+        'encargado'
+    ];
 }

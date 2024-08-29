@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('componentes', function (Blueprint $table) {
             $table->id();
             $table->string("nombre");
-            $table->string("numero_de_serie");
-            $table->binary("imagen")->nullable(true);
+            $table->string("numero_de_serie")->default("Sin identificador");
+            $table->binary("imagen")->nullable();
             $table->string("modelo");
-            $table->string("descripcion")->nullable(true);
+            $table->string("descripcion")->default("Sin descripción");
             $table->id("ubicacion")->autoIncrement(false);
-            $table->enum("estado", ["en_uso", "disponible", "indisponible"]);
+            $table->enum("estado", ["En uso", "Disponible", "Indisponible"]);
             $table->foreign("ubicacion")->references("id")->on("maquinarias"); //hay que cambiar
             $table->timestamps();
         });

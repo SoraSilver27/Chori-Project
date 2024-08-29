@@ -25,11 +25,11 @@ class StoreMaquinariaRequest extends FormRequest
         return [
             //
             "nombre" => ["required","string"],
-            "numero_de_serie" => ["required","string"],
-            "estado" => ["required",Rule::in(["en_uso","disponible","indisponible"])],
+            "numero_de_serie" => ["string"],
+            "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"])],
             "modelo" => ["required","string"],
             "imagen" => ["binary"],
-            "en_seguimiento" => ["required"],
+            "en_seguimiento" => ["boolean"],
             "fecha_adquisicion" => ["required"],
             "observaciones_generales" => ["string"]
         ];

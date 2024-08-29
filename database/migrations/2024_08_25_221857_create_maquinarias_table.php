@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('maquinarias', function (Blueprint $table) {
             $table->id();
             $table->string("nombre");
-            $table->string("numero_de_serie");
-            $table->enum("estado",["en_uso","disponible","indisponible"]);
+            $table->string("numero_de_serie")->default("Sin identificador");
+            $table->enum("estado",["En uso","Disponible","Indisponible"])->default("Disponible");
             $table->binary("imagen")->nullable();
             $table->string("modelo");
-            $table->boolean("en_seguimiento");
+            $table->boolean("en_seguimiento")->default(0);
             $table->date("fecha_adquisicion");
-            $table->string("observaciones_generales")->nullable();
+            $table->string("observaciones_generales")->default("Sin observaciones");
             $table->timestamps();
         });
     }
