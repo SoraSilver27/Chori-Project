@@ -16,7 +16,7 @@
             </v-tabs-window-item>
 
             <v-tabs-window-item value="2">
-              twooo
+              <PerfilMComponente/>
             </v-tabs-window-item>
 
             <v-tabs-window-item value="3">
@@ -36,6 +36,7 @@
 <script>
 import PerfilMaquina from '@/components/PerfilMaquina.vue';
 import PerfilMMantenimiento from '@/components/PerfilMMantenimiento.vue';
+import PerfilMComponente from '@/components/PerfilMComponente.vue';
 
 export default {
   components: {

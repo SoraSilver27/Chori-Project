@@ -48,12 +48,26 @@
             <v-col cols="4" class="pa-0">
               <v-col cols="12" class="pa-1">
                 <v-list class="pa-2">
-                  <v-list-item-title>Repuestos requeridos</v-list-item-title>
+                  <v-list-item-title>Repuestos requeridos:</v-list-item-title>
+                  <v-list-item>
+                    <v-row>
+                      <v-col cols="6" v-for="(componente, i) in componentes" :key="i" class="pa-0">
+                        <v-list-item>{{ componente }}</v-list-item>
+                      </v-col>
+                    </v-row>
+                  </v-list-item>
                 </v-list>
               </v-col>
               <v-col cols="12" class="pa-1">
                 <v-list class="pa-2">
-                  <v-list-item-title>Insumos requeridos</v-list-item-title>
+                  <v-list-item-title>Insumos requeridos:</v-list-item-title>
+                  <v-list-item>
+                    <v-row>
+                      <v-col cols="6" v-for="(componente, i) in componentes" :key="i" class="pa-0">
+                        <v-list-item>{{ componente }}</v-list-item>
+                      </v-col>
+                    </v-row>
+                  </v-list-item>
                 </v-list>
               </v-col>
             </v-col>
@@ -108,7 +122,6 @@ export default {
         'Indisponible',
       ],
       cartas: [
-
         {filas:[
           {columnas: [
             { model: 'nombreMaquina', component: 'textField', size: 9, class: 'pb-0', props:{label:'Nombre'} },
@@ -161,7 +174,8 @@ export default {
           { columnas:[{ model: 'seguridad', component: 'textArea', size: 12, class: 'py-0', props:{label:'Descripcion', rows:2} }]},
         ]},
 
-      ]
+      ],
+      componentes: ["una", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"]
     }
   },
   methods: {

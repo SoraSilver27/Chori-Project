@@ -45,7 +45,7 @@
               :to="path"
             ></v-list-item>
           </v-list-group>
-          <v-list-item prepend-icon="mdi-calendar" title="Calendario" to="/Calendario"></v-list-item>
+          <v-list-item prepend-icon="mdi-calendar" title="Calendario" to="/Prueba"></v-list-item>
         </v-list>
       </v-navigation-drawer>
 </template>

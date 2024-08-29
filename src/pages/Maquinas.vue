@@ -50,10 +50,7 @@
 
 <script>
 import FilteredMac from '@/components/FilteredMac.vue';
-import NuevaMaquina from './NuevaMaquina.vue';
-
-
-import PerfilMaquina from '@/components/PerfilMaquina.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -63,40 +60,41 @@ export default {
     return {
       tab: 1,
       titleSelected: '',
-      maquinaList: [
-        { title: "Compresor", serie: "25624631", type: "maquina", state: "en_uso", descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque saepe sunt nam dolore,' },
-        { title: "Cadenas X", serie: "55768155", type: "maquina", state: "en_uso", descripcion: 'sequi provident iste reiciendis ab officia! Earum veniam qui iure obcaecati reiciendis nobis tempore explicabo mollitia porro?' },
-        { title: "Ruedas", serie: "w75tw54", type: "maquina", state: "en_uso", descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque saepe sunt nam dolore,' },
-        { title: "Embutidora", serie: "55725863", type: "maquina", state: "en_uso", descripcion: 'sequi provident iste reiciendis ab officia! Earum veniam qui iure obcaecati reiciendis nobis tempore explicabo mollitia porro?' },
-        { title: "Cadenas Y", serie: "57372541", type: "maquina", state: "disponible",descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque saepe sunt nam dolore,' },
-        { title: "Motor", serie: "2948752", type: "maquina", state: "en_uso", descripcion:'sequi provident iste reiciendis ab officia! Earum veniam qui iure obcaecati reiciendis nobis tempore explicabo mollitia porro?' },
-        { title: "Turbina", serie: "6829041", type: "maquina", state: "indisponible", descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque saepe sunt nam dolore,' },
-        { title: "Piston", serie: "5862742", type: "maquina", state: "disponible", descripcion: 'sequi provident iste reiciendis ab officia! Earum veniam qui iure obcaecati reiciendis nobis tempore explicabo mollitia porro?' },
-        { title: "Transformador", serie: "1479897", type: "maquina", state: "disponible", descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque saepe sunt nam dolore,' },
-        { title: "Embasadora", serie: "09347158", type: "maquina", state: "en_uso", descripcion: 'sequi provident iste reiciendis ab officia! Earum veniam qui iure obcaecati reiciendis nobis tempore explicabo mollitia porro?' },
-        { title: "Generador", serie: "q984587u9y", type: "maquina", state: "indisponible", descripcion: 'sequi provident iste reiciendis ab officia! Earum veniam qui iure obcaecati reiciendis nobis tempore explicabo mollitia porro?' },
-      ],
+      maquinarias: [],
     };
   },
   computed: {
     filteredMac() {
-      let filteredList = this.maquinaList;
+      let filteredList = this.maquinarias?.data || [];
 
       if (this.titleSelected) {
-        filteredList = filteredList.filter(item => item.title.includes(this.titleSelected));
+        filteredList = filteredList.filter(item => item.nombre.includes(this.titleSelected));
       }
 
       if (this.tab === 1) return filteredList;
       return filteredList.filter(item => {
-        if (this.tab === 2) return item.state === "en_uso";
-        if (this.tab === 3) return item.state === "disponible";
-        if (this.tab === 4) return item.state === "indisponible";
+        if (this.tab === 2) return item.estado === "en_uso";
+        if (this.tab === 3) return item.estado === "disponible";
+        if (this.tab === 4) return item.estado === "indisponible";
       });
     },
     titleList() {
-      return [...new Set(this.maquinaList.map(item => item.title))];
+      return [...new Set(this.maquinarias?.data?.map(item => item.nombre) || [])];
     }
   },
+  mounted() {
+      this.fetchMaquinarias();
+    },
+    methods: {
+      async fetchMaquinarias() {
+        try {
+          const response = await axios.get('http://192.168.12.247:8000/api/v1/maquinarias');
+          this.maquinarias = response.data;
+        } catch (error) {
+          console.error("Hubo un error al obtener los datos:", error);
+        }
+      }
+    }
 };
 </script>
 
