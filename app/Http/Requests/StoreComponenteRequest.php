@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreComponenteRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreComponenteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +24,13 @@ class StoreComponenteRequest extends FormRequest
     {
         return [
             //
+            "nombre" => ["required","string"],
+            "numero_de_serie" => ["string"],
+            "imagen" => ["binary"],
+            "modelo" => ["required","string"],
+            "descripcion" => ["string"],
+            //"ubicacion" => [""],   hay que ver como se deja esto
+            "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"])],
         ];
     }
 }

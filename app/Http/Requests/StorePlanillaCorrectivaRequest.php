@@ -22,7 +22,11 @@ class StorePlanillaCorrectivaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "problema_detectado" => ["required","string"],
+            "solucion_encontrada" => ["required","string"],
+            "que_se_pudo_realizar" => ["required","string"],
+            "requirio_tercerizacion" => ["boolean"],
+            "amerita_seguimiento" => ["boolean"],
         ];
     }
 }

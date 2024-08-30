@@ -21,8 +21,17 @@ class UpdateNotaDelCalendarioRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "evento" => ["required","string"],
+                "fecha" => ["date"],
+            ];
+        }else {
+            return[
+                "evento" => ["sometimes","string"],
+                "fecha" => ["sometimes","date"],
+            ];
+        }
     }
 }

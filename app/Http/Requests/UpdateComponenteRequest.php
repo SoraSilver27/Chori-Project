@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateComponenteRequest extends FormRequest
 {
@@ -21,8 +22,27 @@ class UpdateComponenteRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "nombre" => ["required","string"],
+                "numero_de_serie" => ["required","string"],
+                "imagen" => ["binary"],
+                "modelo" => ["required","string"],
+                "descripcion" => ["required","string"],
+                "ubicacion" => ["required","string"],
+                "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"])],
+            ];
+        }else {
+            return[
+                "nombre" => ["sometimes","string"],
+                "numero_de_serie" => ["sometimes","string"],
+                "imagen" => ["sometimes","binary"],
+                "modelo" => ["sometimes","string"],
+                "descripcion" => ["sometimes","string"],
+                "ubicacion" => ["sometimes","string"],
+                "estado" => ["somentimes",Rule::in(["En uso","Disponible","Indisponible"])],
+            ];
+        }
     }
 }

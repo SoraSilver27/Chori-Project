@@ -21,8 +21,23 @@ class UpdatePlanillaCorrectivaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "problema_detectado" => ["required","string"],
+                "solucion_encontrada" => ["required","string"],
+                "que_se_pudo_realizar" => ["required","string"],
+                "requirio_tercerizacion" => ["boolean"],
+                "amerita_seguimiento" => ["boolean"],
+            ];
+        }else {
+            return[
+                "problema_detectado" => ["sometimes","string"],
+                "solucion_encontrada" => ["sometimes","string"],
+                "que_se_pudo_realizar" => ["sometimes","string"],
+                "requirio_tercerizacion" => ["sometimes","boolean"],
+                "amerita_seguimiento" => ["sometimes","boolean"],
+            ];
+        }
     }
 }

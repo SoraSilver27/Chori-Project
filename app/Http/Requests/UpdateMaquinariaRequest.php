@@ -27,7 +27,7 @@ class UpdateMaquinariaRequest extends FormRequest
             return[
                 "nombre" => ["required","string"],
                 "numero_de_serie" => ["required","string"],
-                "estado" => ["required",Rule::in(["en_uso","disponible","indisponible"])],
+                "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"])],
                 "modelo" => ["required","string"],
                 "imagen" => ["binary"],
                 "en_seguimiento" => ["required"],
@@ -36,13 +36,13 @@ class UpdateMaquinariaRequest extends FormRequest
             ];
         }else{
             return[
-                "nombre" => ["sometimes","required","string"],
-                "numero_de_serie" => ["sometimes","required","string"],
-                "estado" => ["sometimes","required",Rule::in(["en_uso","disponible","indisponible"])],
-                "modelo" => ["sometimes","required","string"],
+                "nombre" => ["sometimes","string"],
+                "numero_de_serie" => ["sometimes","string"],
+                "estado" => ["sometimes",Rule::in(["En uso","Disponible","Indisponible"])],
+                "modelo" => ["sometimes","string"],
                 "imagen" => ["sometimes","binary"],
-                "en_seguimiento" => ["sometimes","required"],
-                "fecha_adquisicion" => ["sometimes","required"],
+                "en_seguimiento" => ["sometimes"],
+                "fecha_adquisicion" => ["sometimes"],
                 "observaciones_generales" => ["sometimes","string"]
             ];
         }

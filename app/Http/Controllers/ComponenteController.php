@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Componente;
 use App\Http\Requests\StoreComponenteRequest;
 use App\Http\Requests\UpdateComponenteRequest;
+use App\Http\Resources\ComponenteResource;
+use App\Models\Componente;
+use App\Http\Resources\ComponenteCollection;
+use App\Filters\ComponenteFilter;
+use Illuminate\Http\Request;
 
 class ComponenteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $filter = new ComponenteFilter();
+        $queryItems = $filter->transform($request);
+        $componentes = Componente::where($queryItems);
+
+
+
+        return new ComponenteCollection($componentes->get());
     }
 
     /**
@@ -30,6 +41,7 @@ class ComponenteController extends Controller
     public function store(StoreComponenteRequest $request)
     {
         //
+        return new ComponenteResource(Componente::create($request->all()));
     }
 
     /**
@@ -38,6 +50,7 @@ class ComponenteController extends Controller
     public function show(Componente $componente)
     {
         //
+        return new ComponenteResource($componente);
     }
 
     /**
@@ -54,6 +67,7 @@ class ComponenteController extends Controller
     public function update(UpdateComponenteRequest $request, Componente $componente)
     {
         //
+        $componente->update($request->all());
     }
 
     /**

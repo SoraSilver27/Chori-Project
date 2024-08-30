@@ -22,7 +22,13 @@ class StoreMantenimientoPreventivoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "es_de" => ["required","string"],
+            "id_maquina" => ["required","string"],
+            "id_componentes" => ["required","string"],
+            "intervalo_de_mantenimiento" => ["required","string"],
+            "horas_de_servicio" => ["required","integer"],
+            "ultimo_mantenimiento" => ["required","date"],
+            "que_se_hace" => ["string"],
         ];
     }
 }

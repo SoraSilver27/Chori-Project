@@ -22,7 +22,9 @@ class StorePlanillaPreventivaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "id_mantenimiento" => ["required","string"],
+            "horas_de_servicio" => ["integer"],
+            "trabajo_mantenimiento" => ["required","string"],
         ];
     }
 }

@@ -22,7 +22,8 @@ class StoreHistorialGeneralRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "evento" => ["required","string"],
+            "fecha" => ["required","date"],
         ];
     }
 }

@@ -22,7 +22,8 @@ class StoreNotaDelCalendarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "evento" => ["required","string"],
+            "fecha" => ["date"],
         ];
     }
 }

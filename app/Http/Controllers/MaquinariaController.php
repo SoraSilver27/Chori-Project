@@ -23,10 +23,24 @@ class MaquinariaController extends Controller
         $filter = new MaquinariaFilter();
         $queryItems = $filter->transform($request);
         $includeDetalles = $request->query("includeDetalles");
+        $includeComponentes = $request->query("includeComponentes");
+        $includePlanillas = $request->query("includePlanillas");
+        $includePreventivos = $request->query("includePreventivos");
         $maquinarias = Maquinaria::where($queryItems);
+        if($includeComponentes){
+            $maquinarias = $maquinarias->with("componentes");
+        }
         if($includeDetalles){
             $maquinarias = $maquinarias->with("detalles");
         }
+        if($includePlanillas){
+            $maquinarias = $maquinarias->with("planillas");
+        }
+        if($includePreventivos){
+            $maquinarias = $maquinarias->with("preventivos");
+        }
+
+
         return new MaquinariaCollection($maquinarias->get());
 
     }
@@ -54,10 +68,26 @@ class MaquinariaController extends Controller
     public function show(Maquinaria $maquinaria)
     {
         //
+        $includeComponentes = request()->query("includeComponentes");
+        if($includeComponentes){
+            return new MaquinariaResource($maquinaria->loadMissing("componentes"));
+        }
         $includeDetalles = request()->query("includeDetalles");
         if($includeDetalles){
             return new MaquinariaResource($maquinaria->loadMissing("detalles"));
         }
+
+        /*
+        $includePlanillas = request()->query("includePlanillas");
+        if($includePlanillas){
+            return new MaquinariaResource($maquinaria->loadMissing("planillas"));
+        }
+        $includePreventivos = request()->query("includePreventivos");
+        if($includePreventivos){
+            return new MaquinariaResource($maquinaria->loadMissing("preventivos"));
+        }
+        */
+
         return new MaquinariaResource($maquinaria);
     }
 

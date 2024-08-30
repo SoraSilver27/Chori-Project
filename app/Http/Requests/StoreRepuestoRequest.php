@@ -22,7 +22,12 @@ class StoreRepuestoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "cantidad" => ["required","int"],
+            "nombre" => ["required","string"],
+            "descripcion" => ["string"],
+            "imagen" => ["binary"],
+            "fabricante" => ["required","string"],
+            "modelo" => ["required","string"],
         ];
     }
 }

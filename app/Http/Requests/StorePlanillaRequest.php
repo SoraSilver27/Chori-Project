@@ -22,7 +22,10 @@ class StorePlanillaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "es_de" => ["required","string"],
+            "fecha" => ["date"],
+            "encargado" => ["required","string"],
+            "telefono_encargado" => ["integer"],
         ];
     }
 }

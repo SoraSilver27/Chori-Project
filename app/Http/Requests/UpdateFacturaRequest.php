@@ -21,8 +21,21 @@ class UpdateFacturaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "numero_de_compra" => ["required","string"],
+                "fecha" => ["date"],
+                "proveedor" => ["required","string"],
+                "encargado" => ["required","string"],
+            ];
+        }else {
+            return[
+                "nombre" => ["sometimes","string"],
+                "facha" => ["sometimes","date"],
+                "proveedor" => ["sometimes","string"],
+                "encargado" => ["sometimes","string"],
+            ];
+        }
     }
 }

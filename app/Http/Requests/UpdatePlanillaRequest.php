@@ -21,8 +21,21 @@ class UpdatePlanillaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "es_de" => ["required","string"],
+                "fecha" => ["date"],
+                "encargado" => ["required","string"],
+                "telefono_encargado" => ["integer"],
+            ];
+        }else {
+            return[
+                "es_de" => ["sometimes","string"],
+                "fecha" => ["sometimes","date"],
+                "encargado" => ["sometimes","string"],
+                "telefono_encargado" => ["sometimes","integer"],
+            ];
+        }
     }
 }

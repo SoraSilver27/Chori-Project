@@ -21,8 +21,19 @@ class UpdateCategoriaRepuestoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "nombre" => ["required","string"],
+                "descripcion" => ["required","string"],
+                "imagen" => ["binary"],
+            ];
+        }else {
+            return[
+                "nombre" => ["sometimes","string"],
+                "descripcion" => ["sometimes","string"],
+                "imagen" => ["sometimes","binary"],
+            ];
+        }
     }
 }

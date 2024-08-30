@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Componente extends Model
 {
     use HasFactory;
+    protected $table = "componentes";
     public $timestamps = true;
     protected $fillable = [
         "nombre",

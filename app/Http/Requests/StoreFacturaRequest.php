@@ -22,7 +22,10 @@ class StoreFacturaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "numero_de_compra" => ["required","string"],
+            "fecha" => ["date"],
+            "proveedor" => ["required","string"],
+            "encargado" => ["required","string"],
         ];
     }
 }

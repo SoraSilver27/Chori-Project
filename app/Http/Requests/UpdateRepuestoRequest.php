@@ -21,8 +21,25 @@ class UpdateRepuestoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "cantidad" => ["required","integer"],
+                "nombre" => ["required","string"],
+                "descripcion" => ["string"],
+                "imagen" => ["required","binary"],
+                "fabricante" => ["required","string"],
+                "modelo" => ["required","string"],
+            ];
+        }else {
+            return[
+                "cantidad" => ["sometimes","integer"],
+                "nombre" => ["sometimes","string"],
+                "descripcion" => ["sometimes","string"],
+                "imagen" => ["sometimes","binary"],
+                "fabricante" => ["sometimes","string"],
+                "modelo" => ["sometimes","string"],
+            ];
+        }
     }
 }

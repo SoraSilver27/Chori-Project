@@ -21,8 +21,31 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return[
+                "capacidad_de_produccion" => ["required","string"],
+                "voltaje" => ["required","integer"],
+                "peso" => ["integer"],
+                "tipo" => ["required","string"],
+                "velocidad_ajustable" => ["boolean"],
+                "pantalla_digital" => ["boolean"],
+                "facil_desmontaje" => ["boolean"],
+                "garantia" => ["boolean"],
+                "problemas_recurrentes" => ["boolean"],
+            ];
+        }else {
+            return[
+                "capacidad_de_produccion" => ["sometimes","string"],
+                "voltaje" => ["sometimes","integer"],
+                "peso" => ["sometimes","integer"],
+                "tipo" => ["sometimes","string"],
+                "velocidad_ajustable" => ["sometimes","boolean"],
+                "pantalla_digital" => ["sometimes","boolean"],
+                "facil_desmontaje" => ["somentimes","boolean"],
+                "garantia" => ["sometimes","boolean"],
+                "problemas_recurrentes" => ["sometimes","boolean"]
+            ];
+        }
     }
 }
