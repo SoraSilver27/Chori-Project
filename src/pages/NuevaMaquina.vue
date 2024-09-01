@@ -1,14 +1,11 @@
 <template>
-  <v-card class="bg-green pa-3" style="height: 100%; width: 100%;">
-    <v-card-title class="pa-7">
-      <v-row>
-          <p>Informacion de la maquina</p>
-        <v-spacer></v-spacer>
-        <div>
-          <v-btn @click="handleCancel">Cancelar</v-btn>
-          <v-btn @click="handleSubmit">Guardar</v-btn>
-        </div>
-      </v-row>
+  <v-card class="pa-3" style="height: 100%; width: 100%;">
+    <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
+      Informacion de la maquina
+      <v-col class="pa-2 text-end">
+        <v-btn @click="handleCancel" color="primary" class="mr-4">Cancelar</v-btn>
+        <v-btn @click="handleSubmit" color="primary">Guardar</v-btn>
+      </v-col>
     </v-card-title>
     <v-card-text class="py-2">
       <v-form @submit.prevent="handleSubmit" style="width: 100%; height: 100%;">

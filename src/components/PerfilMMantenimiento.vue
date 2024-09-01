@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ma-0 pa-2">
+  <v-container class="ma-0 py-0 px-1">
     <v-card class="bg-surface-light pa-1 ma-0">
       <v-card-title style="display: flex; align-items: center;" class="pa-1">
         Mantenimiento de los componentes
@@ -76,6 +76,7 @@
                     item-value="value"
                     item-text="text"
                     label="Periodo"
+                    hide-details="auto"
                     @change="updatePeriodo"
                     >
                   </v-select>
