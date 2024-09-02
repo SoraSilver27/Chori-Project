@@ -1,26 +1,32 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-data-table
       :headers="headers"
       :items="categories"
-      item-value="name"
-      class="elevation-1"
+      class="elevation-1 bg-surface-light"
     >
       <template v-slot:item.name="{ item }">
-        <v-expansion-panels v-model="expandedItems" multiple>
-          <v-expansion-panel :value="expandedItems.includes(item.name)">
-            <v-expansion-panel-title @click="toggleItem(item.name)">
-              {{ item.name }}
+        <v-expansion-panels multiple>
+          <v-expansion-panel v-model="item.expanded">
+            <v-expansion-panel-title>
+              <v-row>
+                <v-col cols="4">{{ item.name }}</v-col>
+                <v-col cols="7">{{ item.description }}</v-col>
+                <v-col cols="1">
+                  <v-chip color="green">{{ getTotal(item) }}</v-chip>
+                </v-col>
+              </v-row>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-list dense>
-                <v-list-item
-                  v-for="(subItem, idx) in item.items"
-                  :key="idx"
-                >
-                  <v-list-item-content>{{ subItem }}</v-list-item-content>
-                </v-list-item>
-              </v-list>
+              <v-data-table
+                :items="item.parts"
+                class="elevation-1"
+                hide-default-footer
+              >
+                <template v-slot:item.cantidad="{ item }">
+                  <v-chip color="red">{{ item.cantidad }}</v-chip>
+                </template>
+              </v-data-table>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -33,31 +39,40 @@
 export default {
   data() {
     return {
-      headers: [
-        { text: 'Category', value: 'name' }
+      headers: [{ text: 'Categoria', value: 'name' }],
+      partHeaders: [
+        { text: 'Nombre', value: 'nombre', align: 'start' },
+        { text: 'Modelo', value: 'modelo', align: 'start' },
+        { text: 'Fabricante', value: 'fabricante', align: 'start' },
       ],
       categories: [
         {
-          name: 'Category 1',
-          items: ['Item 1.1', 'Item 1.2']
+          name: "Categoría 1",
+          description: "Descripción de la categoría 1",
+          total: 10,
+          expanded: false,  // Estado de expansión
+          parts: [
+            { nombre: "Repuesto A", modelo: "A123", fabricante: "Fabricante A", cantidad: 1 },
+            { nombre: "Repuesto B", modelo: "B456", fabricante: "Fabricante B", cantidad: 8 },
+          ],
         },
         {
-          name: 'Category 2',
-          items: ['Item 2.1', 'Item 2.2', 'Item 2.3']
-        }
+          name: "Categoría 2",
+          description: "Descripción de la categoría 2",
+          total: 5,
+          expanded: false,  // Estado de expansión
+          parts: [
+            { nombre: "Repuesto C", modelo: "C789", fabricante: "Fabricante C", cantidad: 3 },
+            { nombre: "Repuesto D", modelo: "D012", fabricante: "Fabricante D", cantidad: 2 },
+          ],
+        },
       ],
-      expandedItems: []  // Array to track expanded items
-    }
+    };
   },
   methods: {
-    toggleItem(itemName) {
-      const index = this.expandedItems.indexOf(itemName);
-      if (index === -1) {
-        this.expandedItems.push(itemName);  // Expand item
-      } else {
-        this.expandedItems.splice(index, 1);  // Collapse item
-      }
-    }
-  }
-}
+    getTotal(category) {
+      return category.parts.reduce((sum, part) => sum + part.cantidad, 0);
+    },
+  },
+};
 </script>

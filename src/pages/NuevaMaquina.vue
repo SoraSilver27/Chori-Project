@@ -106,7 +106,7 @@ export default {
         "Quimica",
         "Alimentaria",
       ],
-      estados: ["en_uso", "disponible", "indisponible"],
+      estados: ["En uso", "Disponible", "Indisponible"],
       nameRules: [
         (value) => (value ? true : "Por favor ingrese un nombre"),
         (value) =>
@@ -268,7 +268,7 @@ export default {
 
       try {
         const response = await axios.post(
-          "http://192.168.12.247:8000/api/v1/maquinarias",
+          `${process.env.VUE_APP_API_BASE_URL}/api/v1/maquinarias`,
           formData
         );
         console.log("Datos enviados con éxito:", response.data);

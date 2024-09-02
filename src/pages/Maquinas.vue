@@ -50,6 +50,7 @@
 
 <script>
 import FilteredMac from '@/components/FilteredMac.vue';
+import { direccionIP } from 'global';
 import axios from 'axios';
 
 export default {
@@ -61,6 +62,7 @@ export default {
       tab: 1,
       titleSelected: '',
       maquinarias: [],
+      myIP: direccionIP,
     };
   },
   computed: {
@@ -73,10 +75,10 @@ export default {
 
       if (this.tab === 1) return filteredList;
       return filteredList.filter(item => {
-        if (this.tab === 2) return item.estado === "en_uso";
-        if (this.tab === 3) return item.estado === "disponible";
-        if (this.tab === 4) return item.estado === "indisponible";
-      });
+        if (this.tab === 2) return item.estado === "En uso";
+        if (this.tab === 3) return item.estado === "Disponible";
+        if (this.tab === 4) return item.estado === "Indisponible";
+      }); 
     },
     titleList() {
       return [...new Set(this.maquinarias?.data?.map(item => item.nombre) || [])];
@@ -88,13 +90,13 @@ export default {
     methods: {
       async fetchMaquinarias() {
         try {
-          const response = await axios.get('http://192.168.12.247:8000/api/v1/maquinarias');
+          const response = await axios.get('http://192.168.226.247:8000/api/v1/maquinarias');
           this.maquinarias = response.data;
         } catch (error) {
           console.error("Hubo un error al obtener los datos:", error);
         }
       }
-    }
+    } 
 };
 </script>
 

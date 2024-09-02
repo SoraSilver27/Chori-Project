@@ -51,7 +51,7 @@
               </v-col>
             </v-row>
             <v-divider></v-divider>
-            <v-data-table :headers="headers" :items="repuestosSeleccionados">
+            <v-data-table :headers="headers" :items="repuestosSeleccionados" hide-default-footer>
               <template v-slot:item.nueva_cantidad="{ item }">
                 <v-text-field v-model="item.nueva_cantidad" type="number" hide-details="auto" disabled></v-text-field>
               </template>
