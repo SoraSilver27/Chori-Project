@@ -14,7 +14,7 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-home" title="Inicio" to="/"></v-list-item>
+          <v-list-item prepend-icon="mdi-home" title="Inicio" to="/inicio"></v-list-item>
           <v-list-group value="Maquinaria">
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" prepend-icon="mdi-domain" title="Maquinaria"></v-list-item>
@@ -54,12 +54,12 @@
 export default {
     data: () => ({
       Maquinaria: [
-        ['Maquinas', 'mdi-monitor-dashboard', '/Maquinas'],
-        ['Componentes', 'mdi-nut', '/Componentes'],
+        ['Maquinas', 'mdi-monitor-dashboard', '/maquinas'],
+        ['Componentes', 'mdi-nut', '/componentes'],
       ],
       Stock: [
-        ['Facturas', 'mdi-file-document', '/Facturas'],
-        ['Inventario', 'mdi-widgets', '/Inventario'],
+        ['Facturas', 'mdi-file-document', '/facturas'],
+        ['Inventario', 'mdi-widgets', '/inventario'],
       ],
     }),
   }

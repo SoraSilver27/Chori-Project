@@ -41,6 +41,8 @@ import PerfilMComponente from '@/components/PerfilMComponente.vue';
 export default {
   components: {
     PerfilMaquina,
+    PerfilMComponente,
+    PerfilMMantenimiento,
   },
   data() {
     return {
