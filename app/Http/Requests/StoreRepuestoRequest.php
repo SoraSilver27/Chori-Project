@@ -24,7 +24,7 @@ class StoreRepuestoRequest extends FormRequest
         return [
             "cantidad" => ["required","int"],
             "nombre" => ["required","string"],
-            "descripcion" => ["string"],
+            "descripcion" => ["required","string"],
             "imagen" => ["binary"],
             "fabricante" => ["required","string"],
             "modelo" => ["required","string"],

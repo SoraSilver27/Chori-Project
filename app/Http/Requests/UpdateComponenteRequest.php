@@ -26,12 +26,12 @@ class UpdateComponenteRequest extends FormRequest
         if($method == "PUT"){
             return[
                 "nombre" => ["required","string"],
-                "numero_de_serie" => ["required","string"],
+                "numero_de_serie" => ["string"],
                 "imagen" => ["binary"],
                 "modelo" => ["required","string"],
-                "descripcion" => ["required","string"],
-                "ubicacion" => ["required","string"],
-                "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"])],
+                "descripcion" => ["string"],
+                "ubicacion" => ["required"],
+                "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
             ];
         }else {
             return[
@@ -40,7 +40,7 @@ class UpdateComponenteRequest extends FormRequest
                 "imagen" => ["sometimes","binary"],
                 "modelo" => ["sometimes","string"],
                 "descripcion" => ["sometimes","string"],
-                "ubicacion" => ["sometimes","string"],
+                "ubicacion" => ["sometimes"],
                 "estado" => ["somentimes",Rule::in(["En uso","Disponible","Indisponible"])],
             ];
         }

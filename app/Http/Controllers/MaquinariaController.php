@@ -20,13 +20,13 @@ class MaquinariaController extends Controller
     public function index(Request $request)
     {
         //
-        $filter = new MaquinariaFilter();
-        $queryItems = $filter->transform($request);
+        $filter = new MaquinariaFilter();   //ESTO
+        $queryItems = $filter->transform($request); //ESTO
         $includeDetalles = $request->query("includeDetalles");
         $includeComponentes = $request->query("includeComponentes");
         $includePlanillas = $request->query("includePlanillas");
         $includePreventivos = $request->query("includePreventivos");
-        $maquinarias = Maquinaria::where($queryItems);
+        $maquinarias = Maquinaria::where($queryItems);  //ESTO
         if($includeComponentes){
             $maquinarias = $maquinarias->with("componentes");
         }
@@ -41,7 +41,7 @@ class MaquinariaController extends Controller
         }
 
 
-        return new MaquinariaCollection($maquinarias->get());
+        return new MaquinariaCollection($maquinarias->get());   //ESTO
 
     }
 
@@ -59,7 +59,7 @@ class MaquinariaController extends Controller
     public function store(StoreMaquinariaRequest $request)
     {
         //
-        return new MaquinariaResource(Maquinaria::create($request->all()));
+        return new MaquinariaResource(Maquinaria::create($request->all())); //ESTO
     }
 
     /**
@@ -76,8 +76,6 @@ class MaquinariaController extends Controller
         if($includeDetalles){
             return new MaquinariaResource($maquinaria->loadMissing("detalles"));
         }
-
-        /*
         $includePlanillas = request()->query("includePlanillas");
         if($includePlanillas){
             return new MaquinariaResource($maquinaria->loadMissing("planillas"));
@@ -86,9 +84,8 @@ class MaquinariaController extends Controller
         if($includePreventivos){
             return new MaquinariaResource($maquinaria->loadMissing("preventivos"));
         }
-        */
 
-        return new MaquinariaResource($maquinaria);
+        return new MaquinariaResource($maquinaria); //CREO QUE ESTO
     }
 
     /**
@@ -105,7 +102,7 @@ class MaquinariaController extends Controller
     public function update(UpdateMaquinariaRequest $request, Maquinaria $maquinaria)
     {
         //
-        $maquinaria->update($request->all());
+        $maquinaria->update($request->all());   //Y ESTO
     }
 
     /**

@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\MaquinariaDetalleFilter;
 use App\Http\Resources\MaquinariaDetalleCollection;
+use App\Http\Resources\MaquinariaDetallesResource;
 use App\Models\MaquinariaDetalle;
 use App\Http\Requests\StoreMaquinariaDetalleRequest;
 use App\Http\Requests\UpdateMaquinariaDetalleRequest;
+use Illuminate\Http\Request;
 
 class MaquinariaDetalleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index (Request $request)
     {
         //
-        $detalles = MaquinariaDetalle::all();
-        return new MaquinariaDetalleCollection($detalles);
+        $filter = new MaquinariaDetalleFilter();
+        $queryItems = $filter->transform($request);
+
+        $maquinariaDetalle = MaquinariaDetalle::where($queryItems);
+
+        return new MaquinariaDetalleCollection($maquinariaDetalle);
+
     }
 
     /**
@@ -33,6 +41,7 @@ class MaquinariaDetalleController extends Controller
     public function store(StoreMaquinariaDetalleRequest $request)
     {
         //
+        return new MaquinariaDetallesResource(MaquinariaDetalle::create($request->all()));
     }
 
     /**
@@ -41,6 +50,7 @@ class MaquinariaDetalleController extends Controller
     public function show(MaquinariaDetalle $maquinariaDetalle)
     {
         //
+        return new MaquinariaDetallesResource($maquinariaDetalle);
     }
 
     /**
@@ -57,6 +67,7 @@ class MaquinariaDetalleController extends Controller
     public function update(UpdateMaquinariaDetalleRequest $request, MaquinariaDetalle $maquinariaDetalle)
     {
         //
+        $maquinariaDetalle->update($request->all());
     }
 
     /**

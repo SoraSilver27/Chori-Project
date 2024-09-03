@@ -27,7 +27,7 @@ class UpdateRepuestoRequest extends FormRequest
                 "cantidad" => ["required","integer"],
                 "nombre" => ["required","string"],
                 "descripcion" => ["string"],
-                "imagen" => ["required","binary"],
+                "imagen" => ["binary"],
                 "fabricante" => ["required","string"],
                 "modelo" => ["required","string"],
             ];

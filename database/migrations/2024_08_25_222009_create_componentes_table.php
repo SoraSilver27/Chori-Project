@@ -19,7 +19,7 @@ return new class extends Migration
             $table->binary("imagen")->nullable();
             $table->string("modelo");
             $table->string("descripcion")->default("Sin descripción");
-            $table->id("ubicacion")->autoIncrement(false);
+            $table->id("ubicacion")->default(null)->autoIncrement(false);
             $table->enum("estado", ["En uso", "Disponible", "Indisponible"]);
             $table->foreign("ubicacion")->references("id")->on("maquinarias"); //hay que cambiar
             $table->timestamps();

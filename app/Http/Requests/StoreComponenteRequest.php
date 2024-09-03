@@ -29,8 +29,8 @@ class StoreComponenteRequest extends FormRequest
             "imagen" => ["binary"],
             "modelo" => ["required","string"],
             "descripcion" => ["string"],
-            //"ubicacion" => [""],   hay que ver como se deja esto
-            "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"])],
+            "ubicacion" => ["required"],
+            "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
         ];
     }
 }

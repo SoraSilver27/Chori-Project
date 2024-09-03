@@ -25,8 +25,8 @@ class StorePlanillaCorrectivaRequest extends FormRequest
             "problema_detectado" => ["required","string"],
             "solucion_encontrada" => ["required","string"],
             "que_se_pudo_realizar" => ["required","string"],
-            "requirio_tercerizacion" => ["boolean"],
-            "amerita_seguimiento" => ["boolean"],
+            "requirio_tercerizacion" => ["required","boolean"],
+            "amerita_seguimiento" => ["required","boolean"],
         ];
     }
 }

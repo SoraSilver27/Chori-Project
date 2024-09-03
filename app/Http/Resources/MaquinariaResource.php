@@ -26,8 +26,8 @@ class MaquinariaResource extends JsonResource
             "observaciones_generales" => $this->observaciones_generales,
             "detalles" => MaquinariaDetallesResource::collection($this->whenLoaded("detalles")),
             "componentes" => ComponenteResource::collection($this->whenLoaded("componentes")),
-            //"planillas" => PlanillaResource::collection($this->whenLoaded("planillas")),
-            //"preventivos" => MantenimientoPreventivoResource::collection($this->whenLoaded("preventivos")),
+            "planillas" => PlanillaResource::collection($this->whenLoaded("planillas")),
+            "preventivos" => MantenimientoPreventivoResource::collection($this->whenLoaded("preventivos")),
             "updated_at" => $this->updated_at,
             "created_at" => $this->created_at,
         ];

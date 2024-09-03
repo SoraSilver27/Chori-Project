@@ -20,9 +20,16 @@ class ComponenteController extends Controller
         //
         $filter = new ComponenteFilter();
         $queryItems = $filter->transform($request);
+        $includePlanillas = $request->query("includePlanillas");
+        $includePreventivos = $request->query("includePreventivos");
         $componentes = Componente::where($queryItems);
 
-
+        if($includePlanillas){
+            $componentes = $componentes->with("planillas");
+        }
+        if($includePreventivos){
+            $componentes = $componentes->with("preventivos");
+        }
 
         return new ComponenteCollection($componentes->get());
     }

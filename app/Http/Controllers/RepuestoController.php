@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\RepuestoFilter;
+use App\Http\Resources\RepuestoCollection;
+use App\Http\Resources\RepuestoResource;
 use App\Models\Repuesto;
 use App\Http\Requests\StoreRepuestoRequest;
 use App\Http\Requests\UpdateRepuestoRequest;
+use Illuminate\Http\Request;
 
 class RepuestoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $filter = new RepuestoFilter();
+        $queryItems = $filter->transform($request);
+
+        $repuesto = Repuesto::where($queryItems);
+
+        return new RepuestoCollection($repuesto);
     }
 
     /**
@@ -30,6 +40,7 @@ class RepuestoController extends Controller
     public function store(StoreRepuestoRequest $request)
     {
         //
+        return new RepuestoResource(Repuesto::create($request->all()));
     }
 
     /**
@@ -38,6 +49,7 @@ class RepuestoController extends Controller
     public function show(Repuesto $repuesto)
     {
         //
+        return new RepuestoResource($repuesto);
     }
 
     /**
@@ -54,6 +66,7 @@ class RepuestoController extends Controller
     public function update(UpdateRepuestoRequest $request, Repuesto $repuesto)
     {
         //
+        $repuesto->update($request->all());
     }
 
     /**

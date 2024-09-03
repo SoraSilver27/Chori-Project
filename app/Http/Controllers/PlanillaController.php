@@ -2,18 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\PlanillaFilter;
+use App\Http\Resources\PlanillaCollection;
+use App\Http\Resources\PlanillaResource;
 use App\Models\Planilla;
 use App\Http\Requests\StorePlanillaRequest;
 use App\Http\Requests\UpdatePlanillaRequest;
+use Illuminate\Http\Request;
 
 class PlanillaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $filter = new PlanillaFilter();
+        $queryItems = $filter->transform($request);
+
+        $planilla = Planilla::where($queryItems);
+        $includePlanillasPreventivas = $request->query("includePlanillasPreventivas");
+        $includePlanillasCorrectivas = $request->query("includePlanillasCorrectivas");
+        if($includePlanillasPreventivas){
+            $planilla = $planilla->with("planillasPreventivas");
+        }
+        if($includePlanillasCorrectivas){
+            $planilla = $planilla->with("planillasCorrectivas");
+        }
+        return new PlanillaCollection($planilla);
+
     }
 
     /**
@@ -30,6 +48,7 @@ class PlanillaController extends Controller
     public function store(StorePlanillaRequest $request)
     {
         //
+        return new PlanillaResource(Planilla::create($request->all()));
     }
 
     /**
@@ -38,6 +57,11 @@ class PlanillaController extends Controller
     public function show(Planilla $planilla)
     {
         //
+        $includePlanillas = request()->query("includePlanillas");
+        if($includePlanillas){
+            return new PlanillaResource($planilla->loadMissing("planillas"));
+        }
+        return new PlanillaResource($planilla);
     }
 
     /**
@@ -54,6 +78,7 @@ class PlanillaController extends Controller
     public function update(UpdatePlanillaRequest $request, Planilla $planilla)
     {
         //
+        $planilla->update($request->all());
     }
 
     /**

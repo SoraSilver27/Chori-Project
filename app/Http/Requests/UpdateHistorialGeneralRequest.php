@@ -25,7 +25,7 @@ class UpdateHistorialGeneralRequest extends FormRequest
         if($method == "PUT"){
             return[
                 "evento" => ["required","string"],
-                "fecha" => ["date"],
+                "fecha" => ["required","date"],
             ];
         }else {
             return[

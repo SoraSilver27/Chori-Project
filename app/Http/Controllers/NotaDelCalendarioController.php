@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\NotaDelCalendarioFilter;
+use App\Http\Resources\NotaDelCalendarioResource;
+use App\Http\Resources\NotaDelCalendarioCollection;
 use App\Models\NotaDelCalendario;
 use App\Http\Requests\StoreNotaDelCalendarioRequest;
 use App\Http\Requests\UpdateNotaDelCalendarioRequest;
-
+use Illuminate\Http\Request;
 class NotaDelCalendarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $filter = new NotaDelCalendarioFilter();
+        $queryItems = $filter->transform($request);
+
+        $notaDelCalendario = NotaDelCalendario::where($queryItems);
+        return new NotaDelCalendarioCollection($notaDelCalendario->get());
     }
 
     /**
@@ -30,6 +38,7 @@ class NotaDelCalendarioController extends Controller
     public function store(StoreNotaDelCalendarioRequest $request)
     {
         //
+        return new NotaDelCalendarioResource(NotaDelCalendario::create($request->all()));
     }
 
     /**
@@ -38,6 +47,7 @@ class NotaDelCalendarioController extends Controller
     public function show(NotaDelCalendario $notaDelCalendario)
     {
         //
+        return new NotaDelCalendarioResource($notaDelCalendario);
     }
 
     /**
@@ -54,6 +64,7 @@ class NotaDelCalendarioController extends Controller
     public function update(UpdateNotaDelCalendarioRequest $request, NotaDelCalendario $notaDelCalendario)
     {
         //
+        $notaDelCalendario->update($request->all());
     }
 
     /**

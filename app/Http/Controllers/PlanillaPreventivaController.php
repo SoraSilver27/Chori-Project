@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\PlanillaPreventivaFilter;
+use App\Http\Resources\PlanillaPreventivaCollection;
+use App\Http\Resources\PlanillaPreventivaResource;
 use App\Models\PlanillaPreventiva;
 use App\Http\Requests\StorePlanillaPreventivaRequest;
 use App\Http\Requests\UpdatePlanillaPreventivaRequest;
+use Illuminate\Http\Request;
 
 class PlanillaPreventivaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $filter = new PlanillaPreventivaFilter();
+        $queryItems = $filter->transform($request);
+
+        $planillaPreventiva = PlanillaPreventiva::where($queryItems);
+
+        return new PlanillaPreventivaCollection($planillaPreventiva);
+
     }
 
     /**
@@ -30,6 +41,7 @@ class PlanillaPreventivaController extends Controller
     public function store(StorePlanillaPreventivaRequest $request)
     {
         //
+        return new PlanillaPreventivaResource(PlanillaPreventiva::create($request->all()));
     }
 
     /**
@@ -38,6 +50,7 @@ class PlanillaPreventivaController extends Controller
     public function show(PlanillaPreventiva $planillaPreventiva)
     {
         //
+        return new PlanillaPreventivaResource($planillaPreventiva);
     }
 
     /**
@@ -54,6 +67,7 @@ class PlanillaPreventivaController extends Controller
     public function update(UpdatePlanillaPreventivaRequest $request, PlanillaPreventiva $planillaPreventiva)
     {
         //
+        $planillaPreventiva->update($request->all());
     }
 
     /**

@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Componente extends Model
 {
     use HasFactory;
-    protected $table = "componentes";
-    public $timestamps = true;
     protected $fillable = [
         "nombre",
         "numero_de_serie",
@@ -27,7 +25,6 @@ class Componente extends Model
     public function planillas() : HasMany{
         return $this->hasMany(Planilla::class, "id_componente", "id");
     }
-
     public function maquinaria() : BelongsTo{
         return $this->belongsTo(Maquinaria::class, 'id', 'ubicacion');
     }

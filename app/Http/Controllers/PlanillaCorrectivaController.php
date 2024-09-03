@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PlanillaCorrectivaCollection;
+use App\Http\Resources\PlanillaCorrectivaResource;
 use App\Models\PlanillaCorrectiva;
 use App\Http\Requests\StorePlanillaCorrectivaRequest;
 use App\Http\Requests\UpdatePlanillaCorrectivaRequest;
+use Illuminate\Http\Request;
 
 class PlanillaCorrectivaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $filter = new PlanillaCorrectiva();
+        $queryItems = $filter->transform($request);
+
+        $planillaCorrectiva = PlanillaCorrectiva::where($queryItems);
+
+        return new PlanillaCorrectivaCollection($planillaCorrectiva);
     }
 
     /**
@@ -30,6 +39,7 @@ class PlanillaCorrectivaController extends Controller
     public function store(StorePlanillaCorrectivaRequest $request)
     {
         //
+        return new PlanillaCorrectivaResource(PlanillaCorrectiva::create($request->all()));
     }
 
     /**
@@ -38,6 +48,7 @@ class PlanillaCorrectivaController extends Controller
     public function show(PlanillaCorrectiva $planillaCorrectiva)
     {
         //
+        return new PlanillaCorrectivaResource($planillaCorrectiva);
     }
 
     /**
@@ -54,6 +65,7 @@ class PlanillaCorrectivaController extends Controller
     public function update(UpdatePlanillaCorrectivaRequest $request, PlanillaCorrectiva $planillaCorrectiva)
     {
         //
+        $planillaCorrectiva->update($request->all());
     }
 
     /**

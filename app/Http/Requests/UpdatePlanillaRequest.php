@@ -24,17 +24,17 @@ class UpdatePlanillaRequest extends FormRequest
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "es_de" => ["required","string"],
-                "fecha" => ["date"],
+                "es_de" => ["required","boolean"],
+                "fecha" => ["required","date"],
                 "encargado" => ["required","string"],
-                "telefono_encargado" => ["integer"],
+                "telefono_encargado" => ["string"],
             ];
         }else {
             return[
-                "es_de" => ["sometimes","string"],
+                "es_de" => ["sometimes","boolean"],
                 "fecha" => ["sometimes","date"],
                 "encargado" => ["sometimes","string"],
-                "telefono_encargado" => ["sometimes","integer"],
+                "telefono_encargado" => ["sometimes","string"],
             ];
         }
     }

@@ -24,19 +24,19 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "capacidad_de_produccion" => ["required","string"],
-                "voltaje" => ["required","integer"],
+                "capacidad_de_produccion" => ["integer"],
+                "voltaje" => ["integer"],
                 "peso" => ["integer"],
-                "tipo" => ["required","string"],
+                "tipo" => ["string"],
                 "velocidad_ajustable" => ["boolean"],
                 "pantalla_digital" => ["boolean"],
                 "facil_desmontaje" => ["boolean"],
                 "garantia" => ["boolean"],
-                "problemas_recurrentes" => ["boolean"],
+                "problemas_recurrentes" => ["string"],
             ];
         }else {
             return[
-                "capacidad_de_produccion" => ["sometimes","string"],
+                "capacidad_de_produccion" => ["sometimes","integer"],
                 "voltaje" => ["sometimes","integer"],
                 "peso" => ["sometimes","integer"],
                 "tipo" => ["sometimes","string"],

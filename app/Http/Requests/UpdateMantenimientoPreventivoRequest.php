@@ -24,19 +24,19 @@ class UpdateMantenimientoPreventivoRequest extends FormRequest
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "es_de" => ["required","string"],
+                "es_de" => ["required","boolean"],
                 "id_maquina" => ["required","string"],
-                "id_componentes" => ["required","string"],
+                "id_componente" => ["required","string"],
                 "intervalo_de_mantenimiento" => ["required","string"],
                 "horas_de_servicio" => ["required","integer"],
-                "ultimo_mantenimiento" => ["date"],
+                "ultimo_mantenimiento" => ["required","date"],
                 "que_se_hace" => ["required","string"],
             ];
         }else {
             return[
-                "es_de" => ["sometimes","string"],
+                "es_de" => ["sometimes","boolean"],
                 "id_maquina" => ["sometimes","string"],
-                "id_componentes" => ["sometimes","binary"],
+                "id_componente" => ["sometimes","binary"],
                 "intervalo_de_mantenimiento" => ["sometimes","string"],
                 "horas_de_servicio" => ["sometimes","integer"],
                 "ultimo_mantenimiento" => ["sometimes","date"],

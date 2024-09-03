@@ -23,7 +23,7 @@ class StoreCategoriaRepuestoRequest extends FormRequest
     {
         return [
             "nombre" => ["required","string"],
-            "descripcion" => ["string"],
+            "descripcion" => ["required","string"],
             "imagen" => ["binary"],
         ];
     }

@@ -23,7 +23,7 @@ class StoreFacturaRequest extends FormRequest
     {
         return [
             "numero_de_compra" => ["required","string"],
-            "fecha" => ["date"],
+            "fecha" => ["require","date"],
             "proveedor" => ["required","string"],
             "encargado" => ["required","string"],
         ];

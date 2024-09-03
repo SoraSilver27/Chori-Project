@@ -22,15 +22,15 @@ class StoreMaquinariaDetalleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "capacidad_de_produccion" => ["required","string"],
-            "voltaje" => ["required","string"],
+            "capacidad_de_produccion" => ["integer"],
+            "voltaje" => ["integer"],
             "peso" => ["integer"],
             "tipo" => ["required","string"],
             "velocidad_ajustable" => ["boolean"],
             "pantalla_digital" => ["boolean"],
             "facil_desmontaje" => ["boolean"],
             "garantia" => ["boolean"],
-            "problemas_recurrentes" => ["boolean"],
+            "problemas_recurrentes" => ["string"],
         ];
     }
 }
