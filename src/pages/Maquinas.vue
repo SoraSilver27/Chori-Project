@@ -50,7 +50,7 @@
 
 <script>
 import FilteredMac from '@/components/FilteredMac.vue';
-import { direccionIP } from 'global';
+import { direccionIP } from '@/global';
 import axios from 'axios';
 
 export default {
@@ -85,18 +85,18 @@ export default {
     }
   },
   mounted() {
-      this.fetchMaquinarias();
-    },
-    methods: {
-      async fetchMaquinarias() {
-        try {
-          const response = await axios.get('http://192.168.226.247:8000/api/v1/maquinarias');
-          this.maquinarias = response.data;
-        } catch (error) {
-          console.error("Hubo un error al obtener los datos:", error);
-        }
+    this.fetchMaquinarias();
+  },
+  methods: {
+    async fetchMaquinarias() {
+      try {
+        const response = await axios.get(`${this.myIP}/api/v1/maquinarias`);
+        this.maquinarias = response.data;
+      } catch (error) {
+        console.error("Hubo un error al obtener los datos:", error);
       }
-    } 
+    }
+  } 
 };
 </script>
 

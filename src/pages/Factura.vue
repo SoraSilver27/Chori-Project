@@ -77,11 +77,13 @@
 
 <script>
 import axios from 'axios';
+import { direccionIP } from '@/global';
 import BuscarRepuesto from "@/components/BuscarRepuesto.vue";
 
 export default {
   data() {
     return {
+      myIP: direccionIP,
       repuestos: [],
       form: {
         proveedor: null,
@@ -113,7 +115,7 @@ export default {
   methods: {
     async fetchRepuestos() {
       try {
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/v1/repuestos`);
+        const response = await axios.get(`${this.myIP}/api/v1/repuestos`);
         this.repuestos = response.data;
       } catch (error) {
         console.error("Hubo un error al obtener los datos:", error);

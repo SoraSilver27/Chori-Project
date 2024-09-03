@@ -11,7 +11,7 @@
                 color="primary" prepend-icon="mdi-plus" class="mr-3" text="Añadir">
               </v-btn>
             </template>
-            <template v-slot:default="{ isActive }">
+            <template v-slot:default="{ isActive }"> 
               <v-card title="Nuevo componente">
                 <v-card-text>
                   <AnadirComponente/>
@@ -70,11 +70,13 @@
 
 <script>
 import axios from 'axios';
+import { direccionIP } from '@/global';
 import AnadirComponente from './AnadirComponente.vue';
 
 export default {
   data() {
     return {
+      myIP: direccionIP,
       isEditing: false,
       componentes: [], // Array vacío para los componentes que se obtendrán de la API
       componentesBackup: [], // Array para almacenar una copia de los componentes
@@ -93,7 +95,7 @@ export default {
   methods: {
     async fetchComponentes() {
       try {
-        const response = await axios.get(`http://192.168.12.247:8000/api/v1/maquinas/${this.maquinaId}/componentes`);
+        const response = await axios.get(`${this.myIP}/api/v1/maquinas/${this.maquinaId}/componentes`);
         this.componentes = response.data;
         this.componentesBackup = JSON.parse(JSON.stringify(this.componentes)); // Crear copia profunda
       } catch (error) {

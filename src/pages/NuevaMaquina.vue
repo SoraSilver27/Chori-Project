@@ -14,31 +14,30 @@
           <v-col cols="7">
             <v-card>
               <v-list class="bg-surface-light pb-0">
-                <v-list-item v-for="(fila,index) in filas" :key="index">
+                <v-list-item>
                   <v-row>
-                    <v-col v-for="(columna, i) in fila.columnas" :key="i" :cols="columna.size">
+                    <v-col v-for="(fila,index) in filas" :key="index" :cols="fila.size">
                       <v-text-field
-                        v-if="columna.component === 'v-text-field'"
-                        v-model="form[columna.model]"
-                        :rules="getRules(columna)"
-                        :disabled="getDisabled(columna)"
-                        v-bind="columna.props"
+                        v-if="fila.component === 'v-text-field'"
+                        v-model="form[fila.model]"
+                        :rules="getRules(fila)"
+                        :disabled="getDisabled(fila)"
+                        v-bind="fila.props"
                       ></v-text-field>
                       <v-select
-                        v-else-if="columna.component === 'v-select'"
-                        v-model="form[columna.model]"
-                        :rules="getRules(columna)"
-                        :items="getItems(columna)"
-                        v-bind="columna.props"
+                        v-else-if="fila.component === 'v-select'"
+                        v-model="form[fila.model]"
+                        :rules="getRules(fila)"
+                        :items="getItems(fila)"
+                        v-bind="fila.props"
                       ></v-select>
                       <v-list-item
-                        v-else-if="columna.component === 'v-list-item'"
-                        class="pa-1"
-                      >
+                        v-else-if="fila.component === 'v-list-item'"
+                        class="pa-1">
                         Fecha de adquisicion:
                       </v-list-item>
-                      <v-checkbox-btn v-else v-model="form[columna.model]">
-                        <template v-slot:label>{{ columna.text }}</template>
+                      <v-checkbox-btn v-else v-model="form[fila.model]">
+                        <template v-slot:label>{{ fila.text }}</template>
                       </v-checkbox-btn>
                     </v-col>
                   </v-row>
@@ -74,10 +73,12 @@
 
 <script>
 import axios from "axios";
+import { direccionIP } from "@/global";
 
 export default {
   data() {
     return {
+      myIP: direccionIP,
       form: {
         nombre: "",
         numero_de_serie: "",
@@ -114,113 +115,29 @@ export default {
       ],
       rules: [(value) => (value ? true : "Campo obligatorio")],
       filas: [
-        {
-          columnas: [
-            {
-              model: "nombre",
-              component: "v-text-field",
-              size: 12,
-              props: { counter: 30, label: "Nombre", density: "comfortable" },
-            },
-          ],
-        },
-        {
-          columnas: [
-            {
-              model: "numero_de_serie",
-              component: "v-text-field",
-              size: 7,
-              props: {
-                counter: 15,
-                label: "Identificador",
-                density: "comfortable",
-              },
-            },
-            {
-              model: "modelo",
-              component: "v-text-field",
-              size: 5,
-              props: { counter: 10, label: "Modelo", density: "comfortable" },
-            },
-          ],
-        },
-        {
-          columnas: [
-            { component: "v-list-item", size: 3 },
-            {
-              model: "fecha_adquisicion",
-              component: "v-text-field",
-              size: 5,
-              props: { label: "Fecha", type: "date", density: "comfortable" },
-            },
-            {
-              model: "estado",
-              component: "v-select",
-              size: 4,
-              props: { label: "Estado", density: "comfortable" },
-            },
-          ],
-        },
-        {
-          columnas: [
-            {
-              model: "selecttip",
-              component: "v-select",
-              size: 4,
-              props: { label: "Tipo", density: "comfortable" },
-            },
-            {
-              model: "voltaje",
-              component: "v-text-field",
-              size: 4,
-              props: { label: "Voltaje", density: "comfortable" },
-            },
-            {
-              model: "peso",
-              component: "v-text-field",
-              size: 4,
-              props: { label: "Peso", density: "comfortable" },
-            },
-          ],
-        },
-        {
-          columnas: [
-            {
-              model: "velocidad",
-              component: "v-checkbox-btn",
-              size: 4,
-              text: "Velocidad ajustable",
-            },
-            {
-              model: "desmontaje",
-              component: "v-checkbox-btn",
-              size: 8,
-              text: "Facilidad de desmontaje",
-            },
-          ],
-        },
-        {
-          columnas: [
-            {
-              model: "pantalla",
-              component: "v-checkbox-btn",
-              size: 4,
-              text: "Pantalla digital",
-            },
-            {
-              model: "enabled",
-              component: "v-checkbox-btn",
-              size: 3,
-              text: "Garantia",
-            },
-            {
-              model: "cantidad",
-              component: "v-text-field",
-              size: 5,
-              props: { label: "Cantidad" },
-            },
-          ],
-        },
+        { model: "nombre", component: "v-text-field", size: 12,
+          props: { counter: 30, label: "Nombre", density: "comfortable" },} ,
+        { model: "numero_de_serie", component: "v-text-field", size: 7,
+           props: { counter: 15, label: "Identificador", density: "comfortable", }, },
+        { model: "modelo", component: "v-text-field", size: 5,
+          props: { counter: 10, label: "Modelo", density: "comfortable" },},
+        { component: "v-list-item", size: 3 },
+        { model: "fecha_adquisicion", component: "v-text-field", size: 5,
+          props: { label: "Fecha", type: "date", density: "comfortable" },},
+        { model: "estado", component: "v-select", size: 4,
+          props: { label: "Estado", density: "comfortable" },},
+        { model: "selecttip", component: "v-select", size: 4,
+          props: { label: "Tipo", density: "comfortable" },},
+        { model: "voltaje", component: "v-text-field", size: 4,
+          props: { label: "Voltaje", density: "comfortable" },},
+        { model: "peso", component: "v-text-field", size: 4,
+          props: { label: "Peso", density: "comfortable" },},
+        { model: "velocidad", component: "v-checkbox-btn", size: 4, text: "Velocidad ajustable",},
+        { model: "desmontaje", component: "v-checkbox-btn", size: 8, text: "Facilidad de desmontaje",},
+        { model: "pantalla", component: "v-checkbox-btn", size: 4, text: "Pantalla digital", },
+        { model: "enabled", component: "v-checkbox-btn", size: 3, text: "Garantia", },
+        { model: "cantidad", component: "v-text-field", size: 5,
+          props: { label: "Cantidad" },},
       ],
       cartas: [
         { model: "seguridad", title: "Sistema de seguridad:" },
@@ -231,26 +148,26 @@ export default {
   },
 
   methods: {
-    getItems(columna) {
-      if (columna.model === "selecttip") {
+    getItems(fila) {
+      if (fila.model === "selecttip") {
         return this.tipos;
-      } else if (columna.model === "estado") {
+      } else if (fila.model === "estado") {
         return this.estados;
       }
       return [];
     },
-    getRules(columna) {
-      if (columna.model === "nombre") {
+    getRules(fila) {
+      if (fila.model === "nombre") {
         return this.nameRules;
-      } else if (columna.model === "modelo") {
+      } else if (fila.model === "modelo") {
         return this.rules;
-      } else if (columna.model === "selectest") {
+      } else if (fila.model === "selectest") {
         return this.rules;
       }
       return [];
     },
-    getDisabled(columna) {
-      if (columna.model === "cantidad") {
+    getDisabled(fila) {
+      if (fila.model === "cantidad") {
         return !this.form.enabled;
       }
       return false;
@@ -268,7 +185,7 @@ export default {
 
       try {
         const response = await axios.post(
-          `${process.env.VUE_APP_API_BASE_URL}/api/v1/maquinarias`,
+          `${this.myIP}/api/v1/maquinarias`,
           formData
         );
         console.log("Datos enviados con éxito:", response.data);

@@ -11,9 +11,9 @@
               </v-list-item>
             </div>
             <template v-slot:append>
-              <v-chip v-if="item.estado === 'en_uso'" color="blue">En uso</v-chip>
-              <v-chip v-else-if="item.estado === 'disponible'" color="yellow">Disponible</v-chip>
-              <v-chip v-else-if="item.estado === 'indisponible'" color="red">Indisponible</v-chip>
+              <v-chip v-if="item.estado === 'En uso'" color="blue">En uso</v-chip>
+              <v-chip v-else-if="item.estado === 'Disponible'" color="yellow">Disponible</v-chip>
+              <v-chip v-else-if="item.estado === 'Indisponible'" color="red">Indisponible</v-chip>
             </template>
           </v-list-item>
         </v-card>
