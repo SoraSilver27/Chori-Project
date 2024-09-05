@@ -10,11 +10,15 @@ import { name } from 'dayjs/locale/es'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  { path: "/inicio", component: () => import("@/pages/index.vue"), },
+  { path: "/", component: () => import("@/pages/index.vue"), },
   { path: "/maquinas", component: () => import("@/pages/Maquinas.vue") },
+  { path: "/nueva_maquina", component: () => import("@/pages/NuevaMaquina.vue") },
+  { path: "/maquina", component: () => import("@/pages/Maquina.vue") },
   { path: "/componentes", component: () => import("@/pages/Componentes.vue") },
   { path: "/facturas", component: () => import("@/pages/Facturas.vue") },
+  { path: "/nueva_factura", component: () => import("@/pages/Factura.vue") },
   { path: "/inventario", component: () => import("@/pages/Inventario.vue") },
+  { path: "/nuevo_repuesto", component: () => import("@/pages/NuevoRepuesto.vue") },
   { path: "/calendario", component: () => import("@/pages/Calendario.vue") }
 ]
 

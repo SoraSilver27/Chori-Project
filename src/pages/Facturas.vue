@@ -13,7 +13,7 @@
             <v-text-field v-model="numeroFactura" type="number" label="Numero" hide-details="auto"></v-text-field>
           </v-col>
           <v-col cols="4" class="text-end">
-            <v-btn prepend-icon="mdi-plus" color="primary" :to="'/Factura'" text="Nuevo"></v-btn>
+            <v-btn prepend-icon="mdi-plus" color="primary" :to="'/nueva_factura'" text="Nuevo"></v-btn>
           </v-col>
         </v-row>
       </v-card-title>
@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import Factura from './Factura.vue';
 
 export default {
   data() {

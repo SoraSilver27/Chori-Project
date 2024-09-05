@@ -1,49 +1,72 @@
 <template>
-  <v-container fluid>
-    <v-data-table
-      :headers="headers"
-      :items="categories"
-      class="elevation-1 bg-surface-light"
-    >
-      <template v-slot:item.name="{ item }">
-        <v-expansion-panels multiple>
-          <v-expansion-panel v-model="item.expanded">
-            <v-expansion-panel-title>
-              <v-row>
-                <v-col cols="4">{{ item.name }}</v-col>
-                <v-col cols="7">{{ item.description }}</v-col>
-                <v-col cols="1">
-                  <v-chip color="green">{{ getTotal(item) }}</v-chip>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-data-table
-                :items="item.parts"
-                class="elevation-1"
-                hide-default-footer
-              >
-                <template v-slot:item.cantidad="{ item }">
-                  <v-chip color="red">{{ item.cantidad }}</v-chip>
-                </template>
-              </v-data-table>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </template>
-    </v-data-table>
-  </v-container>
+  <v-card>
+    <v-card-title>
+      <v-row style="display: flex; align-items: center;">
+        <v-col cols="3">
+          <v-text-field label="Buscar" hide-details="auto"></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-select :items="uniqueFabricante" v-model="selectedFabricante" label="Fabricante" hide-details="auto"></v-select>
+        </v-col>
+        <v-col cols="6" class="text-end">
+          <v-btn prepend-icon="mdi-plus" color="primary" :to="'/nuevo_repuesto'" text="Nuevo"></v-btn>
+        </v-col>
+      </v-row>
+    </v-card-title>
+    <v-card-text>
+      <v-container fluid>
+        <v-data-table
+          :headers="headers"
+          :items="categories"
+          class="elevation-1 bg-surface-light"
+        >
+          <template v-slot:item.name="{ item }">
+            <v-expansion-panels>
+              <v-expansion-panel v-model="item.expanded">
+                <v-expansion-panel-title>
+                  <v-row>
+                    <v-col cols="4">{{ item.name }}</v-col>
+                    <v-col cols="7">{{ item.description }}</v-col>
+                    <v-col cols="1">
+                      <v-chip color="green">{{ getTotal(item) }}</v-chip>
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                  <v-data-table
+                    :headers="partHeaders"
+                    :items="item.parts"
+                    hide-default-footer
+                  >
+                    <template v-slot:item.cantidad="{ item }">
+                      <v-chip color="red">{{ item.cantidad }}</v-chip>
+                    </template>
+                    <template v-slot:item.actions>
+                      <v-btn color="primary">Accion</v-btn>
+                    </template>
+                  </v-data-table>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </template>
+        </v-data-table>
+      </v-container>
+    </v-card-text>
+  </v-card>
+  
 </template>
 
 <script>
 export default {
   data() {
     return {
-      headers: [{ text: 'Categoria', value: 'name' }],
+      headers: [{ title: 'Categorias de repuestos', value: 'name' }],
       partHeaders: [
-        { text: 'Nombre', value: 'nombre', align: 'start' },
-        { text: 'Modelo', value: 'modelo', align: 'start' },
-        { text: 'Fabricante', value: 'fabricante', align: 'start' },
+        { title: 'Nombre', value: 'nombre', align: 'start' },
+        { title: 'Modelo', value: 'modelo', align: 'start' },
+        { title: 'Fabricante', value: 'fabricante', align: 'start' },
+        { title: 'Cantidad', value: 'cantidad', align: 'center' },
+        { title: '', value: 'actions', sortable: false, align: 'end' },
       ],
       categories: [
         {

@@ -12,7 +12,7 @@
         </v-container>
       </div>
       <div class="boton">
-        <v-btn prepend-icon="mdi-plus" style="height: 56px;" :to="'/NuevaMaquina'">Añadir</v-btn>
+        <v-btn prepend-icon="mdi-plus" style="height: 56px;" :to="'/nueva_maquina'">Añadir</v-btn>
       </div>
     </div>
     <div class="aparatos">
