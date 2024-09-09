@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="item in lista":key="item.id" cols="6">
-        <v-card class="bg-surface-light pa-2" @click="">
+      <v-col v-for="item in lista" :key="item.id" cols="6">
+        <v-card class="bg-surface-light pa-2" @click="enviar(item.id)">
           <v-list-item>
             <!-- Estructura diferente según el tipo de item -->
             <v-list-item class="text-h6 py-0" :title="`${item.nombre}`"
@@ -21,14 +21,18 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  props: {
-    lista: {
-      type: Array,
-      required: true
-    }
+<script setup>
+import { defineProps } from 'vue';
+import { useRouter } from "vue-router"
+const router = useRouter()
+const props = defineProps({
+  lista: {
+    type: Array,
+    required: true
   }
+});
+const enviar =(e)=>{
+  router.push(`/maquinas/${e}`)
 }
 </script>
 

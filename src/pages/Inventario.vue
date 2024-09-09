@@ -1,101 +1,146 @@
+<!-- contenido de Maquinas.vue, no borrar, haciendo pruebas -->
+
 <template>
-  <v-card>
-    <v-card-title>
-      <v-row style="display: flex; align-items: center;">
-        <v-col cols="3">
-          <v-text-field label="Buscar" hide-details="auto"></v-text-field>
-        </v-col>
-        <v-col cols="3">
-          <v-select :items="uniqueFabricante" v-model="selectedFabricante" label="Fabricante" hide-details="auto"></v-select>
-        </v-col>
-        <v-col cols="6" class="text-end">
-          <v-btn prepend-icon="mdi-plus" color="primary" :to="'/nuevo_repuesto'" text="Nuevo"></v-btn>
-        </v-col>
-      </v-row>
-    </v-card-title>
-    <v-card-text>
-      <v-container fluid>
-        <v-data-table
-          :headers="headers"
-          :items="categories"
-          class="elevation-1 bg-surface-light"
-        >
-          <template v-slot:item.name="{ item }">
-            <v-expansion-panels>
-              <v-expansion-panel v-model="item.expanded">
-                <v-expansion-panel-title>
-                  <v-row>
-                    <v-col cols="4">{{ item.name }}</v-col>
-                    <v-col cols="7">{{ item.description }}</v-col>
-                    <v-col cols="1">
-                      <v-chip color="green">{{ getTotal(item) }}</v-chip>
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-title>
-                <v-expansion-panel-text>
-                  <v-data-table
-                    :headers="partHeaders"
-                    :items="item.parts"
-                    hide-default-footer
-                  >
-                    <template v-slot:item.cantidad="{ item }">
-                      <v-chip color="red">{{ item.cantidad }}</v-chip>
-                    </template>
-                    <template v-slot:item.actions>
-                      <v-btn color="primary">Accion</v-btn>
-                    </template>
-                  </v-data-table>
-                </v-expansion-panel-text>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </template>
-        </v-data-table>
-      </v-container>
-    </v-card-text>
-  </v-card>
-  
+  <div class="contenedor">
+    <div class="barra_sup">
+      <div class="buscador">
+        <v-container fluid class="pa-0">
+          <v-autocomplete
+            label="Buscar"
+            clearable
+            :items="titleList"
+            v-model="titleSelected"
+          ></v-autocomplete>
+        </v-container>
+      </div>
+      <div class="boton">
+        <v-btn prepend-icon="mdi-plus" style="height: 56px;" :to="'/nueva_maquina'">Añadir</v-btn>
+      </div>
+    </div>
+    <div class="aparatos">
+      <v-card>
+        <v-tabs v-model="tab" fixed-tabs color="primary">
+          <v-tab :value="1" prepend-icon="mdi-alert">Todo</v-tab>
+          <v-tab :value="2" prepend-icon="mdi-message-text">En uso</v-tab>
+          <v-tab :value="3" prepend-icon="mdi-tools">Disponible</v-tab>
+          <v-tab :value="4" prepend-icon="mdi-archive-alert">Indisponible</v-tab>
+        </v-tabs>
+
+        <v-card-text class="caja pa-2">
+          <v-tabs-window v-model="tab">
+            <v-tabs-window-item :value="1">
+              <FilteredMac :lista="filteredMac" />
+            </v-tabs-window-item>
+
+            <v-tabs-window-item :value="2">
+              <FilteredMac :lista="filteredMac" />
+            </v-tabs-window-item>
+
+            <v-tabs-window-item :value="3">
+              <FilteredMac :lista="filteredMac" />
+            </v-tabs-window-item>
+
+            <v-tabs-window-item :value="4">
+              <FilteredMac :lista="filteredMac" />
+            </v-tabs-window-item>
+          </v-tabs-window>
+        </v-card-text>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
+import FilteredMac from '@/components/FilteredMac.vue';
+import { direccionIP } from '@/global';
+import axios from 'axios';
+
 export default {
+  components: {
+    FilteredMac,
+  },
   data() {
     return {
-      headers: [{ title: 'Categorias de repuestos', value: 'name' }],
-      partHeaders: [
-        { title: 'Nombre', value: 'nombre', align: 'start' },
-        { title: 'Modelo', value: 'modelo', align: 'start' },
-        { title: 'Fabricante', value: 'fabricante', align: 'start' },
-        { title: 'Cantidad', value: 'cantidad', align: 'center' },
-        { title: '', value: 'actions', sortable: false, align: 'end' },
-      ],
-      categories: [
-        {
-          name: "Categoría 1",
-          description: "Descripción de la categoría 1",
-          total: 10,
-          expanded: false,  // Estado de expansión
-          parts: [
-            { nombre: "Repuesto A", modelo: "A123", fabricante: "Fabricante A", cantidad: 1 },
-            { nombre: "Repuesto B", modelo: "B456", fabricante: "Fabricante B", cantidad: 8 },
-          ],
-        },
-        {
-          name: "Categoría 2",
-          description: "Descripción de la categoría 2",
-          total: 5,
-          expanded: false,  // Estado de expansión
-          parts: [
-            { nombre: "Repuesto C", modelo: "C789", fabricante: "Fabricante C", cantidad: 3 },
-            { nombre: "Repuesto D", modelo: "D012", fabricante: "Fabricante D", cantidad: 2 },
-          ],
-        },
-      ],
+      tab: 1,
+      titleSelected: '',
+      maquinarias: [],
+      myIP: direccionIP,
     };
   },
-  methods: {
-    getTotal(category) {
-      return category.parts.reduce((sum, part) => sum + part.cantidad, 0);
+  computed: {
+    filteredMac() {
+      let filteredList = this.maquinarias?.data || [];
+
+      if (this.titleSelected) {
+        filteredList = filteredList.filter(item => item.nombre.includes(this.titleSelected));
+      }
+
+      if (this.tab === 1) return filteredList;
+      return filteredList.filter(item => {
+        if (this.tab === 2) return item.estado === "En uso";
+        if (this.tab === 3) return item.estado === "Disponible";
+        if (this.tab === 4) return item.estado === "Indisponible";
+      }); 
     },
+    titleList() {
+      return [...new Set(this.maquinarias?.data?.map(item => item.nombre) || [])];
+    }
   },
+  mounted() {
+    this.fetchMaquinarias();
+  },
+  methods: {
+    async fetchMaquinarias() {
+      try {
+        const response = await axios.get(`${this.myIP}/api/maquinarias`);
+        this.maquinarias = response.data;
+      } catch (error) {
+        console.error("Hubo un error al obtener los datos:", error);
+      }
+    }
+  } 
 };
 </script>
+
+
+
+<style scoped>
+  .contenedor{
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* background-color: aqua; */
+  }
+  .barra_sup{
+    width: 100%;
+    height: 12%;
+    /* background-color: rgb(41, 29, 13); */
+    display: flex;
+  }
+  .buscador{
+    width: 70%;
+    padding: 1% 0% 1% 1%;
+  }
+  .boton{
+    padding: 1% 1% 1% 0%;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+  }
+  .aparatos{
+    padding: 1% 1% 0 1%;
+    width: 100%;
+    height: 88%;
+    /* background-color: darkgoldenrod; */
+  }
+  .caja{
+    overflow: auto;
+    width: auto;
+    height: 76vh;
+  }
+</style>
+
+<!-- <template></template>
+<script></script> -->

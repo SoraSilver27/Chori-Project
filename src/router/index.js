@@ -14,6 +14,7 @@ const routes = [
   { path: "/maquinas", component: () => import("@/pages/Maquinas.vue") },
   { path: "/nueva_maquina", component: () => import("@/pages/NuevaMaquina.vue") },
   { path: "/maquina", component: () => import("@/pages/Maquina.vue") },
+  { path: "/maquinas/:id", component: () => import("@/pages/Test.vue") },
   { path: "/componentes", component: () => import("@/pages/Componentes.vue") },
   { path: "/facturas", component: () => import("@/pages/Facturas.vue") },
   { path: "/nueva_factura", component: () => import("@/pages/Factura.vue") },

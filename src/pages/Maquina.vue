@@ -1,36 +1,41 @@
 <template>
-  <div class="contenedor">
-    <div class="informacion">
-      <v-card>
-        <v-tabs v-model="tab" bg-color="">
-          <v-tab value="1">Detalles</v-tab>
-          <v-tab value="2">Componentes</v-tab>
-          <v-tab value="3">Mantenimiento</v-tab>
-        </v-tabs>
+  <v-container class="ma-1 pa-1">
+    <v-row>
+      <v-col cols="10">
+        <v-card>
+          <v-tabs v-model="tab" bg-color="">
+            <v-tab value="1">Detalles</v-tab>
+            <v-tab value="2">Componentes</v-tab>
+            <v-tab value="3">Mantenimiento</v-tab>
+          </v-tabs>
 
-        <v-card-text class="caja pa-2">
-          <v-tabs-window v-model="tab">
+          <v-card-text class="caja pa-2">
+            <v-tabs-window v-model="tab">
 
-            <v-tabs-window-item value="1">
-              <PerfilMaquina/>
-            </v-tabs-window-item>
+              <v-tabs-window-item value="1">
+                <PerfilMaquina/>
+              </v-tabs-window-item>
 
-            <v-tabs-window-item value="2">
-              <PerfilMComponente/>
-            </v-tabs-window-item>
+              <v-tabs-window-item value="2">
+                <PerfilMComponente/>
+              </v-tabs-window-item>
 
-            <v-tabs-window-item value="3">
-              <PerfilMMantenimiento/>
-            </v-tabs-window-item>
+              <v-tabs-window-item value="3">
+                <PerfilMMantenimiento/>
+              </v-tabs-window-item>
 
-          </v-tabs-window>
-        </v-card-text>
-      </v-card>
-    </div>
-    <div class="historial">
+            </v-tabs-window>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="2">
+        <v-card class="bg-surface-light">
+          aqui ira el historial y un monton de cosas mas
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 
-    </div>
-  </div>
 </template>
 
 <script>
@@ -52,27 +57,3 @@ export default {
 }
 </script>
 
-<style scoped>
-  .contenedor{
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-  }
-  .informacion{
-    padding: 0%;
-    width: 80%;
-    height: 100%;
-    /* background-color: aqua */
-  }
-  .caja{
-    overflow: auto;
-    width: auto;
-    height: 90vh;
-  }
-  .historial{
-    width: 20%;
-    height: 100%;
-    background-color: brown;
-  }
-</style>

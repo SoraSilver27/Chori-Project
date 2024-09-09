@@ -165,6 +165,7 @@ export default {
     selectfab: null,
     selectest: null,
     selecteti:[],
+    isActive: true,
 
     nameRules: [
       value => value ? true : 'Por favor ingrese un nombre',

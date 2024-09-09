@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="item in list":key="item.title" cols="12">
+      <v-col v-for="item in list" :key="item.title" cols="12">
         <v-card class="bg-surface-light pa-1">
           <v-list-item>
             <template v-if="item.curso===1" v-slot:prepend>

@@ -84,6 +84,14 @@
 </template>
 
 <script>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  maquina: {
+    type: Array,
+    required: true
+  }
+});
 export default {
   data() {
     return{

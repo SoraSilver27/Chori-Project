@@ -1,63 +1,100 @@
 <template>
   <v-container>
-    <v-data-table
-      :headers="headers"
-      :items="categories"
-      item-value="name"
-      class="elevation-1"
-    >
-      <template v-slot:item.name="{ item }">
-        <v-expansion-panels v-model="expandedItems" multiple>
-          <v-expansion-panel :value="expandedItems.includes(item.name)">
-            <v-expansion-panel-title @click="toggleItem(item.name)">
-              {{ item.name }}
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-list dense>
-                <v-list-item
-                  v-for="(subItem, idx) in item.items"
-                  :key="idx"
-                >
-                  <v-list-item-content>{{ subItem }}</v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </template>
-    </v-data-table>
+    <v-card>
+      <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
+        <v-autocomplete
+          label="Buscar"
+          clearable
+          :items="titleList"
+          v-model="titleSelected"
+        ></v-autocomplete>
+        <v-col class="text-end">
+          <v-btn prepend-icon="mdi-plus" style="height: 56px;" :to="'/nueva_maquina'">Añadir</v-btn>
+        </v-col>
+      </v-card-title>
+      <v-card-text>
+        <v-card>
+          <v-tabs v-model="tab" fixed-tabs color="primary">
+            <v-tab :value="1" prepend-icon="mdi-alert">Todo</v-tab>
+            <v-tab :value="2" prepend-icon="mdi-message-text">En uso</v-tab>
+            <v-tab :value="3" prepend-icon="mdi-tools">Disponible</v-tab>
+            <v-tab :value="4" prepend-icon="mdi-archive-alert">Indisponible</v-tab>
+          </v-tabs>
+
+          <v-card-text class="caja pa-2">
+            <v-tabs-window v-model="tab">
+              <v-tabs-window-item :value="1">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
+
+              <v-tabs-window-item :value="2">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
+
+              <v-tabs-window-item :value="3">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
+
+              <v-tabs-window-item :value="4">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
+            </v-tabs-window>
+          </v-card-text>
+        </v-card>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
+
 <script>
+import FilteredMac from '@/components/FilteredMac.vue';
+import { direccionIP } from '@/global';
+import axios from 'axios';
+
 export default {
+  components: {
+    FilteredMac,
+  },
   data() {
     return {
-      headers: [
-        { text: 'Category', value: 'name' }
-      ],
-      categories: [
-        {
-          name: 'Category 1',
-          items: ['Item 1.1', 'Item 1.2']
-        },
-        {
-          name: 'Category 2',
-          items: ['Item 2.1', 'Item 2.2', 'Item 2.3']
-        }
-      ],
-      expandedItems: []  // Array to track expanded items
+      tab: 1,
+      titleSelected: '',
+      maquinarias: [],
+      myIP: direccionIP,
+    };
+  },
+  computed: {
+    filteredMac() {
+      let filteredList = this.maquinarias?.data || [];
+
+      if (this.titleSelected) {
+        filteredList = filteredList.filter(item => item.nombre.includes(this.titleSelected));
+      }
+
+      if (this.tab === 1) return filteredList;
+      return filteredList.filter(item => {
+        if (this.tab === 2) return item.estado === "En uso";
+        if (this.tab === 3) return item.estado === "Disponible";
+        if (this.tab === 4) return item.estado === "Indisponible";
+      }); 
+    },
+    titleList() {
+      return [...new Set(this.maquinarias?.data?.map(item => item.nombre) || [])];
     }
   },
+  mounted() {
+    this.fetchMaquinarias();
+  },
   methods: {
-    toggleItem(itemName) {
-      const index = this.expandedItems.indexOf(itemName);
-      if (index === -1) {
-        this.expandedItems.push(itemName);  // Expand item
-      } else {
-        this.expandedItems.splice(index, 1);  // Collapse item
+    async fetchMaquinarias() {
+      try {
+        const response = await axios.get(`${this.myIP}/api/maquinarias`);
+        this.maquinarias = response.data;
+      } catch (error) {
+        console.error("Hubo un error al obtener los datos:", error);
       }
     }
-  }
-}
+  } 
+};
 </script>

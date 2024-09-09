@@ -22,7 +22,7 @@
 
                 <v-form>
                   <v-row class="px-4 pt-7">
-                    <v-col v-for="(item, i) in items" :cols="item.size" class="pa-0">
+                    <v-col v-for="(item, i) in items" :cols="item.size" :key="i" class="pa-0">
                       <v-text-field v-if="item.tipo === 'texto'"
                         :label="item.label"
                         :v-model="item.modelo"
