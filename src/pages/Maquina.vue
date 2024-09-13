@@ -13,7 +13,7 @@
             <v-tabs-window v-model="tab">
 
               <v-tabs-window-item value="1">
-                <PerfilMaquina :maquina="maquina"/>
+                <VPruebaDos :maquina="maquina"/>
               </v-tabs-window-item>
 
               <v-tabs-window-item value="2">
@@ -43,22 +43,17 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { direccionIP } from '@/global';
+
+
 import PerfilMaquina from '@/components/PerfilMaquina.vue';
 import PerfilMMantenimiento from '@/components/PerfilMMantenimiento.vue';
 import PerfilMComponente from '@/components/PerfilMComponente.vue';
+import VPruebaDos from "@/components/vPruebaDos.vue";
 
-// Definir el estado de la pestaña usando ref
-const tab = ref(0);
 const route = useRoute();
 const maquina = ref([]);
 const myIP = direccionIP;
-
-// Exponer los componentes para que puedan ser usados en el template
-defineExpose({
-  PerfilMaquina,
-  PerfilMMantenimiento,
-  PerfilMComponente,
-});
+const tab = ref(0);
 
 // Función para obtener las maquinarias
 const fetchMaquina = async () => {
@@ -76,4 +71,3 @@ onMounted(() => {
   fetchMaquina();
 });
 </script>
-
