@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('maquinaria_detalles', function (Blueprint $table) {
-            $table->id("id_maquinaria");
+            $table->id("id_maquinaria")->primary()->autoIncrement(false);
             $table->integer("capacidad_de_produccion");
             $table->integer("voltaje");
             $table->integer("peso");

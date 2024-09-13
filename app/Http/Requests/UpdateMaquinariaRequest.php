@@ -30,7 +30,7 @@ class UpdateMaquinariaRequest extends FormRequest
                 "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
                 "modelo" => ["required","string"],
                 "imagen" => ["binary"],
-                "en_seguimiento" => [],
+                "en_seguimiento" => ["boolean"],
                 "fecha_adquisicion" => ["required"],
                 "observaciones_generales" => ["string"]
             ];

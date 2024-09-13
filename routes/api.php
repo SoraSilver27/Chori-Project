@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function() {
+Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::apiResource("maquinarias", MaquinariaController::class);
     Route::apiResource("detalles", MaquinariaDetalleController::class);
     Route::apiResource("componentes", ComponenteController::class);

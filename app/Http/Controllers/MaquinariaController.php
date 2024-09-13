@@ -8,6 +8,7 @@ use App\Http\Resources\MaquinariaResource;
 use App\Models\Maquinaria;
 use App\Http\Resources\MaquinariaCollection;
 use App\Filters\MaquinariaFilter;
+use App\Models\MaquinariaDetalle;
 use Illuminate\Http\Request;
 
 
@@ -20,13 +21,13 @@ class MaquinariaController extends Controller
     public function index(Request $request)
     {
         //
-        $filter = new MaquinariaFilter();   //ESTO
-        $queryItems = $filter->transform($request); //ESTO
+        $filter = new MaquinariaFilter();
+        $queryItems = $filter->transform($request);
         $includeDetalles = $request->query("includeDetalles");
         $includeComponentes = $request->query("includeComponentes");
         $includePlanillas = $request->query("includePlanillas");
         $includePreventivos = $request->query("includePreventivos");
-        $maquinarias = Maquinaria::where($queryItems);  //ESTO
+        $maquinarias = Maquinaria::where($queryItems);
         if($includeComponentes){
             $maquinarias = $maquinarias->with("componentes");
         }
@@ -41,7 +42,7 @@ class MaquinariaController extends Controller
         }
 
 
-        return new MaquinariaCollection($maquinarias->get());   //ESTO
+        return new MaquinariaCollection($maquinarias->get());
 
     }
 
@@ -59,7 +60,7 @@ class MaquinariaController extends Controller
     public function store(StoreMaquinariaRequest $request)
     {
         //
-        return new MaquinariaResource(Maquinaria::create($request->all())); //ESTO
+        return new MaquinariaResource(Maquinaria::create($request->all()));
     }
 
     /**
@@ -85,7 +86,7 @@ class MaquinariaController extends Controller
             return new MaquinariaResource($maquinaria->loadMissing("preventivos"));
         }
 
-        return new MaquinariaResource($maquinaria); //CREO QUE ESTO
+        return new MaquinariaResource($maquinaria);
     }
 
     /**
@@ -102,14 +103,19 @@ class MaquinariaController extends Controller
     public function update(UpdateMaquinariaRequest $request, Maquinaria $maquinaria)
     {
         //
-        $maquinaria->update($request->all());   //Y ESTO
+        $maquinaria->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Maquinaria $maquinaria)
+    public function destroy(Maquinaria $maquinaria, MaquinariaDetalle $maquinariaDetalle)
     {
         //
+        $maquinaria->detalles()->delete();
+        $maquinaria->delete();
+
+        return response()->json(['message' => 'Maquinaria eliminada correctamente']);
+
     }
 }

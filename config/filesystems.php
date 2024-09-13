@@ -30,6 +30,11 @@ return [
 
     'disks' => [
 
+        "backups" => [
+            "driver" => "local",
+            "root" => "C:\Respaldo"
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

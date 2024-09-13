@@ -24,6 +24,7 @@ class StoreMaquinariaRequest extends FormRequest
     {
         return [
             //
+            "id" => ["sometimes"],
             "nombre" => ["required","string"],
             "numero_de_serie" => ["string"],
             "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],

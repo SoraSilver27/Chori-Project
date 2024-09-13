@@ -10,6 +10,7 @@ class Maquinaria extends Model
 {
     use HasFactory;
     protected $fillable = [
+        "id",
         "nombre",
         "numero_de_serie",
         "estado",

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Filters\MaquinariaDetalleFilter;
 use App\Http\Resources\MaquinariaDetalleCollection;
 use App\Http\Resources\MaquinariaDetallesResource;
+use App\Models\Maquinaria;
 use App\Models\MaquinariaDetalle;
 use App\Http\Requests\StoreMaquinariaDetalleRequest;
 use App\Http\Requests\UpdateMaquinariaDetalleRequest;
@@ -23,7 +24,7 @@ class MaquinariaDetalleController extends Controller
 
         $maquinariaDetalle = MaquinariaDetalle::where($queryItems);
 
-        return new MaquinariaDetalleCollection($maquinariaDetalle);
+        return new MaquinariaDetalleCollection($maquinariaDetalle->get());
 
     }
 
@@ -73,8 +74,10 @@ class MaquinariaDetalleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MaquinariaDetalle $maquinariaDetalle)
+    public function destroy(MaquinariaDetalle $maquinariaDetalle,Maquinaria $maquinaria)
     {
         //
+        $maquinariaDetalle->destroy($maquinariaDetalle);
+        $maquinaria->destroy($maquinaria);
     }
 }
