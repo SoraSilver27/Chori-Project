@@ -13,7 +13,7 @@
             <v-tabs-window v-model="tab">
 
               <v-tabs-window-item value="1">
-                <VPruebaDos :maquina="maquina"/>
+                <PerfilMaquina :maquina="maquina"/>
               </v-tabs-window-item>
 
               <v-tabs-window-item value="2">
@@ -21,7 +21,7 @@
               </v-tabs-window-item>
 
               <v-tabs-window-item value="3">
-                <PerfilMMantenimiento/>
+                <VPruebaDos/>
               </v-tabs-window-item>
 
             </v-tabs-window>
@@ -51,8 +51,8 @@ import PerfilMComponente from '@/components/PerfilMComponente.vue';
 import VPruebaDos from "@/components/vPruebaDos.vue";
 
 const route = useRoute();
-const maquina = ref([]);
 const myIP = direccionIP;
+const maquina = ref([]);
 const tab = ref(0);
 
 // Función para obtener las maquinarias
