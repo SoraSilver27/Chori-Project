@@ -45,9 +45,9 @@ import axios from 'axios';
 import { direccionIP } from '@/global';
 
 
-import PerfilMaquina from '@/components/PerfilMaquina.vue';
-import PerfilMMantenimiento from '@/components/PerfilMMantenimiento.vue';
-import PerfilMComponente from '@/components/PerfilMComponente.vue';
+import PerfilMaquina from '@/components/Maquina/PerfilMaquina.vue';
+import PerfilMMantenimiento from '@/components/Maquina/PerfilMMantenimiento.vue';
+import PerfilMComponente from '@/components/Maquina/PerfilMComponente.vue';
 import VPruebaDos from "@/components/vPruebaDos.vue";
 
 const route = useRoute();

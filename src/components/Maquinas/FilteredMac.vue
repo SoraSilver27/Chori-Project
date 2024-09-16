@@ -35,7 +35,3 @@ const enviar =(e)=>{
   router.push(`/maquinas/${e}`)
 }
 </script>
-
-<style>
-
-</style>

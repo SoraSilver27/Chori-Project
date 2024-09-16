@@ -26,7 +26,7 @@
             </template>
           </v-dialog>
           <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
-          <v-btn v-if="isEditing" color="primary" @click="" class="mr-3" text="Agregar"></v-btn>
+          <v-btn v-if="isEditing" color="primary"  class="mr-3" text="Agregar"></v-btn>
           <v-btn color="primary" prepend-icon="mdi-pencil" @click="toggleEditMode">
             {{ isEditing ? 'Guardar' : 'Editar' }}
           </v-btn>
@@ -71,7 +71,7 @@
 <script>
 import axios from 'axios';
 import { direccionIP } from '@/global';
-import AnadirComponente from './AnadirComponente.vue';
+import AnadirComponente from './PerfilComponente/AnadirComponente.vue';
 
 export default {
   data() {

@@ -50,7 +50,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
-import FilteredMac from '@/components/FilteredMac.vue';
+import FilteredMac from '@/components/Maquinas/FilteredMac.vue';
 import { direccionIP } from '@/global';
 
 const tab = ref(1);

@@ -48,7 +48,7 @@
 
 
 <script>
-import FilteredMac from '@/components/FilteredMac.vue';
+import FilteredMac from '@/components/Maquinas/FilteredMac.vue';
 import { direccionIP } from '@/global';
 import axios from 'axios';
 

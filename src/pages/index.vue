@@ -58,8 +58,8 @@
 
 
 <script>
-import FilteredList from '@/components/FilteredList.vue';
-import NotHistorial from '@/components/NotHistorial.vue';
+import FilteredList from '@/components/index/FilteredList.vue';
+import NotHistorial from '@/components/index/NotHistorial.vue';
 
 export default {
   components: {

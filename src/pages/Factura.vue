@@ -78,7 +78,7 @@
 <script>
 import axios from 'axios';
 import { direccionIP } from '@/global';
-import BuscarRepuesto from "@/components/BuscarRepuesto.vue";
+import BuscarRepuesto from "@/components/Factura/BuscarRepuesto.vue";
 
 export default {
   data() {

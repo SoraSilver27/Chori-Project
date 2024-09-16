@@ -43,7 +43,7 @@ import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
 import { direccionIP } from '@/global';
 
 // Importamos el nuevo componente PerfilInfo.vue
-import PerfilInfo from './PerfilInfo.vue';
+import PerfilInfo from './PerfilMaquina/PerfilInfo.vue';
 
 const props = defineProps({
   maquina: {
