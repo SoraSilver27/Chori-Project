@@ -82,12 +82,36 @@ const saveData = async () => {
     alert('Error en la petición');
   }
 };
+const saveDataDos = async () => {
+  try {
+    const payload = {
+      ...localDetalles.value,
+    };
+
+    const response = await axios.put(`${myIP}/api/detalles/${route.params.id}`, payload);
+
+    if (response.status === 200) {
+      console.log('Datos guardados correctamente');
+      alert('Datos guardados correctamente dos');
+      isEditing.value = false;
+    } else {
+      console.error('Error al guardar los datos');
+      alert('Error al guardar los datos dos');
+    }
+  } catch (error) {
+    console.error('Error en la petición:', error);
+    alert('Error en la petición dos');
+  }
+};
+
 
 // Función para alternar el modo de edición y guardar cambios
 const toggleEditMode = () => {
   if (isEditing.value) {
     saveData();
     emit('update', localMaquina.value);
+    saveDataDos();
+    emit('update', localDetalles.value);
   }
   isEditing.value = !isEditing.value;
 };

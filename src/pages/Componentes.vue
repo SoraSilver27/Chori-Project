@@ -1,266 +1,92 @@
 <template>
-  <v-container class="pa-0">
-    <v-list class="bg-surface-light pa-2">
-      <v-list-item-title style="font-size: large;">
-        Agregar componentes
-      </v-list-item-title>
-      <v-card>
-        <v-form @submit.prevent="anadirForm">
-          <v-list>
-            <v-list-item>
-              <v-row>
-                <v-col cols="9">
-                  <v-text-field
-                    v-model="name"
-                    :counter="30"
-                    :rules="nameRules"
-                    label="Nombre"
-                    density="compact"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="3">
-                  <v-select
-                    v-model="selectest"
-                    :items="estado"
-                    label="Estado"
-                    density="compact"
-                  ></v-select>
-                </v-col>
-              </v-row>
-            </v-list-item>
-            <v-list-item>
-              <v-row>
-                <v-col cols="7 pr-0">
-                  <v-text-field
-                    v-model="serie"
-                    label="No de Serie"
-                    density="compact"
-                    class="pr-2"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="5 pl-0">
-                  <v-text-field
-                    v-model="modelo"
-                    label="Modelo"
-                    :rules="rules"
-                    density="compact"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-list-item>
-            <v-list-item>
-              <v-row>
-                <v-col cols="7">
-                  <v-select
-                    v-model="selectfab"
-                    :items="fabricante"
-                    label="Fabricante"
-                    density="compact"
-                  ></v-select>
-                </v-col>
-                <v-col cols="2 pl-0">
-                  <v-btn prepend-icon="mdi-plus" color="blue">Nuevo</v-btn>
-                </v-col>
-              </v-row>
-            </v-list-item>
+  <v-container>
+    <v-card>
+      <v-card-title style="display: flex; align-items: center;" class="px-3 pt-3 pb-0">
+        <v-autocomplete
+          label="Buscar"
+          clearable
+          :items="titleList"
+          v-model="titleSelected"
+        ></v-autocomplete>
+        <v-col class="text-end">
+          <v-btn prepend-icon="mdi-plus" :to="'/nuevo_componente'" color="blue">Añadir</v-btn>
+        </v-col>
+      </v-card-title>
+      <v-card-text class="pt-0">
+        <v-card>
+          <v-tabs v-model="tab" fixed-tabs color="primary">
+            <v-tab :value="1" prepend-icon="mdi-alert">Todo</v-tab>
+            <v-tab :value="2" prepend-icon="mdi-message-text">En uso</v-tab>
+            <v-tab :value="3" prepend-icon="mdi-tools">Disponible</v-tab>
+            <v-tab :value="4" prepend-icon="mdi-archive-alert">Indisponible</v-tab>
+          </v-tabs>
 
+          <v-card-text class="pa-2" style="overflow: auto; width: auto; height: 76vh;">
+            <v-tabs-window v-model="tab">
+              <v-tabs-window-item :value="1">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
 
-            <v-list-item>
-              <v-row>
-                <!-- Ventana de dialogo -->
-                <v-col cols="2">
-                  <v-dialog max-width="300">
-                    <template v-slot:activator="{props:activatorProps}">
-                      <v-btn v-bind="activatorProps">Etiquetas</v-btn>
-                    </template>
-                    <template v-slot:default="{isActive}">
-                      <v-card title="Seleccione etiquetas">
-                        <v-container>
-                          <v-row>
-                            <v-col v-if="!allSelected" cols="12">
-                              <v-text-field
-                              ref="searchField"
-                              v-model="search"
-                              label="Search"
-                              hide-details
-                              single-line
-                            ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <v-list>
-                          <template v-for="etiqueta in categories">
-                            <v-list-item
-                              v-if="!selected.includes(etiqueta)"
-                              :key="etiqueta.text"
-                              :disabled="loading"
-                              @click="selected.push(etiqueta)">
-                                <v-list-item-title>{{ etiqueta.text }}</v-list-item-title>
-                            </v-list-item>
-                          </template>
-                        </v-list>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn :disabled="!selected.length" :loading="loading" @click="echo">
-                            Hecho
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </template>
-                  </v-dialog>
-                </v-col>
+              <v-tabs-window-item :value="2">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
 
-                <!-- Mostrar las lista de etiquetas seleccionadas -->
-                <v-col cols="10">
-                  <v-card>
-                    <v-row align="center" justify="start">
-                      <v-col v-for="(selection,i) in selections" :key="selection.text" cols="auto">
-                        <v-chip
-                          :disabled="loading"
-                          v-model="selecteti"
-                          closable
-                          @click:close="selected.splice(i,1)">
-                            {{ selection.text }}
-                        </v-chip>
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-list-item>
-            <v-list-item>
-              <v-row>
-                <v-col cols="10">
-                </v-col>
-                <v-col cols="2">
-                  <v-btn color="blue" type="submit">Añadir</v-btn>
-                </v-col>
-              </v-row>
-            </v-list-item>
-          </v-list>
-       </v-form>
-      </v-card>
+              <v-tabs-window-item :value="3">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
 
-      <!-- Tabla de componentes -->
-      <v-card class="mt-3">
-        <v-data-table
-          v-if="formulario.length"
-          :headers="headers"
-          :items="formulario"
-          class="mt-4"
-        ></v-data-table>
-      </v-card>
-    </v-list>
+              <v-tabs-window-item :value="4">
+                <FilteredMac :lista="filteredMac" />
+              </v-tabs-window-item>
+            </v-tabs-window>
+          </v-card-text>
+        </v-card>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
-<script>
-import { computed, watch } from 'vue'
 
-export default {
-  data: () => ({
-    name: '',
-    modelo: '',
-    serie: '',
-    selectfab: null,
-    selectest: null,
-    selecteti:[],
-    isActive: true,
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
+import FilteredMac from '@/components/Maquinas/FilteredMac.vue';
+import { direccionIP } from '@/global';
 
-    nameRules: [
-      value => value ? true : 'Por favor ingrese un nombre',
-      value => value.length <= 30 ? true : 'El nombre debe ser menor a 30 caracteres',
-    ],
-    rules: [
-      value => value ? true : 'Campo obligatorio',
-    ],
-    fabricante: [
-      'Hidraulica',
-      'Electrica',
-      'Neumatica',
-    ],
-    estado: [
-      'En uso',
-      'Disponible',
-      'Indisponible',
-    ],
-    etiquetas: [
-      {text: 'grande'},
-      {text: 'chico'},
-      {text: 'largo'},
-      {text: 'corto'},
-      {text: 'pesado'},
-      {text: 'liviano'},
-      {text: 'rojizo'},
-      {text: 'azulado'},
-    ],
-    loading: false,
-    selected: [],
-    search: '',
-    formulario: [],
-    headers: [
-      { text: 'Nombre', value: 'nombre' },
-      { text: 'Serie', value: 'serie' },
-      { text: 'Modelo', value: 'modelo' },
-      { text: 'Estado', value: 'estado' },
-      { text: 'Fabricante', value: 'fabricante' }
-    ],
-  }),
-  computed: {
-    allSelected () {
-      return this.selected.length === this.etiquetas.length
-    },
-    categories () {
-      const search = this.search.toLowerCase()
+const tab = ref(1);
+const titleSelected = ref('');
+const maquinarias = ref([]);
+const myIP = direccionIP;
 
-      if (!search) return this.etiquetas;
-
-      return this.etiquetas.filter(etiqueta => {
-        const text = etiqueta.text.toLowerCase()
-        return text.indexOf(search) > -1
-      })
-    },
-    selections () {
-      const selections = []
-
-      for (const selection of this.selected) {
-        selections.push(selection)
-      }
-
-      return selections
-    },
-  },
-  watch: {
-    selected() {
-      this.search=''
-    }
-  },
-  methods: {
-    next () {
-      this.loading = true
-
-      setTimeout(() => {
-        this.search = ''
-        this.selected = []
-        this.loading = false
-      }, 2000)
-    },
-    anadirForm() {
-      this.formulario.push({
-        nombre:this.name,
-        serie:this.serie,
-        modelo:this.modelo,
-        selectest:this.selectest,
-        selectfab:this.selectfab,
-      });
-      this.name='';
-      this.serie='';
-      this.modelo='';
-      this.selectest=null;
-      this.selectfab=null;
-    }
-  },
+const fetchMaquinarias = async () => {
+  try {
+    const response = await axios.get(`${myIP}/api/maquinarias`);
+    maquinarias.value = response.data;
+  } catch (error) {
+    console.error("Hubo un error al obtener los datos:", error);
+  }
 };
+
+const filteredMac = computed(() => {
+  let filteredList = maquinarias.value?.data || [];
+
+  if (titleSelected.value) {
+    filteredList = filteredList.filter(item => item.nombre.includes(titleSelected.value));
+  }
+
+  if (tab.value === 1) return filteredList;
+  return filteredList.filter(item => {
+    if (tab.value === 2) return item.estado === "En uso";
+    if (tab.value === 3) return item.estado === "Disponible";
+    if (tab.value === 4) return item.estado === "Indisponible";
+  });
+});
+
+const titleList = computed(() => {
+  return [...new Set(maquinarias.value?.data?.map(item => item.nombre) || [])];
+});
+
+onMounted(() => {
+  fetchMaquinarias();
+});
 </script>
-
-

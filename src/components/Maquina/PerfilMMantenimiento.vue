@@ -13,99 +13,20 @@
       <v-container class="pa-0">
 
         <v-container class="pa-0" v-if="!isEditing">
-          <v-row no-gutters v-for="(horasArray, periodo) in agrupadoPorPeriodo" :key="periodo" class="pa-1">
-            <v-card class="bg-teal">
-              <v-row class="pa-1">
-                <v-col cols="1" class="pr-1">
-                  <v-sheet class="pa-2 d-flex align-center fill-height">
-                    {{ periodo }}
-                  </v-sheet>
-                </v-col>
-                <v-divider vertical class="border-opacity-25" color="info"></v-divider>
-                <v-col cols="9" class="px-1">
-                  <v-row no-gutters v-for="horaObj in horasArray" :key="horaObj.horasUso">
-                    <v-col cols="1">
-                      <v-sheet class="pa-2 d-flex align-center fill-height">
-                        {{ horaObj.horasUso }} horas
-                      </v-sheet>
-                    </v-col>
-                    <v-divider vertical class="border-opacity-25" color="info"></v-divider>
-                    <v-col cols="11">
-                      <v-row no-gutters v-for="nombre in horaObj.nombres" :key="nombre">
-                        <v-col cols="4">
-                          <v-sheet  class="pa-2 fill-height">
-                            {{ nombre }}
-                          </v-sheet>
-                        </v-col>
-                        <v-divider vertical class="border-opacity-25" color="info"></v-divider>
-                        <v-col cols="8">
-                          <!-- Asumiendo que 'descripcion' se encuentra en 'componentesMaquina' -->
-                            <v-sheet class="pa-2 d-flex align-center fill-height">
-                            {{ componentesMaquina.find(c => c.nombre === nombre).descripcion }}
-                          </v-sheet>
-                        </v-col>
-                        <v-divider class="border-opacity-25" color="info"></v-divider>
-                      </v-row>
-                    </v-col>
-                    <v-divider class="border-opacity-25" color="info"></v-divider>
-                  </v-row>
-                </v-col>
-                <v-divider vertical class="border-opacity-25" color="info"></v-divider>
-                <v-col cols="2" class="pl-1">
-                  <v-text-field density="compact" type="date" label="Ultimo Mant." hide-details="auto" class="bg-secondary"></v-text-field>
-                  <v-text-field density="compact" type="date" label="Proximo Mant." hide-details="auto" class="bg-error"></v-text-field>
-                </v-col>
-                <v-divider class="border-opacity-25" color="info"></v-divider>
-              </v-row>
-            </v-card>
-          </v-row>
+          <v-card>
+            <MantPerfil :componentesMaquina="componentesMaquina" 
+              :localMaquinaComp="localMaquinaComp"
+            />
+          </v-card>
         </v-container>
 
         <v-container v-else class="pa-0">
           <v-card>
-            <v-container class="pa-4">
-              <v-form>
-                <v-row v-for="(comp, index) in componentesMaquina" :key="index">
-                  <v-col cols="2" class="d-flex align-center pr-1">
-                    {{ comp.nombre }}
-                  </v-col>
-                  <v-col cols="2" class="px-1">
-                    <v-select
-                    v-model="comp.periodo"
-                    :items="periodoOptions"
-                    item-value="value"
-                    item-text="text"
-                    label="Periodo"
-                    hide-details="auto"
-                    @change="updatePeriodo"
-                    >
-                  </v-select>
-                  </v-col>
-                  <v-col cols="1" class="px-1">
-                    <v-text-field
-                      v-model="comp.horasUso"
-                      label="Hs uso"
-                      hide-details="auto"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="6" class="px-1">
-                    <v-text-field
-                    v-model="comp.descripcion"
-                    label="Descripcion"
-                    hide-details="auto"
-                  ></v-text-field>
-                  </v-col>
-                  <v-col class="d-flex align-center justify-center px-1">
-                    <v-btn icon="mdi-file-document-edit" color="success">
-                      <v-icon>mdi-file-document-edit</v-icon>
-                      <v-tooltip activator="parent" location="top">
-                        Modificar mantenimiento del componente
-                      </v-tooltip>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-container>
+            <MantPerfilList 
+              :componentesMaquina="componentesMaquina"
+              :localMaquinaComp="localMaquinaComp" 
+              :periodoOptions="periodoOptions"
+            />
           </v-card>
         </v-container>
 
@@ -117,57 +38,37 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import MantPerfil from './PerfilMantenimiento/MantPerfil.vue';
+import MantPerfilList from './PerfilMantenimiento/MantPerfilList.vue';
+
+const props = defineProps({
+  maquinaComp: {
+    type: Object,
+    required: true,
+  },
+});
 
 // Variables reactivas
 const isEditing = ref(false);
+const localMaquinaComp = ref(props.maquinaComp?.data ? { ...props.maquinaComp.data } : {});
+
+
 const componentesMaquina = ref([
-  { nombre: 'Componente 1', periodo: 'Semanal', horasUso: 100, ultimo: '2024-07-10', proximo: '2024-07-17', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 2', periodo: 'Mensual', horasUso: 480, ultimo: '2024-06-15', proximo: '2024-07-15', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
-  { nombre: 'Componente 3', periodo: 'Quince.', horasUso: 240, ultimo: '2024-07-01', proximo: '2024-07-16', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 4', periodo: 'Anual', horasUso: 8760, ultimo: '2024-01-01', proximo: '2025-01-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
-  { nombre: 'Componente 5', periodo: 'Semanal', horasUso: 140, ultimo: '2024-07-08', proximo: '2024-07-15', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 6', periodo: 'Mensual', horasUso: 480, ultimo: '2024-06-30', proximo: '2024-07-30', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
-  { nombre: 'Componente 7', periodo: 'Trimes.', horasUso: 2160, ultimo: '2024-05-01', proximo: '2024-08-01', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 8', periodo: 'Quince.', horasUso: 300, ultimo: '2024-07-05', proximo: '2024-07-20', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 9', periodo: 'Quince.', horasUso: 100, ultimo: '2024-07-12', proximo: '2024-07-19', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 10', periodo: 'Semes.', horasUso: 4320, ultimo: '2024-04-01', proximo: '2024-10-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' }
+  { nombre: 'Componente 1', periodo: 7, ultimo: '2024-07-10', proximo: '2024-07-17', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
+  { nombre: 'Componente 2', periodo: 30, ultimo: '2024-06-15', proximo: '2024-07-15', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
+  { nombre: 'Componente 3', periodo: 15, ultimo: '2024-07-01', proximo: '2024-07-16', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
+  { nombre: 'Componente 4', periodo: 360, ultimo: '2024-01-01', proximo: '2025-01-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
+  { nombre: 'Componente 5', periodo: 7, ultimo: '2024-07-08', proximo: '2024-07-15', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
+  { nombre: 'Componente 6', periodo: 30, ultimo: '2024-06-30', proximo: '2024-07-30', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
+  { nombre: 'Componente 7', periodo: 90, ultimo: '2024-05-01', proximo: '2024-08-01', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
+  { nombre: 'Componente 8', periodo: 15, ultimo: '2024-07-05', proximo: '2024-07-20', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
+  { nombre: 'Componente 9', periodo: 15, ultimo: '2024-07-12', proximo: '2024-07-19', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
+  { nombre: 'Componente 10', periodo: 60, ultimo: '2024-04-01', proximo: '2024-08-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' }
 ]);
 
-// Computed properties
-const agrupadoPorPeriodo = computed(() => {
-  const agrupado = componentesMaquina.value.reduce((acc, componente) => {
-    const { periodo, horasUso, nombre } = componente;
-    if (!acc[periodo]) {
-      acc[periodo] = [];
-    }
-    let entry = acc[periodo].find(item => item.horasUso === horasUso);
-    if (entry) {
-      entry.nombres.push(nombre);
-    } else {
-      acc[periodo].push({
-        horasUso: horasUso,
-        nombres: [nombre]
-      });
-    }
-    return acc;
-  }, {});
-
-  for (const key in agrupado) {
-    agrupado[key].sort((a, b) => a.horasUso - b.horasUso);
-  }
-  console.log(agrupado);
-  return agrupado;
-});
-
 const periodoOptions = [
-  'Semanal',
-  'Quincenal',
-  'Mensual',
-  'Trimestral',
-  'Semestral',
-  'Anual'
+  7, 15, 30, 60, 90, 180, 360, 720
 ];
-
 
 // Methods
 function toggleEditMode() {

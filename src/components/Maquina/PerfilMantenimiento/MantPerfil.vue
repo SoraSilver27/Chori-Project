@@ -30,10 +30,15 @@ import { computed } from 'vue';
 
 const props = defineProps({
   componentesMaquina: {
-    type: Array,  // Asumo que es un array de objetos
+    type: Array,
+    required: true,
+  },
+  localMaquinaComp: {
+    type: Object, 
     required: true,
   },
 });
+
 
 const periodosTextos = {
   7: 'Semanal',

@@ -21,7 +21,7 @@
               </v-tabs-window-item>
 
               <v-tabs-window-item value="3">
-                <VPruebaDos/>
+                <PerfilMMantenimiento :maquinaComp="maquinaComp" />
               </v-tabs-window-item>
 
             </v-tabs-window>
@@ -52,8 +52,10 @@ import VPruebaDos from "@/components/vPruebaDos.vue";
 
 const route = useRoute();
 const myIP = direccionIP;
-const maquina = ref([]);
 const tab = ref(0);
+const maquina = ref([]);
+const maquinaComp = ref([]);
+
 
 // Función para obtener las maquinarias
 const fetchMaquina = async () => {
@@ -66,8 +68,22 @@ const fetchMaquina = async () => {
   }
 };
 
+// Función para obtener los componentes de la maquina
+// const fetchMaquinaComp = async () => {
+  // try {
+  //   const respuesta = await axios.get(`${myIP}/api/maquinarias/${route.params.id}?includeComponentes=true`);
+  //   maquinaComp.value = respuesta.data;
+  //   console.log(respuesta.data);
+  // } catch (error) {
+  //   console.error('Hubo un error al obtener los datos:', error);
+  // }
+
+  // Buscar la ruta de los componentes de la maquina
+// };
+
 // Ejecutar la función cuando el componente se monte
 onMounted(() => {
   fetchMaquina();
+  // ferchMaquinaComp();
 });
 </script>

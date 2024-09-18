@@ -1,3 +1,5 @@
+<!-- se puede borrar -->
+
 <template>
   <v-container class="ma-0 py-0 px-1">
     <v-card class="bg-surface-light pa-1 ma-0">
@@ -14,13 +16,19 @@
 
         <v-container class="pa-0" v-if="!isEditing">
           <v-card>
-            <MantPerfil :componentesMaquina="componentesMaquina" />
+            <MantPerfil :componentesMaquina="componentesMaquina" 
+              :localMaquinaComp="localMaquinaComp"
+            />
           </v-card>
         </v-container>
 
         <v-container v-else class="pa-0">
           <v-card>
-            <MantPerfilList :componentesMaquina="componentesMaquina" />
+            <MantPerfilList 
+              :componentesMaquina="componentesMaquina"
+              :localMaquinaComp="localMaquinaComp" 
+              :periodoOptions="periodoOptions"
+            />
           </v-card>
         </v-container>
 
@@ -35,8 +43,17 @@ import { ref, computed } from 'vue';
 import MantPerfil from './Maquina/PerfilMantenimiento/MantPerfil.vue';
 import MantPerfilList from './Maquina/PerfilMantenimiento/MantPerfilList.vue';
 
+const props = defineProps({
+  maquinaComp: {
+    type: Object,
+    required: true,
+  },
+});
+
 // Variables reactivas
 const isEditing = ref(false);
+const localMaquinaComp = ref(props.maquinaComp?.data ? { ...props.maquinaComp.data } : {});
+
 
 const componentesMaquina = ref([
   { nombre: 'Componente 1', periodo: 7, ultimo: '2024-07-10', proximo: '2024-07-17', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
@@ -51,7 +68,9 @@ const componentesMaquina = ref([
   { nombre: 'Componente 10', periodo: 60, ultimo: '2024-04-01', proximo: '2024-08-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' }
 ]);
 
-
+const periodoOptions = [
+  7, 15, 30, 60, 90, 180, 360, 720
+];
 
 // Methods
 function toggleEditMode() {

@@ -2,33 +2,27 @@
   <v-container class="pa-4">
     <v-form>
       <v-row v-for="(comp, index) in componentesMaquina" :key="index">
-        <v-col cols="2" class="d-flex align-center pr-1">
-          {{ comp.nombre }}
+        <v-col cols="3" class="d-flex align-center pr-1">
+          <v-text-field
+            v-model="comp.nombre"
+            hide-details
+            disabled
+          ></v-text-field>
         </v-col>
         <v-col cols="2" class="px-1">
           <v-select
-          v-model="comp.periodo"
-          :items="periodoOptions"
-          item-value="value"
-          item-text="text"
-          label="Periodo"
-          hide-details="auto"
-          @change="updatePeriodo"
-          >
-        </v-select>
-        </v-col>
-        <v-col cols="1" class="px-1">
-          <v-text-field
-            v-model="comp.horasUso"
-            label="Hs uso"
-            hide-details="auto"
-          ></v-text-field>
+            v-model="comp.periodo"
+            :items="periodoOptions"
+            label="Periodo"
+            hide-details
+            >
+          </v-select>
         </v-col>
         <v-col cols="6" class="px-1">
           <v-text-field
           v-model="comp.descripcion"
-          label="Descripcion"
-          hide-details="auto"
+          label="Descripcion general"
+          hide-details
         ></v-text-field>
         </v-col>
         <v-col class="d-flex align-center justify-center px-1">
@@ -50,6 +44,14 @@ import { computed } from 'vue';
 const props = defineProps({
   componentesMaquina: {
     type: Object,
+    required: true,
+  },
+  localMaquinaComp: {
+    type: Object,
+    required: true,
+  },
+  periodoOptions: {
+    type: Array,
     required: true,
   },
 });
