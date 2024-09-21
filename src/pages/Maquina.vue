@@ -48,7 +48,6 @@ import { direccionIP } from '@/global';
 import PerfilMaquina from '@/components/Maquina/PerfilMaquina.vue';
 import PerfilMMantenimiento from '@/components/Maquina/PerfilMMantenimiento.vue';
 import PerfilMComponente from '@/components/Maquina/PerfilMComponente.vue';
-import VPruebaDos from "@/components/vPruebaDos.vue";
 
 const route = useRoute();
 const myIP = direccionIP;

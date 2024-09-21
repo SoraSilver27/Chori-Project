@@ -1,46 +1,43 @@
 <template>
-  <v-container class="ma-0 py-0 px-1">
-    <v-card class="bg-surface-light">
-      <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
-        Perfil de la máquina
-        <v-col class="text-end">
-          <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
-          <v-btn color="primary" @click="toggleEditMode" class="ma-0" prepend-icon="mdi-pencil">
-            {{ isEditing ? 'Guardar' : 'Editar' }}
-          </v-btn>
-        </v-col>
-      </v-card-title>
-      <v-card-text class="pt-3">
-        <v-form style="width: 100%; height: 100%;">
-          <v-row>
-            <!-- Importamos y usamos el componente hijo aquí -->
+  <v-card class="bg-surface-light">
+    <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
+      Perfil de la máquina
+      <v-col class="text-end">
+        <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
+        <v-btn color="primary" @click="toggleEditMode" class="ma-0" prepend-icon="mdi-pencil">
+          {{ isEditing ? 'Guardar' : 'Editar' }}
+        </v-btn>
+      </v-col>
+    </v-card-title>
+    <v-card-text class="pt-3">
+      <v-form style="width: 100%; height: 100%;">
+        <v-row>
+          <!-- Importamos y usamos el componente hijo aquí -->
+          <v-col cols="8" class="pa-0">
             <PerfilInfo
               :filas="filas"
               :localMaquina="localMaquina"
               :localDetalles="localDetalles"
               :isEditing="isEditing"
             />
-
-            <v-col cols="4">
-              <p>Aquí van cosas</p>
-              <p>{{ localMaquina }}</p>
-              <p>{{ localDetalles }}</p>
-              <h3 v-if="localDetalles.length > 0">{{ localDetalles[0].voltaje }}</h3>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-container>
+          </v-col>
+          
+          <v-col cols="4" class="pa-0">
+              <MaquinaComp/>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup>
 import axios from 'axios';
 import { useRoute } from "vue-router";
-import { ref, watch } from 'vue';
-import { defineProps, defineEmits } from 'vue';
+import { ref, watch, defineProps, defineEmits } from 'vue';
 import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
 import { direccionIP } from '@/global';
+import MaquinaComp from './PerfilMaquina/MaquinaComp.vue';
 
 // Importamos el nuevo componente PerfilInfo.vue
 import PerfilInfo from './PerfilMaquina/PerfilInfo.vue';

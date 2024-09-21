@@ -1,5 +1,4 @@
 <template>
-  <v-col cols="8" class="pa-0">
     <v-card class="pa-4 mx-2 mb-2">
       <v-row>
         <v-col v-for="(fila, n) in filas" :key="n" :cols="fila.size">
@@ -59,7 +58,6 @@
         </v-col>
       </v-row>
     </v-card>
-  </v-col>
 </template>
 
 <script setup>
