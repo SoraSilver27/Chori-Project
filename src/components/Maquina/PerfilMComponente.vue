@@ -38,7 +38,7 @@
     <v-card-text class="pt-3">
       <v-row v-for="(componente, i) in componentesUbicados" :key="i">
 
-        <v-col cols="3">
+        <v-col cols="3" class="pr-0">
           <v-text-field v-model="componente.nombre" label="Nombre"
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
           />
@@ -48,17 +48,17 @@
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
           />
         </v-col>
-        <v-col cols="2">
+        <v-col cols="2" class="px-0">
           <v-text-field v-model="componente.modelo" label="Modelo"
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
           />
         </v-col>
-        <v-col cols="2" class="pr-0">
+        <v-col cols="2" class="px-0">
           <v-text-field type="date" v-model="componente.ultima_fecha" label="Últ. mantenimiento" 
             disabled class="bg-grey-darken-4" hide-details="auto"
           />
         </v-col>
-        <v-col cols="2" class="pr-0">
+        <v-col cols="2" class="px-0">
           <v-text-field type="date" v-model="componente.proxima_fecha" label="Prox. mantenimiento" 
             disabled class="bg-grey-darken-4" hide-details="auto"
           />
@@ -73,6 +73,7 @@
           <v-btn v-if="isEditing" icon="mdi-delete" color="red" @click="marcarParaEliminar(componente, i)">
           </v-btn>
         </v-col>
+        <v-divider></v-divider>
       </v-row>
     </v-card-text>
   </v-card>

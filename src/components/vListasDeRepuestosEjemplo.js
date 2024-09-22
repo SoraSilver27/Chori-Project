@@ -211,7 +211,7 @@ export const componentes =
     "id": 24,
     "nombre": "Batería industrial",
     "numero_serie": "BI-9872634",
-    "modelo": "BI-900",
+    "modelo": null,
     "descripcion": "Batería de respaldo para maquinaria crítica",
     "estado": "Disponible",
     "ubicacion": "000"
