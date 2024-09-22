@@ -38,8 +38,6 @@ import { ref, watch, defineProps, defineEmits } from 'vue';
 import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
 import { direccionIP } from '@/global';
 import MaquinaComp from './PerfilMaquina/MaquinaComp.vue';
-
-// Importamos el nuevo componente PerfilInfo.vue
 import PerfilInfo from './PerfilMaquina/PerfilInfo.vue';
 
 const props = defineProps({
