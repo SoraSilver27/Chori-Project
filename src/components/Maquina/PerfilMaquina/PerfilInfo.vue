@@ -31,22 +31,22 @@
 
           <!-- Clasificación 'array' -->
           <component
-            v-else-if="fila.clasificacion === 'array' && fila.component.name !== 'VCheckbox' && localDetalles.length > 0"
+            v-else-if="fila.clasificacion === 'array' && fila.component.name !== 'VCheckbox'"
             :is="fila.component"
-            v-model="localDetalles[0][fila.model]"
+            v-model="localDetalles[fila.model]"
             v-bind="fila.props"
             :hide-details="fila.ocultar"
             :disabled="getDisabled(fila) || isDisabled(fila)"
             density="compact"
           />
           <component
-            v-else-if="fila.clasificacion === 'array' && fila.component.name === 'VCheckbox' && localDetalles.length > 0"
+            v-else-if="fila.clasificacion === 'array' && fila.component.name === 'VCheckbox'"
             :is="fila.component"
-            v-model="localDetalles[0][fila.model]"
+            v-model="localDetalles[fila.model]"
             v-bind="fila.props"
             :hide-details="fila.ocultar"
-            :model-value="localDetalles[0][fila.model] === 1"
-            @update:modelValue="(val) => localDetalles[0][fila.model] = val ? 1 : 0"
+            :model-value="localDetalles[fila.model] === 1"
+            @update:modelValue="(val) => localDetalles[fila.model] = val ? 1 : 0"
             :disabled="getDisabled(fila) || isDisabled(fila)"
             density="compact"
           >
@@ -76,7 +76,7 @@ const props = defineProps({
     required: true,
   },
   localDetalles: {
-    type: Array,
+    type: Object,
     required: true,
   },
   isEditing: {
@@ -88,7 +88,7 @@ const props = defineProps({
 // Función para determinar si un campo está deshabilitado
 const getDisabled = (fila) => {
   if (fila.model === 'garantia_cantidad') {
-    return !props.localDetalles[0]?.garantia;
+    return !props.localDetalles.garantia;
   } else if (fila.model === 'seguimiento') {
     return !props.localMaquina.en_seguimiento;
   }

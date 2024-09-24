@@ -13,7 +13,7 @@
             <v-tabs-window v-model="tab">
 
               <v-tabs-window-item value="1">
-                <PerfilMaquina :maquina="maquina"/>
+                <PerfilMaquina :maquina="maquina" :detalles="detalles"/>
               </v-tabs-window-item>
 
               <v-tabs-window-item value="2">
@@ -53,36 +53,33 @@ const route = useRoute();
 const myIP = direccionIP;
 const tab = ref(0);
 const maquina = ref([]);
+const detalles = ref([]);
 const maquinaComp = ref([]);
 
 
 // Función para obtener las maquinarias
 const fetchMaquina = async () => {
   try {
-    const respuesta = await axios.get(`${myIP}/api/maquinarias/${route.params.id}?includeDetalles=true`);
+    const respuesta = await axios.get(`${myIP}/api/maquinarias/${route.params.id}`);
     maquina.value = respuesta.data;
     console.log(respuesta.data);
   } catch (error) {
-    console.error('Hubo un error al obtener los datos:', error);
+    console.error('Hubo un error al obtener los datos de la maquina:', error);
+  }
+};
+const fetchDetalles = async () => {
+  try {
+    const respuesta = await axios.get(`${myIP}/api/detalles/${route.params.id}`);
+    detalles.value = respuesta.data;
+    console.log(respuesta.data);
+  } catch (error) {
+    console.error('Hubo un error al obtener los datos de los detalles:', error);
   }
 };
 
-// Función para obtener los componentes de la maquina
-// const fetchMaquinaComp = async () => {
-  // try {
-  //   const respuesta = await axios.get(`${myIP}/api/maquinarias/${route.params.id}?includeComponentes=true`);
-  //   maquinaComp.value = respuesta.data;
-  //   console.log(respuesta.data);
-  // } catch (error) {
-  //   console.error('Hubo un error al obtener los datos:', error);
-  // }
 
-  // Buscar la ruta de los componentes de la maquina
-// };
-
-// Ejecutar la función cuando el componente se monte
 onMounted(() => {
   fetchMaquina();
-  // ferchMaquinaComp();
+  fetchDetalles();
 });
 </script>

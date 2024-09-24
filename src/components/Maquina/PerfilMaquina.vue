@@ -24,6 +24,8 @@
           
           <v-col cols="4" class="pa-0">
               <MaquinaComp/>
+              {{ localDetalles }}
+              {{ localMaquina }}
           </v-col>
         </v-row>
       </v-form>
@@ -45,13 +47,17 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  detalles: {
+    type: Object,
+    required: true,
+  }
 });
 
 const emit = defineEmits(['update']);
 const route = useRoute();
 const myIP = direccionIP;
 const localMaquina = ref(props.maquina?.data ? { ...props.maquina.data } : {});
-const localDetalles = ref(props.maquina?.data?.detalles ? [ ...props.maquina.data.detalles ] : []);
+const localDetalles = ref(props.detalles?.data? { ...props.detalles.data } : {});
 const isEditing = ref(false);
 
 // Función para guardar los datos
@@ -59,10 +65,9 @@ const saveData = async () => {
   try {
     const payload = {
       ...localMaquina.value,
-      detalles: localDetalles.value,
     };
 
-    const response = await axios.put(`${myIP}/api/maquinarias/${route.params.id}?includeDetalles=true`, payload);
+    const response = await axios.put(`${myIP}/api/maquinarias/${route.params.id}`, payload);
 
     if (response.status === 200) {
       console.log('Datos guardados correctamente');
@@ -73,7 +78,7 @@ const saveData = async () => {
       alert('Error al guardar los datos');
     }
   } catch (error) {
-    console.error('Error en la petición:', error);
+    console.error('Error en la peticiónUno:', error);
     alert('Error en la petición');
   }
 };
@@ -94,7 +99,7 @@ const saveDataDos = async () => {
       alert('Error al guardar los datos dos');
     }
   } catch (error) {
-    console.error('Error en la petición:', error);
+    console.error('Error en la peticiónDos:', error);
     alert('Error en la petición dos');
   }
 };
@@ -113,20 +118,30 @@ const toggleEditMode = () => {
 
 const cancel = () => {
   localMaquina.value = { ...props.maquina.data };
+  localDetalles.value = { ...props.detalles.data };
   isEditing.value = false;
 };
 
-// Observador para cambios en las props
 watch(
   () => props.maquina,
   (newValue) => {
-    if (newValue && newValue.data) {
-      localMaquina.value = { ...newValue.data };
-      localDetalles.value = newValue.data.detalles ? [...newValue.data.detalles] : [];
+    if (newValue) {
+      localMaquina.value = { ...newValue.data }; // Asignamos una copia de props.maquina a localMaquina
     }
   },
   { immediate: true }
 );
+
+watch(
+  () => props.detalles,
+  (newValue) => {
+    if (newValue) {
+      localDetalles.value = { ...newValue.data }; // Asignamos una copia de props.detalles a localDetalles
+    }
+  },
+  { immediate: true }
+);
+
 
 const filas = ref([
   { clasificacion: 'objeto', model: 'nombre', component: VTextField, size: 9, props: { label: 'Nombre' } },
