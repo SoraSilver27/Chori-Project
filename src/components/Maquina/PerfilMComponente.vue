@@ -36,6 +36,7 @@
 
 
     <v-card-text class="pt-3">
+      {{ componenteLocal }}
       <v-row v-for="(componente, i) in componentesUbicados" :key="i">
 
         <v-col cols="3" class="pr-0">
@@ -81,13 +82,27 @@
 
 <script setup>
 import { ref, defineProps, computed } from 'vue';
+import { useRoute } from "vue-router";
 import axios from 'axios';
 import { direccionIP } from '@/global';
 import AnadirComponente from './PerfilComponente/AnadirComponente.vue';
-import { componentes } from '@/components/vListasDeRepuestosEjemplo.js'
+
+//Esto se borra cuando tenga los componentes originales
+import { componentes } from '@/components/vListasDeRepuestosEjemplo.js';
+
+const props = defineProps({
+  componentesReal: {
+    type: Object,
+    required: true,
+  },
+});
 
 const myIP = direccionIP;
+const ipMaquina = useRoute();
+const IP = ipMaquina.params.id;
+const ipNormalizada = String(IP).padStart(3, '0');
 const isEditing = ref(false)
+const componenteLocal = ref(props.componentesReal?.data? { ...props.componentesReal.data } : {});
 const listaComponentes = ref(componentes);
 
 // debo cambiar el 001 al id de la maquina en cuestion
@@ -97,6 +112,13 @@ const componentesUbicados = computed(() => {
 const componentesNOUbicados = computed(() => {
   return listaComponentes.value.filter(componente => componente.ubicacion !== '001');
 });
+
+const componentesU = computed(() => {
+  return componenteLocal.value.filter(componente => componente && componente.ubicacion === ipNormalizada);
+});
+// const componentesNU = computed(() => {
+//   return componentes.value.filter(componente => componente.ubicacion !== ipNormalizada);
+// });
 
 
 const toggleEditMode = () => {

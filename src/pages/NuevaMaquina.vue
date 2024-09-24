@@ -71,149 +71,142 @@
   </v-card>
 </template>
 
-<script>
-import axios from "axios";
+<script setup>
+import { ref, computed } from 'vue';
+import axios from 'axios';
 import { direccionIP } from "@/global";
 
-export default {
-  data() {
-    return {
-      myIP: direccionIP,
-      form: {
-        nombre: "",
-        numero_de_serie: "",
-        modelo: "",
-        fecha_adquisicion: "",
-        estado: null,
-        selecttip: null,
-        voltaje: "",
-        peso: "",
-        velocidad: false,
-        ajustable: false,
-        pantalla: false,
-        enabled: false,
-        cantidad: "",
-        seguridad: "",
-        ubicacion: "",
-        observaciones_generales: "",
-      },
-      tipos: [
-        "Hidraulica",
-        "Electrica",
-        "Neumatica",
-        "Mecanica",
-        "Termica",
-        "Electronica",
-        "Quimica",
-        "Alimentaria",
-      ],
-      estados: ["En uso", "Disponible", "Indisponible"],
-      nameRules: [
-        (value) => (value ? true : "Por favor ingrese un nombre"),
-        (value) =>
-          value.length <= 30 ? true : "El nombre debe ser menor a 30 caracteres",
-      ],
-      rules: [(value) => (value ? true : "Campo obligatorio")],
-      filas: [
-        { model: "nombre", component: "v-text-field", size: 12,
-          props: { counter: 30, label: "Nombre", density: "comfortable" },} ,
-        { model: "numero_de_serie", component: "v-text-field", size: 7,
-           props: { counter: 15, label: "Identificador", density: "comfortable", }, },
-        { model: "modelo", component: "v-text-field", size: 5,
-          props: { counter: 10, label: "Modelo", density: "comfortable" },},
-        { component: "v-list-item", size: 3 },
-        { model: "fecha_adquisicion", component: "v-text-field", size: 5,
-          props: { label: "Fecha", type: "date", density: "comfortable" },},
-        { model: "estado", component: "v-select", size: 4,
-          props: { label: "Estado", density: "comfortable" },},
-        { model: "selecttip", component: "v-select", size: 4,
-          props: { label: "Tipo", density: "comfortable" },},
-        { model: "voltaje", component: "v-text-field", size: 4,
-          props: { label: "Voltaje", density: "comfortable" },},
-        { model: "peso", component: "v-text-field", size: 4,
-          props: { label: "Peso", density: "comfortable" },},
-        { model: "velocidad", component: "v-checkbox-btn", size: 4, text: "Velocidad ajustable",},
-        { model: "desmontaje", component: "v-checkbox-btn", size: 8, text: "Facilidad de desmontaje",},
-        { model: "pantalla", component: "v-checkbox-btn", size: 4, text: "Pantalla digital", },
-        { model: "enabled", component: "v-checkbox-btn", size: 3, text: "Garantia", },
-        { model: "cantidad", component: "v-text-field", size: 5,
-          props: { label: "Cantidad" },},
-      ],
-      cartas: [
-        { model: "seguridad", title: "Sistema de seguridad:" },
-        { model: "ubicacion", title: "Ubicacion:" },
-        { model: "observaciones_generales", title: "Mas informacion:" },
-      ],
-    };
-  },
+// Reactive state
+const myIP = ref(direccionIP);
+const form = ref({
+  nombre: "",
+  numero_de_serie: "",
+  modelo: "",
+  fecha_adquisicion: "",
+  estado: null,
+  selecttip: null,
+  voltaje: "",
+  peso: "",
+  velocidad: false,
+  ajustable: false,
+  pantalla: false,
+  enabled: false,
+  cantidad: "",
+  seguridad: "",
+  ubicacion: "",
+  observaciones_generales: "",
+});
 
-  methods: {
-    getItems(fila) {
-      if (fila.model === "selecttip") {
-        return this.tipos;
-      } else if (fila.model === "estado") {
-        return this.estados;
-      }
-      return [];
-    },
-    getRules(fila) {
-      if (fila.model === "nombre") {
-        return this.nameRules;
-      } else if (fila.model === "modelo") {
-        return this.rules;
-      } else if (fila.model === "selectest") {
-        return this.rules;
-      }
-      return [];
-    },
-    getDisabled(fila) {
-      if (fila.model === "cantidad") {
-        return !this.form.enabled;
-      }
-      return false;
-    },
-    async handleSubmit() {
-      const formData = {
-        nombre: this.form.nombre,
-        numero_de_serie: this.form.numero_de_serie,
-        estado: this.form.estado,
-        modelo: this.form.modelo,
-        en_seguimiento: this.form.enabled ? 1 : 0,
-        fecha_adquisicion: this.form.fecha_adquisicion,
-        observaciones_generales: this.form.observaciones_generales,
-      };
+const tipos = ref([
+  "Hidraulica",
+  "Electrica",
+  "Neumatica",
+  "Mecanica",
+  "Termica",
+  "Electronica",
+  "Quimica",
+  "Alimentaria",
+]);
 
-      try {
-        const response = await axios.post(
-          `${this.myIP}/api/v1/maquinarias`,
-          formData
-        );
-        console.log("Datos enviados con éxito:", response.data);
-      } catch (error) {
-        console.error("Error al enviar los datos:", error.response.data);
-      }
-    },
-    handleCancel() {
-      // Lógica para cancelar o resetear el formulario
-      this.form = {
-        nombre: "",
-        numero_de_serie: "",
-        modelo: "",
-        fecha_adquisicion: "",
-        estado: null,
-        selecttip: null,
-        voltaje: "",
-        peso: "",
-        velocidad: false,
-        ajustable: false,
-        pantalla: false,
-        enabled: false,
-        cantidad: "",
-        seguridad: "",
-        ubicacion: "",
-        observaciones_generales: "",
-      };
-    },
-  },
+const estados = ref(["En uso", "Disponible", "Indisponible"]);
+
+const nameRules = [
+  (value) => (value ? true : "Por favor ingrese un nombre"),
+  (value) => (value.length <= 30 ? true : "El nombre debe ser menor a 30 caracteres"),
+];
+
+const rules = [(value) => (value ? true : "Campo obligatorio")];
+
+const filas = ref([
+  { model: "nombre", component: "v-text-field", size: 12, props: { counter: 30, label: "Nombre", density: "comfortable" } },
+  { model: "numero_de_serie", component: "v-text-field", size: 7, props: { counter: 15, label: "Identificador", density: "comfortable" } },
+  { model: "modelo", component: "v-text-field", size: 5, props: { counter: 10, label: "Modelo", density: "comfortable" } },
+  { component: "v-list-item", size: 3 },
+  { model: "fecha_adquisicion", component: "v-text-field", size: 5, props: { label: "Fecha", type: "date", density: "comfortable" } },
+  { model: "estado", component: "v-select", size: 4, props: { label: "Estado", density: "comfortable" } },
+  { model: "selecttip", component: "v-select", size: 4, props: { label: "Tipo", density: "comfortable" } },
+  { model: "voltaje", component: "v-text-field", size: 4, props: { label: "Voltaje", density: "comfortable" } },
+  { model: "peso", component: "v-text-field", size: 4, props: { label: "Peso", density: "comfortable" } },
+  { model: "velocidad", component: "v-checkbox-btn", size: 4, text: "Velocidad ajustable" },
+  { model: "desmontaje", component: "v-checkbox-btn", size: 8, text: "Facilidad de desmontaje" },
+  { model: "pantalla", component: "v-checkbox-btn", size: 4, text: "Pantalla digital" },
+  { model: "enabled", component: "v-checkbox-btn", size: 3, text: "Garantia" },
+  { model: "cantidad", component: "v-text-field", size: 5, props: { label: "Cantidad" } },
+]);
+
+const cartas = ref([
+  { model: "seguridad", title: "Sistema de seguridad:" },
+  { model: "ubicacion", title: "Ubicacion:" },
+  { model: "observaciones_generales", title: "Mas informacion:" },
+]);
+
+// Methods
+const getItems = (fila) => {
+  if (fila.model === "selecttip") {
+    return tipos.value;
+  } else if (fila.model === "estado") {
+    return estados.value;
+  }
+  return [];
+};
+
+const getRules = (fila) => {
+  if (fila.model === "nombre") {
+    return nameRules;
+  } else if (fila.model === "modelo") {
+    return rules;
+  } else if (fila.model === "selectest") {
+    return rules;
+  }
+  return [];
+};
+
+const getDisabled = (fila) => {
+  if (fila.model === "cantidad") {
+    return !form.value.enabled;
+  }
+  return false;
+};
+
+const handleSubmit = async () => {
+  const formData = {
+    nombre: form.value.nombre,
+    numero_de_serie: form.value.numero_de_serie,
+    estado: form.value.estado,
+    modelo: form.value.modelo,
+    en_seguimiento: form.value.enabled ? 1 : 0,
+    fecha_adquisicion: form.value.fecha_adquisicion,
+    observaciones_generales: form.value.observaciones_generales,
+  };
+
+  try {
+    const response = await axios.post(`${myIP.value}/api/v1/maquinarias`, formData);
+    console.log("Datos enviados con éxito:", response.data);
+  } catch (error) {
+    console.error("Error al enviar los datos:", error.response.data);
+  }
+};
+
+const handleCancel = () => {
+  // Lógica para cancelar o resetear el formulario
+  form.value = {
+    nombre: "",
+    numero_de_serie: "",
+    modelo: "",
+    fecha_adquisicion: "",
+    estado: null,
+    selecttip: null,
+    voltaje: "",
+    peso: "",
+    velocidad: false,
+    ajustable: false,
+    pantalla: false,
+    enabled: false,
+    cantidad: "",
+    seguridad: "",
+    ubicacion: "",
+    observaciones_generales: "",
+  };
 };
 </script>
+

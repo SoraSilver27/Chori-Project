@@ -17,7 +17,7 @@
               </v-tabs-window-item>
 
               <v-tabs-window-item value="2">
-                <PerfilMComponente/>
+                <PerfilMComponente :componentesReal="componentes"/>
               </v-tabs-window-item>
 
               <v-tabs-window-item value="3">
@@ -49,18 +49,18 @@ import PerfilMaquina from '@/components/Maquina/PerfilMaquina.vue';
 import PerfilMMantenimiento from '@/components/Maquina/PerfilMMantenimiento.vue';
 import PerfilMComponente from '@/components/Maquina/PerfilMComponente.vue';
 
-const route = useRoute();
+const ipMaquina = useRoute();
 const myIP = direccionIP;
 const tab = ref(0);
 const maquina = ref([]);
 const detalles = ref([]);
-const maquinaComp = ref([]);
+const componentes = ref([]);
 
 
 // Función para obtener las maquinarias
 const fetchMaquina = async () => {
   try {
-    const respuesta = await axios.get(`${myIP}/api/maquinarias/${route.params.id}`);
+    const respuesta = await axios.get(`${myIP}/api/maquinarias/${ipMaquina.params.id}`);
     maquina.value = respuesta.data;
     console.log(respuesta.data);
   } catch (error) {
@@ -69,8 +69,17 @@ const fetchMaquina = async () => {
 };
 const fetchDetalles = async () => {
   try {
-    const respuesta = await axios.get(`${myIP}/api/detalles/${route.params.id}`);
+    const respuesta = await axios.get(`${myIP}/api/detalles/${ipMaquina.params.id}`);
     detalles.value = respuesta.data;
+    console.log(respuesta.data);
+  } catch (error) {
+    console.error('Hubo un error al obtener los datos de los detalles:', error);
+  }
+};
+const fetchComponentes = async () => {
+  try {
+    const respuesta = await axios.get(`${myIP}/api/componentes`);
+    componentes.value = respuesta.data;
     console.log(respuesta.data);
   } catch (error) {
     console.error('Hubo un error al obtener los datos de los detalles:', error);
@@ -81,5 +90,6 @@ const fetchDetalles = async () => {
 onMounted(() => {
   fetchMaquina();
   fetchDetalles();
+  fetchComponentes();
 });
 </script>

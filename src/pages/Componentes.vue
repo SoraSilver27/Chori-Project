@@ -118,15 +118,14 @@ const componentes = ref([
   }
 ]);
 
-// Llamar desde la BD
-// const fetchComponentes = async () => {
-//   try {
-//     const response = await axios.get(`${myIP}/api/componentes`);
-//     componentes.value = response.data;
-//   } catch (error) {
-//     console.error("Hubo un error al obtener los datos:", error);
-//   }
-// };
+const fetchComponentes = async () => {
+  try {
+    const response = await axios.get(`${myIP}/api/componentes`);
+    componentesBD.value = response.data;
+  } catch (error) {
+    console.error("Hubo un error al obtener los datos:", error);
+  }
+};
 
 // Computed para filtrar componentes según el estado y la búsqueda
 // para BD:  let filteredList = componentes.value?.data || [];
@@ -149,7 +148,7 @@ const filteredComp = computed(() => {
   });
 });
 
-// onMounted(() => {
-//   fetchComponentes();
-// });
+onMounted(() => {
+  fetchComponentes();
+});
 </script>

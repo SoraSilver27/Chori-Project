@@ -54,7 +54,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update']);
-const route = useRoute();
+const ipMaquina = useRoute();
 const myIP = direccionIP;
 const localMaquina = ref(props.maquina?.data ? { ...props.maquina.data } : {});
 const localDetalles = ref(props.detalles?.data? { ...props.detalles.data } : {});
@@ -67,7 +67,7 @@ const saveData = async () => {
       ...localMaquina.value,
     };
 
-    const response = await axios.put(`${myIP}/api/maquinarias/${route.params.id}`, payload);
+    const response = await axios.put(`${myIP}/api/maquinarias/${ipMaquina.params.id}`, payload);
 
     if (response.status === 200) {
       console.log('Datos guardados correctamente');
@@ -88,7 +88,7 @@ const saveDataDos = async () => {
       ...localDetalles.value,
     };
 
-    const response = await axios.put(`${myIP}/api/detalles/${route.params.id}`, payload);
+    const response = await axios.put(`${myIP}/api/detalles/${ipMaquina.params.id}`, payload);
 
     if (response.status === 200) {
       console.log('Datos guardados correctamente');
