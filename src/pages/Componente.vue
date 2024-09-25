@@ -16,7 +16,7 @@
               </v-tabs-window-item>
 
               <v-tabs-window-item value="2">
-                <PerfilCompMant/>
+                <PerfilCompMant :componenteUnico="componenteUnico"/>
               </v-tabs-window-item>
 
             </v-tabs-window>

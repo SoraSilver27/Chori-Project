@@ -1,3 +1,4 @@
-export const direccionIP = 'http://190.135.142.122:8000';
+export const direccionIP = 'http://190.133.80.40:8000';
 
-// `${this.myIP}/api/v1/maquinarias`
+// `${this.myIP}/api/maquinarias`
+// http://190.134.75.130:8000/api/maquinarias

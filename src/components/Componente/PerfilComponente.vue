@@ -25,6 +25,7 @@
               <PerfilImagenComp :localComponente="localComponente"/>
             </v-card>
           </v-col>
+          {{ localComponente }}
         </v-row>
       </v-form>
     </v-card-text>
@@ -104,10 +105,9 @@ watch(
 const filas = ref([
   { model: 'nombre', component: VTextField, size: 8, props: { label: 'Nombre' } },
   { model: 'estado', component: VSelect, size: 4, props: { label: 'Estado', items: ['En uso', 'Disponible', 'Indisponible'] } },
-  { model: 'numero_de_serie', component: VTextField, size: 4, props: { label: 'N de Serie' } },
   { model: 'modelo', component: VTextField, size: 4, props: { label: 'Modelo' } },
-  { model: 'created_at', component: VTextField, size: 4, props: { label: 'Fecha de Adquisición', type: 'date' } },
-  { model: 'ubicacion', component: VTextField, size: 4, props: { label: 'Actualmente en:' } },
+  { model: 'numero_de_serie', component: VTextField, size: 6, props: { label: 'N de Serie' } },
+  { model: 'ubicacion', component: VTextField, size: 6, props: { label: 'Actualmente en:' } },
   { model: 'descripcion', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Descripcion', rows: 2 } },
 ]);
 
