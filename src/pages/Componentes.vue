@@ -58,70 +58,12 @@ const searchQuery = ref(''); // Este será el campo para la búsqueda
 const componentesBD = ref([]); //para la base de datos
 const myIP = direccionIP;
 
-//para probar de ejemplo mientras se tiene la BD desactivada
-const componentes = ref([
-  {
-    id: 1,
-    nombre: "A probar cosas",
-    numeroSerie: "ABC12345",
-    modelo: "Mod-001",
-    descripcion: "Componente utilizado para pruebas de rendimiento.",
-    estado: "Disponible"
-  },
-  {
-    id: 2,
-    nombre: "veremos que pasa cuando el nombre es demasiado largo para ver que tanto ocupa de espacio",
-    numeroSerie: "DEF67890",
-    modelo: "Mod-002",
-    descripcion: "Dispositivo utilizado en producción.",
-    estado: "En uso"
-  },
-  {
-    id: 3,
-    nombre: "Para poner a prueba",
-    numeroSerie: "GHI54321",
-    modelo: "Mod-003",
-    descripcion: "Componente en revisión técnica.",
-    estado: "Indisponible"
-  },
-  {
-    id: 4,
-    nombre: "Motores ultra",
-    numeroSerie: "JKL09876",
-    modelo: "Mod-004",
-    descripcion: "Componente reservado para nuevos proyectos.",
-    estado: "Disponible"
-  },
-  {
-    id: 5,
-    nombre: "No tengo ni idea de que poner",
-    numeroSerie: "MNO34567",
-    modelo: "Mod-005",
-    descripcion: "Dispositivo obsoleto en espera de ser reciclado.",
-    estado: "Indisponible"
-  },
-  {
-    id: 6,
-    nombre: "Hay que funcionar",
-    numeroSerie: "PQR98765",
-    modelo: "Mod-006",
-    descripcion: "Componente en uso para pruebas de integración.",
-    estado: "En uso"
-  },
-  {
-    id: 7,
-    nombre: "Que tal todo chaval",
-    numeroSerie: "STU87654",
-    modelo: "Mod-007",
-    descripcion: "Unidad de reemplazo en inventario.",
-    estado: "Disponible"
-  }
-]);
+
 
 const fetchComponentes = async () => {
   try {
     const response = await axios.get(`${myIP}/api/componentes`);
-    componentesBD.value = response.data;
+    componentesBD.value = response.data.data;
   } catch (error) {
     console.error("Hubo un error al obtener los datos:", error);
   }
@@ -130,7 +72,7 @@ const fetchComponentes = async () => {
 // Computed para filtrar componentes según el estado y la búsqueda
 // para BD:  let filteredList = componentes.value?.data || [];
 const filteredComp = computed(() => {
-  let filteredList = componentes.value || [];
+  let filteredList = componentesBD.value || [];
 
   // Filtro por búsqueda (case insensitive)
   if (searchQuery.value) {

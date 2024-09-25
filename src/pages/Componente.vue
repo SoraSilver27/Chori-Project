@@ -5,23 +5,18 @@
         <v-card>
           <v-tabs v-model="tab" bg-color="">
             <v-tab value="1">Detalles</v-tab>
-            <v-tab value="2">Componentes</v-tab>
-            <v-tab value="3">Mantenimiento</v-tab>
+            <v-tab value="2">Mantenimiento</v-tab>
           </v-tabs>
 
           <v-card-text class="caja pa-2">
             <v-tabs-window v-model="tab">
 
               <v-tabs-window-item value="1">
-                <PerfilComponente/>
+                <PerfilComponente :componenteUnico="componenteUnico"/>
               </v-tabs-window-item>
 
               <v-tabs-window-item value="2">
-                dos
-              </v-tabs-window-item>
-
-              <v-tabs-window-item value="3">
-                tres
+                <PerfilCompMant/>
               </v-tabs-window-item>
 
             </v-tabs-window>
@@ -44,22 +39,19 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { direccionIP } from '@/global';
 
-
-import PerfilMaquina from '@/components/Maquina/PerfilMaquina.vue';
-import PerfilMMantenimiento from '@/components/Maquina/PerfilMMantenimiento.vue';
-import PerfilMComponente from '@/components/Maquina/PerfilMComponente.vue';
-import PerfilComponente from '@/components/Componente/PerfilComponente.vue'
+import PerfilComponente from '@/components/Componente/PerfilComponente.vue';
+import PerfilCompMant from "@/components/Componente/PerfilCompMant.vue";
 
 const ipComp = useRoute();
 const myIP = direccionIP;
 const tab = ref(0);
-const componente = ref([]);
+const componenteUnico = ref([]);
 
 // Función para obtener los componentes
 const fetchComponente = async () => {
   try {
     const respuesta = await axios.get(`${myIP}/api/componentes/${ipComp.params.id}`);
-    componente.value = respuesta.data;
+    componenteUnico.value = respuesta.data.data;
     console.log(respuesta.data);
   } catch (error) {
     console.error('Hubo un error al obtener los datos:', error);

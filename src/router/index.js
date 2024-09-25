@@ -19,7 +19,7 @@ const routes = [
   { path: "/componentes", component: () => import("@/pages/Componentes.vue") },
   { path: "/nuevo_componente", component: () => import("@/pages/NuevoComponente.vue") },
   { path: "/componente", component: () => import("@/pages/Componente.vue") },
-  { path: "/componentes/ :id", component: () => import("@/pages/Componente.vue") },
+  { path: "/componentes/:id", component: () => import("@/pages/Componente.vue") },
 
   { path: "/facturas", component: () => import("@/pages/Facturas.vue") },
   { path: "/nueva_factura", component: () => import("@/pages/Factura.vue") },

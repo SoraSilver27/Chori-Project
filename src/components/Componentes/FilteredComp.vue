@@ -10,7 +10,7 @@
                 {{ item.nombre }}
               </v-list-item-title>
               <v-list-item-subtitle class="d-flex" style="gap: 20px;">
-                <span>No de serie: {{ item.numeroSerie }}</span>
+                <span>No de serie: {{ item.numero_de_serie }}</span>
                 <span>Modelo: {{ item.modelo }}</span>
               </v-list-item-subtitle>
             </v-list-item>
