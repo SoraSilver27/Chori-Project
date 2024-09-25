@@ -23,7 +23,7 @@ class PlanillaPreventivaController extends Controller
 
         $planillaPreventiva = PlanillaPreventiva::where($queryItems);
 
-        return new PlanillaPreventivaCollection($planillaPreventiva);
+        return new PlanillaPreventivaCollection($planillaPreventiva->get());
 
     }
 

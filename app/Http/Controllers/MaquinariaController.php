@@ -57,10 +57,22 @@ class MaquinariaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMaquinariaRequest $request)
+    public function store(StoreMaquinariaRequest $request,  Maquinaria $maquinaria)
     {
         //
-        return new MaquinariaResource(Maquinaria::create($request->all()));
+        $maquinaria = Maquinaria::create($request->all());
+
+        //Esto sirve por si tiene detalles la máquina, crea los detalles sin tener que pasarlos por otra ruta
+        if ($request->has('detalles')) {
+           $maquinaria->detalles()->create(array_merge($request->input('detalles'), ['id_maquinaria' => $maquinaria->id]));
+
+        }
+        if ($request->has('componentes')) {
+            $maquinaria->componentes()->create(array_merge($request->input('componentes'), ['ubicacion' => $maquinaria->id]));
+
+         }
+
+        return new MaquinariaResource($maquinaria->load('detalles', 'componentes'));
     }
 
     /**
@@ -104,12 +116,24 @@ class MaquinariaController extends Controller
     {
         //
         $maquinaria->update($request->all());
+
+        if ($request->has('componentes')) {
+
+            $maquinaria->componentes()->update($request->input('componentes'));
+
+        }
+
+        if ($request->has('detalles')) {
+
+            $maquinaria->detalles()->update($request->input('detalles'));
+
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Maquinaria $maquinaria, MaquinariaDetalle $maquinariaDetalle)
+    public function destroy(Maquinaria $maquinaria)
     {
         //
         $maquinaria->detalles()->delete();

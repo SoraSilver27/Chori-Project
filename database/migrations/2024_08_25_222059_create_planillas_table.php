@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('planillas', function (Blueprint $table) {
             $table->id("id");
             $table->boolean("es_de");
-            $table->id("id_maquina")->autoIncrement(false);
-            $table->id("id_componente")->autoIncrement(false);
+            $table->unsignedBigInteger("id_maquina")->nullable();
+            $table->unsignedBigInteger("id_componente")->nullable();
             $table->date("fecha");
             $table->string("encargado");
             $table->string("telefono_encargado");

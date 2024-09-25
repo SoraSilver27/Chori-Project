@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PlanillaCorrectiva extends Model
 {
     use HasFactory;
-    public $timestamps = true;
     protected $fillable = [
         "problema_detectado",
         "solucion_encontrada",

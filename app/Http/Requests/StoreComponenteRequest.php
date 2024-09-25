@@ -24,13 +24,36 @@ class StoreComponenteRequest extends FormRequest
     {
         return [
             //
-            "nombre" => ["required","string"],
-            "numero_de_serie" => ["string"],
-            "imagen" => ["binary"],
-            "modelo" => ["required","string"],
-            "descripcion" => ["string"],
-            "ubicacion" => ["required"],
-            "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
+            "nombre" => ["required","string","nullable"],
+            "numero_de_serie" => ["string","nullable"],
+            "imagen" => ["binary","nullable"],
+            "modelo" => ["required","string","nullable"],
+            "descripcion" => ["string","nullable"],
+            "ubicacion" => ["required","nullable"],
+            "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
         ];
+    }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+
+        $defaults = [
+            "nombre" => "Sin asignar",
+            "numero_de_serie" => "Sin asignar",
+            "estado" => "Disponible",
+            "modelo" => "Sin asignar",
+            "ubicacion" => 1,
+            "descripcion" => "Sin descripcion",
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+
+        return $data;
     }
 }

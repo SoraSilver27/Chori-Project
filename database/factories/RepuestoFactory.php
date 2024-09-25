@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CategoriaRepuesto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,12 @@ class RepuestoFactory extends Factory
     {
         return [
             //
+            'categoria' => CategoriaRepuesto::class,
+            'cantidad'=> $this->faker->numberBetween(0,10000),
+            'nombre'=> $this->faker->name(),
+            'descripcion'=> $this->faker->word(),
+            'fabricante'=> $this->faker->name(),
+            'modelo'=> $this->faker->word(),
         ];
     }
 }

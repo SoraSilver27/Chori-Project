@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('repuestos', function (Blueprint $table) {
-            $table->string("categoria")->primary();
+            $table->id();
+            $table->string("categoria");
             $table->integer("cantidad")->default(0);
             $table->string("nombre");
             $table->string("descripcion");

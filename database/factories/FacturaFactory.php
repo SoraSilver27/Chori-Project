@@ -18,6 +18,10 @@ class FacturaFactory extends Factory
     {
         return [
             //
+            'numero_de_compra'=> $this->faker->numberBetween(0,10000),
+            'fecha'=> $this->faker->date(),
+            'proveedor'=> $this->faker->name(),
+            'encargado'=> $this->faker->name()
         ];
     }
 }

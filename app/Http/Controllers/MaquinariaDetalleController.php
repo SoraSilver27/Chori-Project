@@ -48,11 +48,13 @@ class MaquinariaDetalleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MaquinariaDetalle $maquinariaDetalle)
+    public function show($id) //Esto es diferente del resto de controladores debido a un error que no muestra correctamente los datos
     {
         //
+        $maquinariaDetalle = MaquinariaDetalle::find($id);  //
         return new MaquinariaDetallesResource($maquinariaDetalle);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -65,19 +67,26 @@ class MaquinariaDetalleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMaquinariaDetalleRequest $request, MaquinariaDetalle $maquinariaDetalle)
+    public function update(UpdateMaquinariaDetalleRequest $request, $id)
     {
-        //
-        $maquinariaDetalle->update($request->all());
+        // Buscar el detalle de maquinaria por ID
+        $maquinariaDetalle = MaquinariaDetalle::find($id);
+
+        // Obtener los datos validados con valores predeterminados desde el request
+        $data = $request->validatedWithDefaults();
+
+        // Actualizar el registro con los datos modificados
+        $maquinariaDetalle->update($data);
+
+        // Retornar una respuesta
+        return response()->json(['message' => 'Detalles de la maquinaria actualizado correctamente']);
     }
 
-    /**
+    /**<
      * Remove the specified resource from storage.
      */
-    public function destroy(MaquinariaDetalle $maquinariaDetalle,Maquinaria $maquinaria)
+    public function destroy(MaquinariaDetalle $maquinariaDetalle    )
     {
         //
-        $maquinariaDetalle->destroy($maquinariaDetalle);
-        $maquinaria->destroy($maquinaria);
     }
 }

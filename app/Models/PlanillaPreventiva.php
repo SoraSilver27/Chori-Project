@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PlanillaPreventiva extends Model
 {
     use HasFactory;
-    public $timestamps = true;
     protected $fillable =
     [
         "id_mantenimiento",

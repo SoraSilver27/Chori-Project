@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,15 +25,37 @@ class StoreMaquinariaRequest extends FormRequest
     {
         return [
             //
-            "id" => ["sometimes"],
-            "nombre" => ["required","string"],
-            "numero_de_serie" => ["string"],
-            "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
-            "modelo" => ["required","string"],
-            "imagen" => ["binary"],
-            "en_seguimiento" => ["boolean"],
-            "fecha_adquisicion" => ["required"],
-            "observaciones_generales" => ["string"]
+            "nombre" => ["required","string","nullable"],
+            "numero_de_serie" => ["string","nullable"],
+            "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
+            "modelo" => ["required","string","nullable"],
+            "imagen" => ["binary","nullable"],
+            "en_seguimiento" => ["boolean","nullable"],
+            "fecha_adquisicion" => ["required","nullable"],
+            "observaciones_generales" => ["string","nullable"]
         ];
+    }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+        $defaults = [
+            "nombre" => "Sin asignar",
+            "numero_de_serie" => "Sin asignar",
+            "estado" => "Disponible",
+            "modelo" => "Sin asignar",
+            "en_seguimiento" => 0,
+            "seguimiento"  => isset($data['en_seguimiento']) && $data['en_seguimiento'] == 0 ? 'Sin seguimiento' : 'Sin asignar',
+            "fecha_aquisicion" => Carbon::now(),
+            "observaciones_generales" => "Sin observaciones",
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+        return $data;
     }
 }

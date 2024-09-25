@@ -18,6 +18,8 @@ class HistorialGeneralFactory extends Factory
     {
         return [
             //
+            "evento" => $this->faker->sentence(),
+            "fecha" => $this->faker->date()
         ];
     }
 }

@@ -22,7 +22,7 @@ class PlanillaCorrectivaController extends Controller
 
         $planillaCorrectiva = PlanillaCorrectiva::where($queryItems);
 
-        return new PlanillaCorrectivaCollection($planillaCorrectiva);
+        return new PlanillaCorrectivaCollection($planillaCorrectiva->get());
     }
 
     /**

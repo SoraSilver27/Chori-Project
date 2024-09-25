@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class CategoriaRepuesto extends Model
 {
     use HasFactory;
-    public $timestamps = true;
+    protected $primaryKey = "nombre";
     protected $fillable = [
         "nombre",
         "descripcion",

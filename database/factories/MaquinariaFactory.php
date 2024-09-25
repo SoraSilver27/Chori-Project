@@ -16,7 +16,7 @@ class MaquinariaFactory extends Factory
      */
     public function definition(): array
     {
-        $estado = $this->faker->randomElement(["en uso", "disponible", "indisponible"]);
+        $estado = $this->faker->randomElement(["En uso", "Disponible", "Indisponible"]);
         return [
             //
             "nombre" => $this->faker->name(),

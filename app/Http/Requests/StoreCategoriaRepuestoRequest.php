@@ -11,7 +11,7 @@ class StoreCategoriaRepuestoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**

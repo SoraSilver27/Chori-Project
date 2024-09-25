@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Planilla extends Model
 {
     use HasFactory;
-    protected $timestamps = true;
     protected $fillable = [
         'es_de',
+        'id_maquina',
+        'id_compontente',
         'fecha',
         'encargado',
         'telefono_encargado'

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class MantenimientoPreventivo extends Model
 {
     use HasFactory;
-    public $timestamps = true;
     protected $fillable = [
         "es_de",
         "id_maquina",

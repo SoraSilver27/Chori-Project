@@ -12,7 +12,7 @@ class UpdateComponenteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,24 +25,47 @@ class UpdateComponenteRequest extends FormRequest
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "nombre" => ["required","string"],
-                "numero_de_serie" => ["string"],
-                "imagen" => ["binary"],
-                "modelo" => ["required","string"],
-                "descripcion" => ["string"],
-                "ubicacion" => ["required"],
-                "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
+                "nombre" => ["required","string","nullable"],
+                "numero_de_serie" => ["string","nullable"],
+                "imagen" => ["binary","nullable"],
+                "modelo" => ["required","string","nullable"],
+                "descripcion" => ["string","nullable"],
+                "ubicacion" => ["required","nullable"],
+                "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
             ];
         }else {
             return[
-                "nombre" => ["sometimes","string"],
-                "numero_de_serie" => ["sometimes","string"],
-                "imagen" => ["sometimes","binary"],
-                "modelo" => ["sometimes","string"],
-                "descripcion" => ["sometimes","string"],
-                "ubicacion" => ["sometimes"],
-                "estado" => ["somentimes",Rule::in(["En uso","Disponible","Indisponible"])],
+                "nombre" => ["sometimes","string","nullable"],
+                "numero_de_serie" => ["sometimes","string","nullable"],
+                "imagen" => ["sometimes","binary","nullable"],
+                "modelo" => ["sometimes","string","nullable"],
+                "descripcion" => ["sometimes","string","nullable"],
+                "ubicacion" => ["sometimes","nullable"],
+                "estado" => ["somentimes",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
             ];
         }
+    }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+
+        $defaults = [
+            "nombre" => "Sin asignar",
+            "numero_de_serie" => "Sin asignar",
+            "estado" => "Disponible",
+            "modelo" => "Sin asignar",
+            "ubicacion" => 1,
+            "descripcion" => "Sin descripcion",
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+
+        return $data;
     }
 }

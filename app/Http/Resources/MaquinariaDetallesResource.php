@@ -15,6 +15,7 @@ class MaquinariaDetallesResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->id,
             "id_maquinaria" => $this->id_maquinaria,
             "capacidad_de_produccion" => $this->capacidad_de_produccion,
             "voltaje" => $this->voltaje,
@@ -24,6 +25,7 @@ class MaquinariaDetallesResource extends JsonResource
             "pantalla_digital" => $this->pantalla_digital,
             "facil_desmontaje" => $this->facil_desmontaje,
             "garantia" => $this->garantia,
+            "garantia_cantidad" => $this->garantia_cantidad,
             "problemas_recurrentes" => $this->problemas_recurrentes,
         ];
     }

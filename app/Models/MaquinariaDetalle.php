@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class MaquinariaDetalle extends Model
 {
     use HasFactory;
-     protected $primaryKey = 'id_maquinaria';
-    public $timestamps = true;
+    protected $primaryKey = 'id';
     protected $fillable = [
         "capacidad_de_produccion",
         "voltaje",
@@ -20,6 +19,7 @@ class MaquinariaDetalle extends Model
         "pantalla_digital",
         "facil_desmontaje",
         "garantia",
+        "garantia_cantidad",
         "problemas_recurrentes"
     ];
 

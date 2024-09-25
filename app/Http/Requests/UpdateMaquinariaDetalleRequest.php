@@ -11,7 +11,7 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,33 +19,66 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "capacidad_de_produccion" => ["integer"],
-                "voltaje" => ["integer"],
-                "peso" => ["integer"],
-                "tipo" => ["string"],
-                "velocidad_ajustable" => ["boolean"],
-                "pantalla_digital" => ["boolean"],
-                "facil_desmontaje" => ["boolean"],
-                "garantia" => ["boolean"],
-                "problemas_recurrentes" => ["string"],
+                "id_maquinaria" => ["sometimes"],
+                "capacidad_de_produccion" => ["integer", "nullable"],
+                "voltaje" => ["integer", "nullable"],
+                "peso" => ["integer", "nullable"],
+                "tipo" => ["string", "nullable"],
+                "velocidad_ajustable" => ["boolean", "nullable"],
+                "pantalla_digital" => ["boolean", "nullable"],
+                "facil_desmontaje" => ["boolean", "nullable"],
+                "garantia" => ["boolean", "nullable"],
+                "garantia_cantidad" => ["string", "nullable"],
+                "problemas_recurrentes" => ["string", "nullable"],
             ];
         }else {
             return[
-                "capacidad_de_produccion" => ["sometimes","integer"],
-                "voltaje" => ["sometimes","integer"],
-                "peso" => ["sometimes","integer"],
-                "tipo" => ["sometimes","string"],
-                "velocidad_ajustable" => ["sometimes","boolean"],
-                "pantalla_digital" => ["sometimes","boolean"],
-                "facil_desmontaje" => ["somentimes","boolean"],
-                "garantia" => ["sometimes","boolean"],
-                "problemas_recurrentes" => ["sometimes","boolean"]
+                "id_maquinaria" => ["sometimes"],
+                "capacidad_de_produccion" => ["sometimes","integer", "nullable"],
+                "voltaje" => ["sometimes","integer", "nullable"],
+                "peso" => ["sometimes","integer", "nullable"],
+                "tipo" => ["sometimes","string", "nullable"],
+                "velocidad_ajustable" => ["sometimes","boolean", "nullable"],
+                "pantalla_digital" => ["sometimes","boolean", "nullable"],
+                "facil_desmontaje" => ["sometimes","boolean", "nullable"],
+                "garantia" => ["sometimes","boolean", "nullable"],
+                "garantia_cantidad" => ["sometimes","string", "nullable"],
+                "problemas_recurrentes" => ["sometimes","string", "nullable"]
             ];
         }
     }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+
+        $defaults = [
+            "capacidad_de_produccion" => 0,
+            "voltaje" => 0,
+            "peso" => 0,
+            "tipo" => "No establecido",
+            "velocidad_ajustable" => 0,
+            "pantalla_digital" => 0,
+            "facil_desmontaje" => 0,
+            "garantia" => 0,
+            "garantia_cantidad"  => isset($data['garantia']) && $data['garantia'] == 0 ? 'Sin garantía' : 'Sin asignar',
+            "problemas_recurrentes" => "Sin problemas recurrentes",
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+
+        return $data;
+    }
+
 }

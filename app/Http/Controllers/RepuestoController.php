@@ -23,7 +23,7 @@ class RepuestoController extends Controller
 
         $repuesto = Repuesto::where($queryItems);
 
-        return new RepuestoCollection($repuesto);
+        return new RepuestoCollection($repuesto->get());
     }
 
     /**

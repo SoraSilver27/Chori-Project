@@ -35,9 +35,9 @@ class CategoriaRepuestoPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, CategoriaRepuesto $categoriaRepuesto): Response
+    public function update(User $user, CategoriaRepuesto $categoriaRepuesto): bool
     {
-        return $user->id === $categoriaRepuesto->user_id ? Response::allow() : Response::deny('No estás autorizado');
+        //
     }
 
     /**

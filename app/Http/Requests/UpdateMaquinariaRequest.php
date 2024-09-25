@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,26 +26,52 @@ class UpdateMaquinariaRequest extends FormRequest
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "nombre" => ["required","string"],
-                "numero_de_serie" => ["required","string"],
-                "estado" => [Rule::in(["En uso","Disponible","Indisponible"])],
-                "modelo" => ["required","string"],
-                "imagen" => ["binary"],
-                "en_seguimiento" => ["boolean"],
-                "fecha_adquisicion" => ["required"],
-                "observaciones_generales" => ["string"]
+                "nombre" => ["required","string","nullable"],
+                "numero_de_serie" => ["required","string","nullable"],
+                "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
+                "modelo" => ["required","string","nullable"],
+                "imagen" => ["binary","nullable"],
+                "en_seguimiento" => ["boolean","nullable"],
+                "seguimiento" => ["string","nullable"],
+                "fecha_adquisicion" => ["required","nullable"],
+                "observaciones_generales" => ["string","nullable"]
             ];
         }else{
             return[
-                "nombre" => ["sometimes","string"],
-                "numero_de_serie" => ["sometimes","string"],
-                "estado" => ["sometimes",Rule::in(["En uso","Disponible","Indisponible"])],
-                "modelo" => ["sometimes","string"],
-                "imagen" => ["sometimes","binary"],
-                "en_seguimiento" => ["sometimes"],
-                "fecha_adquisicion" => ["sometimes"],
-                "observaciones_generales" => ["sometimes","string"]
+                "nombre" => ["sometimes","string","nullable"],
+                "numero_de_serie" => ["sometimes","string","nullable"],
+                "estado" => ["sometimes",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
+                "modelo" => ["sometimes","string","nullable"],
+                "imagen" => ["sometimes","string","nullable"],
+                "en_seguimiento" => ["sometimes","nullable"],
+                "seguimiento" => ["sometimes","string","nullable"],
+                "fecha_adquisicion" => ["sometimes","nullable"],
+                "observaciones_generales" => ["sometimes","string","nullable"]
             ];
         }
+    }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+
+        $defaults = [
+            "nombre" => "Sin asignar",
+            "numero_de_serie" => "Sin asignar",
+            "estado" => "Disponible",
+            "modelo" => "Sin asignar",
+            "en_seguimiento" => 0,
+            "seguimiento"  => isset($data['en_seguimiento']) && $data['en_seguimiento'] == 0 ? 'Sin seguimiento' : 'Sin asignar',
+            "fecha_aquisicion" => Carbon::now(),
+            "observaciones_generales" => "Sin observaciones",
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+        return $data;
     }
 }

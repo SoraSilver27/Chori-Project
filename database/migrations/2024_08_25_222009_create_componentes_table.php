@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string("descripcion")->default("Sin descripción");
             $table->id("ubicacion")->default(null)->autoIncrement(false);
             $table->enum("estado", ["En uso", "Disponible", "Indisponible"]);
-            $table->foreign("ubicacion")->references("id")->on("maquinarias"); //hay que cambiar
+            $table->foreign("ubicacion")->references("id")->on("maquinarias");
             $table->timestamps();
         });
     }

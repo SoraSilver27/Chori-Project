@@ -11,7 +11,7 @@ class StoreMaquinariaDetalleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,15 +22,43 @@ class StoreMaquinariaDetalleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "capacidad_de_produccion" => ["integer"],
-            "voltaje" => ["integer"],
-            "peso" => ["integer"],
-            "tipo" => ["required","string"],
-            "velocidad_ajustable" => ["boolean"],
-            "pantalla_digital" => ["boolean"],
-            "facil_desmontaje" => ["boolean"],
-            "garantia" => ["boolean"],
-            "problemas_recurrentes" => ["string"],
+            "id_maquinaria" => ["required","nullable"],
+            "capacidad_de_produccion" => ["integer","nullable"],
+            "voltaje" => ["integer","nullable"],
+            "peso" => ["integer","nullable"],
+            "tipo" => ["required","string","nullable"],
+            "velocidad_ajustable" => ["boolean","nullable"],
+            "pantalla_digital" => ["boolean","nullable"],
+            "facil_desmontaje" => ["boolean","nullable"],
+            "garantia" => ["boolean","nullable"],
+            "problemas_recurrentes" => ["string","nullable"],
         ];
+    }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+
+        $defaults = [
+            "capacidad_de_produccion" => 0,
+            "voltaje" => 0,
+            "peso" => 0,
+            "tipo" => "No establecido",
+            "velocidad_ajustable" => 0,
+            "pantalla_digital" => 0,
+            "facil_desmontaje" => 0,
+            "garantia" => 0,
+            "garantia_cantidad"  => isset($data['garantia']) && $data['garantia'] == 0 ? 'Sin garantía' : 'Sin asignar',
+            "problemas_recurrentes" => "Sin problemas recurrentes",
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+
+        return $data;
     }
 }

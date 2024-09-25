@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Repuesto extends Model
 {
     use HasFactory;
-    protected $timestamps = true;
     protected $fillable = [
         'cantidad',
         'nombre',

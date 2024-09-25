@@ -15,7 +15,10 @@ class PlanillaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->id,
             "es_de" => $this->es_de,
+            "id_maquina" => $this->id_maquina,
+            "id_componente" => $this->id_componente,
             "fecha" => $this->fecha,
             "encargado" => $this->encargado,
             "telefono_encargado" => $this->telefono_encargado,

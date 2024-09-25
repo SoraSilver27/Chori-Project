@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HistorialGeneral extends Model
 {
     use HasFactory;
-    public $timestamps = true;
     protected $fillable = [
         "evento",
         "fecha"

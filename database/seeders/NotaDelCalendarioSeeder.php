@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\NotaDelCalendario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,5 +14,8 @@ class NotaDelCalendarioSeeder extends Seeder
     public function run(): void
     {
         //
+         NotaDelCalendario::factory()
+            ->count(25)
+            ->create();
     }
 }

@@ -30,7 +30,7 @@ class PlanillaController extends Controller
         if($includePlanillasCorrectivas){
             $planilla = $planilla->with("planillasCorrectivas");
         }
-        return new PlanillaCollection($planilla);
+        return new PlanillaCollection($planilla->get());
 
     }
 
@@ -57,10 +57,6 @@ class PlanillaController extends Controller
     public function show(Planilla $planilla)
     {
         //
-        $includePlanillas = request()->query("includePlanillas");
-        if($includePlanillas){
-            return new PlanillaResource($planilla->loadMissing("planillas"));
-        }
         return new PlanillaResource($planilla);
     }
 

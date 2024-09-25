@@ -13,10 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(10)->create();
         $this->call([
-            MaquinariaSeeder::class
+            MaquinariaSeeder::class,
+            //PlanillaSeeder::class,
+            HistorialGeneralSeeder::class,
+            FacturaSeeder::class,
+            //CategoriaRepuestoSeeder::class,
+
         ]);
 
+        $user = new User;
+        $user->name = 'Admin';
+        $user->email = 'admin@test.com';
+        $user->password = '1234';
+        $user->role = 'admin';
+
+        $user->save();
     }
 }

@@ -11,7 +11,7 @@ class StorePlanillaCorrectivaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,26 @@ class StorePlanillaCorrectivaRequest extends FormRequest
             "problema_detectado" => ["required","string"],
             "solucion_encontrada" => ["required","string"],
             "que_se_pudo_realizar" => ["required","string"],
-            "requirio_tercerizacion" => ["required","boolean"],
-            "amerita_seguimiento" => ["required","boolean"],
+            "requirio_tercerizacion" => ["required","boolean","nullable"],
+            "amerita_seguimiento" => ["required","boolean","nullable"],
         ];
+    }
+
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+        $defaults = [
+            "requirio_tercerizacion" => 0,
+            "amerita_seguimiento" => 0,
+        ];
+
+        foreach ($defaults as $campo => $valorDefault) {
+            if (empty($data[$campo])) {
+                $data[$campo] = $valorDefault;
+            }
+        }
+
+        return $data;
     }
 }

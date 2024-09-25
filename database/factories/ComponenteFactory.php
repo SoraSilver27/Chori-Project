@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Maquinaria;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,15 @@ class ComponenteFactory extends Factory
      */
     public function definition(): array
     {
+        $estado = $this->faker->randomElement(["En uso", "Disponible", "Indisponible"]);
         return [
             //
+            "ubicacion" => Maquinaria::factory(),
+            "nombre" => $this->faker->name(),
+            "numero_de_serie" => $this->faker->word(),
+            "modelo" => $this->faker->word(),
+            "estado" => $estado,
+            "descripcion" => $this->faker->sentence(),
         ];
     }
 }

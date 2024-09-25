@@ -18,6 +18,8 @@ class CategoriaRepuestoFactory extends Factory
     {
         return [
             //
+            "nombre"=> $this->faker->name(),
+            "descripcion"=> $this->faker->word()
         ];
     }
 }

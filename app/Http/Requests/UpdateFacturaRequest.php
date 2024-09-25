@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFacturaRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateFacturaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,17 +26,25 @@ class UpdateFacturaRequest extends FormRequest
         if($method == "PUT"){
             return[
                 "numero_de_compra" => ["required","string"],
-                "fecha" => ["required","date"],
+                "fecha" => ["required","date","nullable"],
                 "proveedor" => ["required","string"],
                 "encargado" => ["required","string"],
             ];
         }else {
             return[
                 "nombre" => ["sometimes","string"],
-                "facha" => ["sometimes","date"],
+                "facha" => ["sometimes","date","nullable"],
                 "proveedor" => ["sometimes","string"],
                 "encargado" => ["sometimes","string"],
             ];
         }
+    }
+    public function validatedWithDefaults()
+    {
+        $data = $this->validated();
+
+        $data['fecha'] = !empty($data['fecha']) ? $data['fecha'] : Carbon::now();
+
+        return $data;
     }
 }

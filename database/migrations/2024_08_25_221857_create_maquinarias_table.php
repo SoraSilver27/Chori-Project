@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('maquinarias', function (Blueprint $table) {
             $table->id();
-            $table->string("nombre");
-            $table->string("numero_de_serie")->default("Sin identificador");
+            $table->string("nombre")->default("Sin asignar");
+            $table->string("numero_de_serie")->default("Sin asignar");
             $table->enum("estado",["En uso","Disponible","Indisponible"])->default("Disponible");
             $table->binary("imagen")->nullable();
-            $table->string("modelo");
+            $table->string("modelo")->default("Sin asignar");
             $table->boolean("en_seguimiento")->default(0);
+            $table->string("seguimiento")->default("Sin seguimiento");
             $table->date("fecha_adquisicion");
             $table->string("observaciones_generales")->default("Sin observaciones");
             $table->timestamps();

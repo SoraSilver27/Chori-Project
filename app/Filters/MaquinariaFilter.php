@@ -12,6 +12,7 @@ class MaquinariaFilter extends ApiFilter{
         "estado" => ["eq"],
         "modelo" => ["eq"],
         "en_seguimiento" => ["eq"],
+        "seguimiento" => ["eq"],
         "fecha_adquisicion" => ["eq"],
         "observaciones_generales" => ["eq"],
     ];
