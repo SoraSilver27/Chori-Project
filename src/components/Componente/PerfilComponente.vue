@@ -1,7 +1,7 @@
 <template>
   <v-card class="bg-surface-light">
     <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
-      Perfil del componente
+      Detalles del componente
       <v-col class="text-end">
         <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
         <v-btn color="primary" @click="toggleEditMode" class="ma-0" prepend-icon="mdi-pencil">
@@ -25,7 +25,6 @@
               <PerfilImagenComp :localComponente="localComponente"/>
             </v-card>
           </v-col>
-          {{ localComponente }}
         </v-row>
       </v-form>
     </v-card-text>
@@ -106,7 +105,10 @@ const filas = ref([
   { model: 'nombre', component: VTextField, size: 8, props: { label: 'Nombre' } },
   { model: 'estado', component: VSelect, size: 4, props: { label: 'Estado', items: ['En uso', 'Disponible', 'Indisponible'] } },
   { model: 'modelo', component: VTextField, size: 4, props: { label: 'Modelo' } },
-  { model: 'numero_de_serie', component: VTextField, size: 6, props: { label: 'N de Serie' } },
+  { model: 'numero_de_serie', component: VTextField, size: 4, props: { label: 'N de Serie' } },
+  { model: 'fecha_ingreso', component: VTextField, size: 4, ocultar: 'auto', props: { label: 'Ingreso', type: 'date' } },
+  { model: 'ultimo_mantenimiento', component: VTextField, size: 4, ocultar: 'auto', props: { label: 'Ultimo Mant.', type: 'date' } },
+  { model: 'proximo_mantenimiento', component: VTextField, size: 4, ocultar: 'auto', props: { label: 'Proximo Mant.', type: 'date' } },
   { model: 'ubicacion', component: VTextField, size: 6, props: { label: 'Actualmente en:' } },
   { model: 'descripcion', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Descripcion', rows: 2 } },
 ]);

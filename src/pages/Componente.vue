@@ -4,7 +4,7 @@
       <v-col cols="10">
         <v-card>
           <v-tabs v-model="tab" bg-color="">
-            <v-tab value="1">Detalles</v-tab>
+            <v-tab value="1">Perfil</v-tab>
             <v-tab value="2">Mantenimiento</v-tab>
           </v-tabs>
 

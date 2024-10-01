@@ -19,8 +19,10 @@
           prepend-icon="mdi-camera"
           @change="updateImage"
           required
+          density="compact"
+          hide-details
         ></v-file-input>
-        <v-btn @click="offInput">Cancelar</v-btn>
+        <v-btn @click="offInput" color="blue">Cancelar</v-btn>
       </template>
     </v-card-actions>
   </div>

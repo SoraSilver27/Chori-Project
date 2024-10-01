@@ -13,7 +13,7 @@
           <template v-slot:default="{ isActive }"> 
             <v-card title="Nuevo componente">
               <v-card-text>
-                <AnadirComponente :componentesNU="componentesNOUbicados"/>
+                <AnadirComponente :componentesNU="actualCompSelector"/>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -36,16 +36,15 @@
 
 
     <v-card-text class="pt-3">
-      {{ componenteLocal }}
-      <v-row v-for="(componente, i) in componentesUbicados" :key="i">
-
+      {{ actualComp }}
+      <v-row v-for="(componente, i) in actualComp" :key="i">
         <v-col cols="3" class="pr-0">
           <v-text-field v-model="componente.nombre" label="Nombre"
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
           />
         </v-col>
         <v-col cols="2" class="px-0">
-          <v-text-field v-model="componente.numero_serie"  label="Numero de Serie"
+          <v-text-field v-model="componente.numero_de_serie"  label="Numero de Serie"
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
           />
         </v-col>
@@ -81,14 +80,10 @@
 </template>
 
 <script setup>
-import { ref, defineProps, computed } from 'vue';
+import { ref, defineProps, computed, watch } from 'vue';
 import { useRoute } from "vue-router";
-import axios from 'axios';
 import { direccionIP } from '@/global';
 import AnadirComponente from './PerfilComponente/AnadirComponente.vue';
-
-//Esto se borra cuando tenga los componentes originales
-import { componentes } from '@/components/vListasDeRepuestosEjemplo.js';
 
 const props = defineProps({
   componentesReal: {
@@ -99,27 +94,22 @@ const props = defineProps({
 
 const myIP = direccionIP;
 const ipMaquina = useRoute();
-const IP = ipMaquina.params.id;
-const ipNormalizada = String(IP).padStart(3, '0');
+const ID = ipMaquina.params.id;
 const isEditing = ref(false)
-const componenteLocal = ref(props.componentesReal?.data? { ...props.componentesReal.data } : {});
-const listaComponentes = ref(componentes);
+const componenteLocal = ref({});
+const actualComp = ref({});
+const actualCompSelector = ref({});
 
-// debo cambiar el 001 al id de la maquina en cuestion
-const componentesUbicados = computed(() => {
-  return listaComponentes.value.filter(componente => componente.ubicacion === '001');
-});
-const componentesNOUbicados = computed(() => {
-  return listaComponentes.value.filter(componente => componente.ubicacion !== '001');
-});
 
-const componentesU = computed(() => {
-  return componenteLocal.value.filter(componente => componente && componente.ubicacion === ipNormalizada);
-});
-// const componentesNU = computed(() => {
-//   return componentes.value.filter(componente => componente.ubicacion !== ipNormalizada);
-// });
-
+watch(() => props.componentesReal, (newVal) => {
+  if (newVal && newVal.data && newVal.data.length > 0) {
+    componenteLocal.value = { ...newVal }; // Mantener toda la estructura de newVal
+    actualComp.value = newVal.data.filter(componente => componente.ubicacion == ID);
+    actualCompSelector.value = newVal.data.filter(componente => componente.ubicacion != ID);
+  } else {
+    console.error('Datos de componentes no disponibles o vacíos');
+  }
+}, { immediate: true });
 
 const toggleEditMode = () => {
   if (isEditing.value) {

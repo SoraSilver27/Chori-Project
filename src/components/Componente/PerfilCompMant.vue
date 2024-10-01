@@ -1,7 +1,7 @@
 <template>
   <v-card class="bg-surface-light">
     <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
-      Perfil del componente
+      Informacion del mantenimiento
       <v-col class="text-end">
         <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
         <v-btn color="primary" @click="toggleEditMode" class="ma-0" prepend-icon="mdi-pencil">
@@ -97,8 +97,8 @@ watch(
 
 const filas = ref([
   { model: 'nombre', component: VTextField, size: 10, props: { label: 'Nombre' } },
-  { model: 'periodo', component: VSelect, size: 4, props: { label: 'Periodo en dias', items: [0, 7, 15, 30, 60, 90, 180, 360 ] } },
-  { model: 'descripcion_uno', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Breve descripcion', rows: 2 } },
-  { model: 'descripcion_dos', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Aclaracion', rows: 3 } },
+  { model: 'periodo_mantenimiento', component: VSelect, size: 4, props: { label: 'Periodo en dias', items: [0, 7, 15, 30, 60, 90, 180, 360 ] } },
+  { model: 'mantenimiento', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Breve descripcion', rows: 2 } },
+  { model: 'mantenimiento_detallado', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Aclaracion', rows: 3 } },
 ]);
 </script>
