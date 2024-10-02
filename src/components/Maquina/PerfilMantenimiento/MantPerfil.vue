@@ -26,19 +26,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, defineProps } from 'vue';
 
 const props = defineProps({
-  componentesMaquina: {
+  actualComp: {
     type: Array,
     required: true,
   },
-  localMaquinaComp: {
-    type: Object, 
-    required: true,
-  },
 });
-
 
 const periodosTextos = {
   7: 'Semanal',
@@ -58,7 +53,7 @@ const periodoTexto = (periodo) => {
 
 // Computed que agrupa los componentes por el campo "periodo"
 const agrupadoPorPeriodo = computed(() => {
-  const agrupado = props.componentesMaquina.reduce((acc, componente) => {
+  const agrupado = props.actualComp.reduce((acc, componente) => {
     const { periodo, ultimo, proximo } = componente;
 
     // Si no existe el grupo para este periodo, lo creamos

@@ -14,18 +14,14 @@
 
         <v-container class="pa-0" v-if="!isEditing">
           <v-card>
-            <MantPerfil :componentesMaquina="componentesMaquina" 
-              :localMaquinaComp="localMaquinaComp"
-            />
+            <MantPerfil :actualComp="actualComp"/>
           </v-card>
         </v-container>
 
         <v-container v-else class="pa-0">
           <v-card>
             <MantPerfilList 
-              :componentesMaquina="componentesMaquina"
-              :localMaquinaComp="localMaquinaComp" 
-              :periodoOptions="periodoOptions"
+
             />
           </v-card>
         </v-container>
@@ -37,20 +33,19 @@
 
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, defineProps, computed } from 'vue';
 import MantPerfil from './PerfilMantenimiento/MantPerfil.vue';
 import MantPerfilList from './PerfilMantenimiento/MantPerfilList.vue';
 
 const props = defineProps({
-  maquinaComp: {
+  actualComp: {
     type: Object,
     required: true,
   },
 });
-
+ 
 // Variables reactivas
 const isEditing = ref(false);
-const localMaquinaComp = ref(props.maquinaComp?.data ? { ...props.maquinaComp.data } : {});
 
 
 const componentesMaquina = ref([

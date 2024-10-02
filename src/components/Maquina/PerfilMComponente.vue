@@ -26,7 +26,6 @@
         </v-dialog>
 
         <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
-        <v-btn v-if="isEditing" color="primary"  class="mr-3" text="Agregar"></v-btn>
         <v-btn color="primary" prepend-icon="mdi-pencil" @click="toggleEditMode">
           {{ isEditing ? 'Guardar' : 'Editar' }}
         </v-btn>
@@ -36,8 +35,7 @@
 
 
     <v-card-text class="pt-3">
-      {{ actualComp }}
-      <v-row v-for="(componente, i) in actualComp" :key="i">
+      <v-row v-for="(componente, i) in componentesActuales" :key="i">
         <v-col cols="3" class="pr-0">
           <v-text-field v-model="componente.nombre" label="Nombre"
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
@@ -86,7 +84,11 @@ import { direccionIP } from '@/global';
 import AnadirComponente from './PerfilComponente/AnadirComponente.vue';
 
 const props = defineProps({
-  componentesReal: {
+  componentesActuales: {
+    type: Object,
+    required: true,
+  },
+  componentesOpcionales: {
     type: Object,
     required: true,
   },
@@ -96,20 +98,7 @@ const myIP = direccionIP;
 const ipMaquina = useRoute();
 const ID = ipMaquina.params.id;
 const isEditing = ref(false)
-const componenteLocal = ref({});
-const actualComp = ref({});
 const actualCompSelector = ref({});
-
-
-watch(() => props.componentesReal, (newVal) => {
-  if (newVal && newVal.data && newVal.data.length > 0) {
-    componenteLocal.value = { ...newVal }; // Mantener toda la estructura de newVal
-    actualComp.value = newVal.data.filter(componente => componente.ubicacion == ID);
-    actualCompSelector.value = newVal.data.filter(componente => componente.ubicacion != ID);
-  } else {
-    console.error('Datos de componentes no disponibles o vacíos');
-  }
-}, { immediate: true });
 
 const toggleEditMode = () => {
   if (isEditing.value) {

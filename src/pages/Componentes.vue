@@ -74,7 +74,7 @@ const fetchComponentes = async () => {
 const filteredComp = computed(() => {
   let filteredList = componentesBD.value || [];
 
-  // Filtro por búsqueda (case insensitive)
+  // Filtro por búsqueda
   if (searchQuery.value) {
     filteredList = filteredList.filter(item =>
       item.nombre.toLowerCase().includes(searchQuery.value.toLowerCase())

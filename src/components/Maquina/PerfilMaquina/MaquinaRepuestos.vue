@@ -1,7 +1,7 @@
 <template>
   <v-card class="my-0 mr-2">
     <v-card-title class="pb-0">
-      Componentes
+      Repuestos requeridos
     </v-card-title>
     <v-card-text class="pb-0">
       <v-list class="py-0">
@@ -14,7 +14,7 @@
       </v-list>
     </v-card-text>
     <v-card-actions>
-      <v-btn text @click="toggleExpand">
+      <v-btn text @click="toggleExpand" color="blue">
         {{ isExpanded ? 'Ver menos' : 'Ver más' }}
       </v-btn>
     </v-card-actions>

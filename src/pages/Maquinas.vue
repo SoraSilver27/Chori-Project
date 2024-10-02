@@ -2,12 +2,12 @@
   <v-container>
     <v-card>
       <v-card-title style="display: flex; align-items: center;" class="px-3 pt-3 pb-0">
-        <v-autocomplete
-          label="Buscar"
+        <v-text-field
+          label="Buscador"
           clearable
-          :items="titleList"
           v-model="titleSelected"
-        ></v-autocomplete>
+          placeholder="Escribe para buscar"
+        ></v-text-field>
         <v-col class="text-end">
           <v-btn prepend-icon="mdi-plus" :to="'/nueva_maquina'" color="blue">Añadir</v-btn>
         </v-col>
@@ -67,11 +67,15 @@ const fetchMaquinarias = async () => {
   }
 };
 
+
+// Computed para filtrar maquinas según el estado y la búsqueda
 const filteredMac = computed(() => {
   let filteredList = maquinarias.value?.data || [];
 
   if (titleSelected.value) {
-    filteredList = filteredList.filter(item => item.nombre.includes(titleSelected.value));
+    filteredList = filteredList.filter(item => 
+      item.nombre.toLowerCase().includes(titleSelected.value.toLowerCase())
+    );
   }
 
   if (tab.value === 1) return filteredList;
@@ -80,10 +84,6 @@ const filteredMac = computed(() => {
     if (tab.value === 3) return item.estado === "Disponible";
     if (tab.value === 4) return item.estado === "Indisponible";
   });
-});
-
-const titleList = computed(() => {
-  return [...new Set(maquinarias.value?.data?.map(item => item.nombre) || [])];
 });
 
 onMounted(() => {

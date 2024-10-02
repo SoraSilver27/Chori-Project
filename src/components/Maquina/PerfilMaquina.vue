@@ -1,7 +1,7 @@
 <template>
   <v-card class="bg-surface-light">
     <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
-      Perfil de la máquina
+      Perfil de {{ localMaquina.nombre }}
       <v-col class="text-end">
         <v-btn v-if="isEditing" color="primary" @click="cancel" class="mr-3" text="Cancelar"></v-btn>
         <v-btn color="primary" @click="toggleEditMode" class="ma-0" prepend-icon="mdi-pencil">
@@ -14,18 +14,46 @@
         <v-row>
           <!-- Importamos y usamos el componente hijo aquí -->
           <v-col cols="8" class="pa-0">
-            <PerfilInfo
-              :filas="filas"
-              :localMaquina="localMaquina"
-              :localDetalles="localDetalles"
-              :isEditing="isEditing"
-            />
+            <v-card class="mx-2">
+              <v-tabs v-model="tab" color="blue">
+                <v-tab value="1">Perfil</v-tab>
+                <v-tab value="2">Detalles</v-tab>
+                <v-tab value="3">Mantenimiento</v-tab>
+              </v-tabs>
+            </v-card>
+            <v-card-text class="pa-0">
+              <v-tabs-window v-model="tab">
+
+                <v-tabs-window-item value="1">
+                  <PerfilInfo
+                    :filas="filasPerfil"
+                    :local="localMaquina"
+                    :isEditing="isEditing"
+                  />
+                </v-tabs-window-item>
+
+                <v-tabs-window-item value="2">
+                  <PerfilInfo
+                    :filas="filasDetalles"
+                    :local="localDetalles"
+                    :isEditing="isEditing"
+                  />
+                </v-tabs-window-item>
+
+                <v-tabs-window-item value="3">
+                  <PerfilInfo
+                    :filas="filasMant"
+                    :local="localDetalles"
+                    :isEditing="isEditing"
+                  />
+                </v-tabs-window-item>
+
+              </v-tabs-window>
+            </v-card-text>
           </v-col>
           
           <v-col cols="4" class="pa-0">
-              <MaquinaComp/>
-              {{ localDetalles }}
-              {{ localMaquina }}
+              <MaquinaRepuestos/>
           </v-col>
         </v-row>
       </v-form>
@@ -39,7 +67,7 @@ import { useRoute } from "vue-router";
 import { ref, watch, defineProps, defineEmits } from 'vue';
 import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
 import { direccionIP } from '@/global';
-import MaquinaComp from './PerfilMaquina/MaquinaComp.vue';
+import MaquinaRepuestos from './PerfilMaquina/MaquinaRepuestos.vue';
 import PerfilInfo from './PerfilMaquina/PerfilInfo.vue';
 
 const props = defineProps({
@@ -53,6 +81,7 @@ const props = defineProps({
   }
 });
 
+const tab = ref(0);
 const emit = defineEmits(['update']);
 const ipMaquina = useRoute();
 const myIP = direccionIP;
@@ -142,26 +171,34 @@ watch(
   { immediate: true }
 );
 
-
-const filas = ref([
-  { clasificacion: 'objeto', model: 'nombre', component: VTextField, size: 9, props: { label: 'Nombre' } },
-  { clasificacion: 'objeto', model: 'estado', component: VSelect, size: 3, props: { label: 'Estado', items: ['En uso', 'Disponible', 'Indisponible'] } },
-  { clasificacion: 'objeto', model: 'numero_de_serie', component: VTextField, size: 4, props: { label: 'Identificador' } },
-  { clasificacion: 'objeto', model: 'modelo', component: VTextField, size: 4, props: { label: 'Modelo' } },
-  { clasificacion: 'objeto', model: 'fecha_adquisicion', component: VTextField, size: 4, props: { label: 'Fecha de Adquisición', type: 'date' } },
-  { clasificacion: 'array', model: 'tipo', component: VTextField, size: 4, ocultar: 'auto', props: { label: 'Tipo' } },
-  { clasificacion: 'array', model: 'voltaje', component: VTextField, size: 4, ocultar: 'auto', props: { label: 'Voltaje' } },
-  { clasificacion: 'array', model: 'peso', component: VTextField, size: 4, ocultar: 'auto', props: { label: 'Peso' } },
-  { clasificacion: 'array', model: 'velocidad_ajustable', component: VCheckbox, size: 4, ocultar: 'auto', text: 'Velocidad ajustable', props: {} },
-  { clasificacion: 'array', model: 'facil_desmontaje', component: VCheckbox, size: 6, ocultar: 'auto', text: 'Facilidad de desmontaje' },
-  { clasificacion: 'array', model: 'pantalla_digital', component: VCheckbox, size: 4, ocultar: 'auto', text: 'Pantalla digital' },
-  { clasificacion: 'array', model: 'garantia', component: VCheckbox, size: 3, ocultar: 'auto', text: 'Garantía' },
-  { clasificacion: 'array', model: 'garantia_cantidad', component: VTextField, size: 5, ocultar: 'auto', props: { label: 'Cantidad' } },
-  { clasificacion: 'objeto', model: 'en_seguimiento', component: VCheckbox, size: 12, text: 'Requiere seguimiento', ocultar: 'auto' },
-  { clasificacion: 'objeto', model: 'seguimiento', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Aclaracion', rows: 2 } },
-  { clasificacion: 'array', model: 'problemas_recurrentes', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Problemas recurrentes', rows: 2 } },
-  { clasificacion: 'objeto', model: 'observaciones_generales', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Observaciones Generales', rows: 2 } },
+const filasPerfil = ref([
+  {model: 'nombre', component: VTextField, size: 9, props: { label: 'Nombre' } },
+  {model: 'estado', component: VSelect, size: 3, props: { label: 'Estado', items: ['En uso', 'Disponible', 'Indisponible'] } },
+  {model: 'numero_de_serie', component: VTextField, size: 4, props: { label: 'Identificador' } },
+  {model: 'modelo', component: VTextField, size: 4, props: { label: 'Modelo' } },
+  {model: 'fecha_adquisicion', component: VTextField, size: 4, props: { label: 'Fecha de Adquisición', type: 'date' } },
+  {model: 'en_seguimiento', component: VCheckbox, size: 3, text: 'Requiere seguimiento', ocultar: 'auto' },
+  {model: 'seguimiento', component: VTextarea, size: 9, ocultar: 'auto', props: { label: 'Aclaracion', rows: 2 } },
+  {model: 'observaciones_generales', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Observaciones Generales', rows: 2 } },
 ]);
 
+const filasDetalles = ref([
+  {model: 'tipo', component: VTextField, size: 5, ocultar: 'auto', props: { label: 'Tipo' } },
+  {model: 'capacidad_de_produccion', component: VTextField, size: 3, ocultar: 'auto', props: { label: 'Produccion' } },
+  {model: 'voltaje', component: VTextField, size: 2, ocultar: 'auto', props: { label: 'Voltaje' } },
+  {model: 'peso', component: VTextField, size: 2, ocultar: 'auto', props: { label: 'Peso' } },
+  {model: 'velocidad_ajustable', component: VCheckbox, size: 4, ocultar: 'auto', text: 'Velocidad ajustable', props: {} },
+  {model: 'facil_desmontaje', component: VCheckbox, size: 6, ocultar: 'auto', text: 'Facilidad de desmontaje' },
+  {model: 'pantalla_digital', component: VCheckbox, size: 4, ocultar: 'auto', text: 'Pantalla digital' },
+  {model: 'garantia', component: VCheckbox, size: 3, ocultar: 'auto', text: 'Garantía' },
+  {model: 'garantia_cantidad', component: VTextField, size: 5, ocultar: 'auto', props: { label: 'Cantidad' } },
+  {model: 'problemas_recurrentes', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Problemas recurrentes', rows: 2 } },
+]);
+
+const filasMant = ref([
+  {model: 'periodo_mantenimiento', component: VSelect, size: 3, ocultar: 'auto', 
+    props: { label: 'Periodo en dias', items: [ 0, 7, 15, 30, 60, 90, 180, 360, 720 ] } 
+  },
+])
 
 </script>
