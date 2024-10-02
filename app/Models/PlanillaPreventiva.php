@@ -16,9 +16,9 @@ class PlanillaPreventiva extends Model
         "trabajo_mantenimiento"
     ];
     public function planillas() : BelongsTo{
-        return $this->belongsTo(Planilla::class, "id","id_planilla");
+        return $this->belongsTo(Planilla::class, "id_planilla","id");
     }
     public function preventivas() : BelongsTo{
-        return $this->belongsTo(MantenimientoPreventivo::class, "id","mantenimiento");
+        return $this->belongsTo(MantenimientoPreventivo::class, "mantenimiento","id");
     }
 }

@@ -20,10 +20,11 @@ class MaquinariaDetalle extends Model
         "facil_desmontaje",
         "garantia",
         "garantia_cantidad",
-        "problemas_recurrentes"
+        "problemas_recurrentes",
+        "periodo_mantenimiento",
     ];
 
     public function maquinaria() : BelongsTo{
-        return $this->belongsTo(Maquinaria::class, 'id', 'maquinaria_id');
+        return $this->belongsTo(Maquinaria::class, 'maquinaria_id','id' );
     }
 }

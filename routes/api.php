@@ -12,7 +12,6 @@ use App\Http\Controllers\PlanillaController;
 use App\Http\Controllers\PlanillaCorrectivaController;
 use App\Http\Controllers\PlanillaPreventivaController;
 use App\Http\Controllers\RepuestoController;
-use App\Models\MaquinariaDetalle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,10 +32,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::apiResource("planillas_preventivas", PlanillaPreventivaController::class);
     Route::apiResource("repuestos", RepuestoController::class);
     Route::apiResource("categoria_repuestos", CategoriaRepuestoController::class);
-
 });
 
 Route::get('test', function() {
-    return 'API is working';
+    return MaquinariaController::class;
 });
 

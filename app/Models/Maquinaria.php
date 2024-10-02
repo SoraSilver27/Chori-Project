@@ -19,6 +19,8 @@ class Maquinaria extends Model
         "seguimiento",
         "fecha_adquisicion",
         "observaciones_generales",
+        "ultimo_mantenimiento",
+        "proximo_mantenimiento",
     ];
 
     public function detalles() : HasMany{

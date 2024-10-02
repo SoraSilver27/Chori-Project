@@ -41,6 +41,12 @@ class UpdateComponenteRequest extends FormRequest
                 "modelo" => ["sometimes","string","nullable"],
                 "descripcion" => ["sometimes","string","nullable"],
                 "ubicacion" => ["sometimes","nullable"],
+                "periodo_mantenimiento" => ["nullable"],
+                "ultimo_mantenimiento" => ["sometimes"],
+                "proximo_mantenimiento" => ["nullable"],
+                "mantenimiento" => ["required"],
+                "mantenimiento_detallado" => ["sometimes", "nullable"],
+                "fecha_ingreso" => ["nullable"],
                 "estado" => ["somentimes",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
             ];
         }
@@ -55,8 +61,13 @@ class UpdateComponenteRequest extends FormRequest
             "numero_de_serie" => "Sin asignar",
             "estado" => "Disponible",
             "modelo" => "Sin asignar",
-            "ubicacion" => 1,
+            "ubicacion" => null,
             "descripcion" => "Sin descripcion",
+            "periodo_mantenimiento" => 0,
+            "ultimo_mantenimiento" => "",
+            "proximo_mantenimiento" => "",
+            "mantenimiento" => "",
+            "mantenimiento_detallado" => "",
         ];
 
         foreach ($defaults as $campo => $valorDefault) {

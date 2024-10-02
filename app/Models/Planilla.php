@@ -26,10 +26,10 @@ class Planilla extends Model
     }
 
     public function componente() : BelongsTo{
-        return $this->belongsTo(Componente::class, "id", "id_componente");
+        return $this->belongsTo(Componente::class, "id_componente","id" );
     }
     public function maquinaria() : BelongsTo{
-        return $this->belongsTo(Componente::class, "id", "id_maquina");
+        return $this->belongsTo(Componente::class, "id_maquina","id" );
     }
 }
 

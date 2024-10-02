@@ -18,6 +18,6 @@ class Repuesto extends Model
         'modelo',
     ];
     public function categoria() : BelongsTo{
-        return $this->belongsTo(CategoriaRepuesto::class, "nombre", "categoria");
+        return $this->belongsTo(CategoriaRepuesto::class, "categoria","nombre");
     }
 }

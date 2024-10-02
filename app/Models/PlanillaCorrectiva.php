@@ -17,6 +17,6 @@ class PlanillaCorrectiva extends Model
         "amerita_seguimiento"
     ];
     public function planillas() : BelongsTo{
-        return $this->belongsTo(Planilla::class, "id","id_planilla");
+        return $this->belongsTo(Planilla::class, "id_planilla","id");
     }
 }

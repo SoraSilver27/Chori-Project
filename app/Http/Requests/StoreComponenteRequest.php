@@ -29,7 +29,13 @@ class StoreComponenteRequest extends FormRequest
             "imagen" => ["binary","nullable"],
             "modelo" => ["required","string","nullable"],
             "descripcion" => ["string","nullable"],
-            "ubicacion" => ["required","nullable"],
+            "ubicacion" => ["nullable"],
+            "periodo_mantenimiento" => ["nullable"],
+            "ultimo_mantenimiento" => ["sometimes"],
+            "proximo_mantenimiento" => ["nullable"],
+            "mantenimiento" => ["required"],
+            "mantenimiento_detallado" => ["sometimes", "nullable"],
+            "fecha_ingreso" => ["nullable"],
             "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
         ];
     }
@@ -43,7 +49,7 @@ class StoreComponenteRequest extends FormRequest
             "numero_de_serie" => "Sin asignar",
             "estado" => "Disponible",
             "modelo" => "Sin asignar",
-            "ubicacion" => 1,
+            "ubicacion" => null,
             "descripcion" => "Sin descripcion",
         ];
 

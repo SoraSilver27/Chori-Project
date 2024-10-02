@@ -24,7 +24,7 @@ class ComponenteController extends Controller
         $includePlanillas = $request->query("includePlanillas");
         $includePreventivos = $request->query("includePreventivos");
 
-        $componentes = Componente::where($queryItems);
+        $componentes = Componente::where($queryItems)->with('maquinaria');
 
         if($includePlanillas){
             $componentes = $componentes->with("planillas");

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->boolean("en_seguimiento")->default(0);
             $table->string("seguimiento")->default("Sin seguimiento");
             $table->date("fecha_adquisicion");
+            $table->date("ultimo_mantenimiento")->nullable();
+            $table->date("proximo_mantenimiento")->nullable();
             $table->string("observaciones_generales")->default("Sin observaciones");
             $table->timestamps();
         });

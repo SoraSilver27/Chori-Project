@@ -26,6 +26,12 @@ class ComponenteFactory extends Factory
             "modelo" => $this->faker->word(),
             "estado" => $estado,
             "descripcion" => $this->faker->sentence(),
+            "periodo_mantenimiento" => $this->faker->numberBetween(1,1000),
+            "ultimo_mantenimiento" => $this->faker->date(),
+            "proximo_mantenimiento" => $this->faker->date(),
+            "mantenimiento" => $this->faker->sentence(),
+            "mantenimiento_detallado" => $this->faker->sentence(),
+            "fecha_ingreso" => $this->faker->date(),
         ];
     }
 }

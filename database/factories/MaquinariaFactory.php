@@ -26,6 +26,8 @@ class MaquinariaFactory extends Factory
             "en_seguimiento" => $this->faker->boolean(),
             "fecha_adquisicion" => $this->faker->date(),
             "observaciones_generales" => $this->faker->sentence(),
+            "ultimo_mantenimiento" => $this->faker->date(),
+            "proximo_mantenimiento" => $this->faker->date(),
         ];
     }
 }

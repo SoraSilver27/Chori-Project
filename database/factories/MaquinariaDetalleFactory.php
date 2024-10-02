@@ -29,6 +29,7 @@ class MaquinariaDetalleFactory extends Factory
             "facil_desmontaje" => $this->faker->boolean(),
             "garantia" => $this->faker->boolean(),
             "problemas_recurrentes" => $this->faker->sentence(),
+            "periodo_mantenimiento" => $this->faker->numberBetween(1,1000),
         ];
     }
 }

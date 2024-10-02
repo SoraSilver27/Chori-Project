@@ -36,6 +36,7 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
                 "garantia" => ["boolean", "nullable"],
                 "garantia_cantidad" => ["string", "nullable"],
                 "problemas_recurrentes" => ["string", "nullable"],
+                "periodo_mantenimiento" => ["nullable"],
             ];
         }else {
             return[
@@ -49,7 +50,8 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
                 "facil_desmontaje" => ["sometimes","boolean", "nullable"],
                 "garantia" => ["sometimes","boolean", "nullable"],
                 "garantia_cantidad" => ["sometimes","string", "nullable"],
-                "problemas_recurrentes" => ["sometimes","string", "nullable"]
+                "problemas_recurrentes" => ["sometimes","string", "nullable"],
+                "periodo_mantenimiento" => ["nullable"],
             ];
         }
     }

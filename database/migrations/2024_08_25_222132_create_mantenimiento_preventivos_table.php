@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('mantenimiento_preventivos', function (Blueprint $table) {
             $table->id();
             $table->boolean("es_de");
-            $table->id("id_maquina")->nullable()->autoIncrement(false);
-            $table->id("id_componente")->nullable()->autoIncrement(false);
+            $table->unsignedBigInteger("id_maquina")->nullable();
+            $table->unsignedBigInteger("id_componente")->nullable();
             $table->enum("intervalo_de_mantenimiento", ["Semanal","Mensual","Anual"]);
             $table->integer("horas_de_servicio");
             $table->date("ultimo_mantenimiento");

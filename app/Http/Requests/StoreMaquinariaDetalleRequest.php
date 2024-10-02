@@ -32,6 +32,7 @@ class StoreMaquinariaDetalleRequest extends FormRequest
             "facil_desmontaje" => ["boolean","nullable"],
             "garantia" => ["boolean","nullable"],
             "problemas_recurrentes" => ["string","nullable"],
+            "periodo_mantenimiento" => ["nullable"],
         ];
     }
     public function validatedWithDefaults()
@@ -50,6 +51,7 @@ class StoreMaquinariaDetalleRequest extends FormRequest
             "garantia" => 0,
             "garantia_cantidad"  => isset($data['garantia']) && $data['garantia'] == 0 ? 'Sin garantía' : 'Sin asignar',
             "problemas_recurrentes" => "Sin problemas recurrentes",
+
         ];
 
         foreach ($defaults as $campo => $valorDefault) {

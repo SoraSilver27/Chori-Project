@@ -34,7 +34,9 @@ class UpdateMaquinariaRequest extends FormRequest
                 "en_seguimiento" => ["boolean","nullable"],
                 "seguimiento" => ["string","nullable"],
                 "fecha_adquisicion" => ["required","nullable"],
-                "observaciones_generales" => ["string","nullable"]
+                "observaciones_generales" => ["string","nullable"],
+                "ultimo_mantenimiento" => ["sometimes"],
+                "proximo_mantenimiento" => ["nullable"],
             ];
         }else{
             return[
@@ -46,7 +48,9 @@ class UpdateMaquinariaRequest extends FormRequest
                 "en_seguimiento" => ["sometimes","nullable"],
                 "seguimiento" => ["sometimes","string","nullable"],
                 "fecha_adquisicion" => ["sometimes","nullable"],
-                "observaciones_generales" => ["sometimes","string","nullable"]
+                "observaciones_generales" => ["sometimes","string","nullable"],
+                "ultimo_mantenimiento" => ["sometimes"],
+                "proximo_mantenimiento" => ["nullable"],
             ];
         }
     }

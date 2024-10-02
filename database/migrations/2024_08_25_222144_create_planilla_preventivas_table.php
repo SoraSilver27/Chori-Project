@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('planilla_preventivas', function (Blueprint $table) {
             $table->id("id_planilla");
-            $table->id("mantenimiento")->autoIncrement(false);
-            $table->id("horas_de_servicio")->autoIncrement(false);
+            $table->unsignedBigInteger("mantenimiento");
+            $table->unsignedBigInteger("horas_de_servicio");
             $table->string("trabajo_mantenimiento");
             $table->foreign("id_planilla")->references("id")->on("planillas");
             $table->foreign("mantenimiento")->references("id")->on("mantenimiento_preventivos");

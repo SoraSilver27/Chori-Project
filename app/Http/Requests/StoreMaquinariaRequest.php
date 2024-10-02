@@ -32,7 +32,9 @@ class StoreMaquinariaRequest extends FormRequest
             "imagen" => ["binary","nullable"],
             "en_seguimiento" => ["boolean","nullable"],
             "fecha_adquisicion" => ["required","nullable"],
-            "observaciones_generales" => ["string","nullable"]
+            "observaciones_generales" => ["string","nullable"],
+            "ultimo_mantenimiento" => ["sometimes"],
+            "proximo_mantenimiento" => ["nullable"],
         ];
     }
     public function validatedWithDefaults()

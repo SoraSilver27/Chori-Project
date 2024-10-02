@@ -17,7 +17,13 @@ class Componente extends Model
         "modelo",
         "descripcion",
         "ubicacion",
-        "estado"
+        "estado",
+        "periodo_mantenimiento",
+        "ultimo_mantenimiento",
+        "proximo_mantenimiento",
+        "mantenimiento",
+        "mantenimiento_detallado",
+        "fecha_ingreso",
     ];
     public function preventivos() : HasMany{
         return $this->hasMany(MantenimientoPreventivo::class, "id_componente", "id");
@@ -26,6 +32,6 @@ class Componente extends Model
         return $this->hasMany(Planilla::class, "id_componente", "id");
     }
     public function maquinaria() : BelongsTo{
-        return $this->belongsTo(Maquinaria::class, 'id', 'ubicacion');
+        return $this->belongsTo(Maquinaria::class, 'ubicacion','id' );
     }
 }

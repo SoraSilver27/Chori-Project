@@ -23,9 +23,9 @@ class MantenimientoPreventivo extends Model
         return $this->hasMany(PlanillaPreventiva::class, "mantenimiento","id");
     }
     public function maquinaria() : BelongsTo{
-        return $this->belongsTo(Maquinaria::class, "id", "id_maquina");
+        return $this->belongsTo(Maquinaria::class, "id_maquina","id" );
     }
     public function componente() : BelongsTo{
-        return $this->belongsTo(Componente::class, "id", "id_componente");
+        return $this->belongsTo(Componente::class, "id_componente","id" );
     }
 }
