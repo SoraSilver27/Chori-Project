@@ -5,8 +5,8 @@
       <v-col cols="4">
         <!-- Muestra el periodo -->
         <v-text-field :value="periodoTexto(periodo)" readonly hide-details class="bg-blue-darken-4"></v-text-field>
-        <v-text-field type="date" label="Último mat." v-model="grupo.ultimo" hide-details class="bg-grey-darken-4" disabled></v-text-field>
-        <v-text-field type="date" label="Próximo mat." v-model="grupo.proximo" hide-details class="bg-grey-darken-4" disabled></v-text-field>
+        <v-text-field type="date" label="Último mat." v-model="grupo.ultimo_mantenimiento" hide-details class="bg-grey-darken-4" disabled></v-text-field>
+        <v-text-field type="date" label="Próximo mat." v-model="grupo.proximo_mantenimiento" hide-details class="bg-grey-darken-4" disabled></v-text-field>
       </v-col>
       <v-col cols="8" class="pl-0">
         <!-- Muestra los componentes asociados al periodo actual -->
@@ -29,13 +29,14 @@
 import { computed, defineProps } from 'vue';
 
 const props = defineProps({
-  actualComp: {
+  maquinaComp: {
     type: Array,
     required: true,
   },
 });
 
 const periodosTextos = {
+  0: 'Sin mantenimiento',
   7: 'Semanal',
   15: 'Quincenal',
   30: 'Mensual',
@@ -53,24 +54,47 @@ const periodoTexto = (periodo) => {
 
 // Computed que agrupa los componentes por el campo "periodo"
 const agrupadoPorPeriodo = computed(() => {
-  const agrupado = props.actualComp.reduce((acc, componente) => {
-    const { periodo, ultimo, proximo } = componente;
+  const hoy = new Date(); // Obtenemos la fecha actual
+  const agrupado = props.maquinaComp.reduce((acc, componente) => {
+    const { periodo_mantenimiento, ultimo_mantenimiento, proximo_mantenimiento } = componente;
+
+    // Convertir las fechas a objetos Date para compararlas
+    const fechaProximoMantenimiento = new Date(proximo_mantenimiento);
+    const fechaUltimoMantenimiento = new Date(ultimo_mantenimiento);
 
     // Si no existe el grupo para este periodo, lo creamos
-    if (!acc[periodo]) {
-      acc[periodo] = {
+    if (!acc[periodo_mantenimiento]) {
+      acc[periodo_mantenimiento] = {
         componentes: [],
-        // Guardamos las primeras fechas encontradas
-        ultimo,
-        proximo,
+        ultimo_mantenimiento: null,
+        proximo_mantenimiento: null,
+        componenteSeleccionado: null // Inicialmente no hay componente seleccionado
       };
     }
 
     // Añadimos el componente a la lista del periodo
-    acc[periodo].componentes.push(componente);
+    acc[periodo_mantenimiento].componentes.push(componente);
+
+    // Comparar la fecha de último mantenimiento de este componente con el último mantenimiento seleccionado
+    if (acc[periodo_mantenimiento].ultimo_mantenimiento === null || 
+        fechaUltimoMantenimiento > new Date(acc[periodo_mantenimiento].ultimo_mantenimiento)) {
+      // Si es el primero o es más reciente, actualizamos
+      acc[periodo_mantenimiento].ultimo_mantenimiento = ultimo_mantenimiento;
+    }
+
+    // Comparar la fecha de próximo mantenimiento de este componente con el componente seleccionado
+    if (acc[periodo_mantenimiento].componenteSeleccionado === null || 
+        (fechaProximoMantenimiento < new Date(acc[periodo_mantenimiento].componenteSeleccionado.proximo_mantenimiento))) 
+    {
+      // Si es el primero o es más cercano a la fecha actual, lo seleccionamos
+      acc[periodo_mantenimiento].componenteSeleccionado = componente;
+      acc[periodo_mantenimiento].proximo_mantenimiento = proximo_mantenimiento;
+    }
+
     return acc;
   }, {});
 
   return agrupado;
 });
+
 </script>

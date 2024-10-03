@@ -66,9 +66,8 @@ const tab = ref(0);
 const maquina = ref([]);
 const detalles = ref([]);
 const componentes = ref([]);
-const componenteLocal = ref({});
-const actualComp = ref({});
-const actualCompSelector = ref({});
+const actualComp = ref([]);
+const actualCompSelector = ref([]);
 const ID = ipMaquina.params.id;
 
 
@@ -94,22 +93,25 @@ const fetchDetalles = async () => {
 const fetchComponentes = async () => {
   try {
     const respuesta = await axios.get(`${myIP}/api/componentes`);
-    componentes.value = respuesta.data.data;
-    console.log(respuesta.data);
+    if (respuesta.data && respuesta.data.data) {
+      componentes.value = respuesta.data.data; // Asegúrate de asignar correctamente los datos
+      console.log('Componentes obtenidos:', respuesta.data);
+    } else {
+      console.error('La respuesta no contiene los datos esperados');
+    }
   } catch (error) {
     console.error('Hubo un error al obtener los componentes:', error);
   }
 };
 
 watch(componentes, (newVal) => {
-    if (newVal && newVal.length > 0) {
-      componenteLocal.value = { ...newVal }; // Mantener toda la estructura de newVal
+    if (newVal && Array.isArray(newVal) && newVal.length > 0) {
       actualComp.value = newVal.filter(componente => componente.ubicacion.id == ID);
       actualCompSelector.value = newVal.filter(componente => componente.ubicacion.id != ID);
     } else {
       console.error('Datos de componentes no disponibles o vacíos');
     }
-  }, { immediate: true },
+  },
 
 );
 

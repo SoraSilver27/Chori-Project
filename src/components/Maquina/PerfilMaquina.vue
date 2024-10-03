@@ -68,7 +68,7 @@ import { ref, watch, defineProps, defineEmits } from 'vue';
 import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
 import { direccionIP } from '@/global';
 import MaquinaRepuestos from './PerfilMaquina/MaquinaRepuestos.vue';
-import PerfilInfo from './PerfilMaquina/PerfilInfo.vue';
+import PerfilInfo from '../PerfilInfo.vue';
 
 const props = defineProps({
   maquina: {

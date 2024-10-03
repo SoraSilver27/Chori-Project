@@ -11,18 +11,13 @@
         </v-col>
       </v-card-title>
       <v-container class="pa-0">
-
         <v-container class="pa-0" v-if="!isEditing">
-          <v-card>
-            <MantPerfil :actualComp="actualComp"/>
-          </v-card>
+            <MantPerfil :maquinaComp="maquinaComp"/>
         </v-container>
 
         <v-container v-else class="pa-0">
           <v-card>
-            <MantPerfilList 
-
-            />
+            <MantPerfilList :maquinaComp="copiaMaquinaComp"/>
           </v-card>
         </v-container>
 
@@ -34,36 +29,29 @@
 
 <script setup>
 import { ref, defineProps, computed } from 'vue';
+import axios from 'axios';
+import { direccionIP } from '@/global';
 import MantPerfil from './PerfilMantenimiento/MantPerfil.vue';
 import MantPerfilList from './PerfilMantenimiento/MantPerfilList.vue';
 
 const props = defineProps({
-  actualComp: {
-    type: Object,
+  maquinaComp: {
+    type: Array,
     required: true,
   },
 });
  
 // Variables reactivas
 const isEditing = ref(false);
+const myIP = direccionIP;
+const copiaMaquinaComp = ref(
+  props.maquinaComp.map(({ ubicacion, ...resto }) => resto)
+);
 
-
-const componentesMaquina = ref([
-  { nombre: 'Componente 1', periodo: 7, ultimo: '2024-07-10', proximo: '2024-07-17', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 2', periodo: 30, ultimo: '2024-06-15', proximo: '2024-07-15', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
-  { nombre: 'Componente 3', periodo: 15, ultimo: '2024-07-01', proximo: '2024-07-16', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 4', periodo: 360, ultimo: '2024-01-01', proximo: '2025-01-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
-  { nombre: 'Componente 5', periodo: 7, ultimo: '2024-07-08', proximo: '2024-07-15', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 6', periodo: 30, ultimo: '2024-06-30', proximo: '2024-07-30', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' },
-  { nombre: 'Componente 7', periodo: 90, ultimo: '2024-05-01', proximo: '2024-08-01', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 8', periodo: 15, ultimo: '2024-07-05', proximo: '2024-07-20', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 9', periodo: 15, ultimo: '2024-07-12', proximo: '2024-07-19', descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit asperiores beatae at, maxime eveniet odit.' },
-  { nombre: 'Componente 10', periodo: 60, ultimo: '2024-04-01', proximo: '2024-08-01', descripcion: 'Rerum fuga nisi dolorem aut explicabo doloribus. Voluptatem assumenda repudiandae tempore. Pariatur commodi aut at?' }
-]);
-
-const periodoOptions = [
-  7, 15, 30, 60, 90, 180, 360, 720
-];
+// Función que se llama cuando MantPerfilList emite datos actualizados (solo al guardar)
+function actualizar(datosActualizados) {
+  copiaMaquinaComp.value = datosActualizados; // Actualiza los datos modificados
+}
 
 // Methods
 function toggleEditMode() {
@@ -73,12 +61,20 @@ function toggleEditMode() {
   isEditing.value = !isEditing.value;
 }
 
-function guardarCambios() {
-  console.log('Datos guardados:', componentesMaquina.value);
-  // Aquí puedes implementar la lógica para guardar los cambios, como hacer una llamada a una API.
+async function guardarCambios() {
+  try {
+    // Emitir los datos modificados antes de guardar
+    const respuesta = await axios.put(`${myIP}/api/componentes`, 
+    copiaMaquinaComp.value);
+    console.log('Datos guardados:', respuesta.data);
+
+  } catch (error) {
+    console.error('Error al guardar los datos:', error);
+  }
 }
 
 function cancel() {
+  copiaMaquinaComp.value = { ...props.maquinaComp };
   isEditing.value = !isEditing.value;
 }
 </script>

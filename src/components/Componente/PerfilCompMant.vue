@@ -14,8 +14,8 @@
         <v-row>
           <!-- Importamos y usamos el componente hijo aquí -->
           <v-col class="pa-0">
-            <PerfilInfoComp 
-              :localComponente="localComponente"
+            <PerfilInfo
+              :local="localComponente"
               :filas="filas"
               :isEditing="isEditing"
             />
@@ -32,8 +32,8 @@ import { useRoute } from "vue-router";
 import { ref, watch, defineProps, defineEmits } from 'vue';
 import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
 import { direccionIP } from '@/global';
-import PerfilInfoComp from './PerfilInfoComp.vue';
 import PerfilImagenComp from './PerfilImagenComp.vue';
+import PerfilInfo from '../PerfilInfo.vue';
 
 const props = defineProps({
   componenteUnico: {

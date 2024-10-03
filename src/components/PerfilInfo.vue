@@ -2,7 +2,6 @@
   <v-card class="pa-4 mx-2 mb-2">
     <v-row>
       <v-col v-for="(fila, n) in filas" :key="n" :cols="fila.size">
-        <!-- Clasificación 'objeto' -->
         <component
           v-if="fila.component.name !== 'VCheckbox'"
           :is="fila.component"

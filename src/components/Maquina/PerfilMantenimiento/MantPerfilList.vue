@@ -1,7 +1,7 @@
 <template>
   <v-container class="pa-4">
     <v-form>
-      <v-row v-for="(comp, index) in componentesMaquina" :key="index">
+      <v-row v-for="(comp, index) in maquinaComp" :key="index">
         <v-col cols="3" class="d-flex align-center pr-1">
           <v-text-field
             v-model="comp.nombre"
@@ -11,7 +11,7 @@
         </v-col>
         <v-col cols="2" class="px-1">
           <v-select
-            v-model="comp.periodo"
+            v-model="comp.periodo_mantenimiento"
             :items="periodoOptions"
             label="Periodo"
             hide-details
@@ -39,21 +39,22 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-
+import { defineProps, defineEmits } from 'vue';
 const props = defineProps({
-  componentesMaquina: {
-    type: Object,
-    required: true,
-  },
-  localMaquinaComp: {
-    type: Object,
-    required: true,
-  },
-  periodoOptions: {
+  maquinaComp: {
     type: Array,
     required: true,
   },
 });
 
+const periodoOptions = [
+  0, 7, 15, 30, 60, 90, 180, 360, 720
+];
+
+// Emitir los datos actualizados
+const emit = defineEmits(['updateData']);
+
+function emitirCambios() {
+  emit('updateData', props.maquinaComp); // Emite los datos modificados
+}
 </script>
