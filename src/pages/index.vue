@@ -1,3 +1,5 @@
+<!-- codigo del index -->
+
 <template>
   <div class="contenedor">
     <div class="contenido">
@@ -175,3 +177,4 @@ export default {
     width: 35%;
   }
 </style>
+

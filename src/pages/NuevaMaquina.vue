@@ -84,14 +84,14 @@ const form = ref({
   modelo: "",
   fecha_adquisicion: "",
   estado: null,
-  selecttip: null,
+  tipo: null,
   voltaje: "",
   peso: "",
-  velocidad: false,
-  ajustable: false,
-  pantalla: false,
-  enabled: false,
-  cantidad: "",
+  velocidad_ajustable: false,
+  facil_desmontaje: false,
+  pantalla_digital: false,
+  garantia: false,
+  garantia_cantidad: "",
   seguridad: "",
   ubicacion: "",
   observaciones_generales: "",
@@ -124,14 +124,14 @@ const filas = ref([
   { component: "v-list-item", size: 3 },
   { model: "fecha_adquisicion", component: "v-text-field", size: 5, props: { label: "Fecha", type: "date", density: "comfortable" } },
   { model: "estado", component: "v-select", size: 4, props: { label: "Estado", density: "comfortable" } },
-  { model: "selecttip", component: "v-select", size: 4, props: { label: "Tipo", density: "comfortable" } },
+  { model: "tipo", component: "v-select", size: 4, props: { label: "Tipo", density: "comfortable" } },
   { model: "voltaje", component: "v-text-field", size: 4, props: { label: "Voltaje", density: "comfortable" } },
   { model: "peso", component: "v-text-field", size: 4, props: { label: "Peso", density: "comfortable" } },
-  { model: "velocidad", component: "v-checkbox-btn", size: 4, text: "Velocidad ajustable" },
-  { model: "desmontaje", component: "v-checkbox-btn", size: 8, text: "Facilidad de desmontaje" },
-  { model: "pantalla", component: "v-checkbox-btn", size: 4, text: "Pantalla digital" },
-  { model: "enabled", component: "v-checkbox-btn", size: 3, text: "Garantia" },
-  { model: "cantidad", component: "v-text-field", size: 5, props: { label: "Cantidad" } },
+  { model: "velocidad_ajustable", component: "v-checkbox-btn", size: 4, text: "Velocidad ajustable" },
+  { model: "facil_desmontaje", component: "v-checkbox-btn", size: 8, text: "Facilidad de desmontaje" },
+  { model: "pantalla_digital", component: "v-checkbox-btn", size: 4, text: "Pantalla digital" },
+  { model: "garantia", component: "v-checkbox-btn", size: 3, text: "Garantia" },
+  { model: "garantia_cantidad", component: "v-text-field", size: 5, props: { label: "Cantidad" } },
 ]);
 
 const cartas = ref([
@@ -142,7 +142,7 @@ const cartas = ref([
 
 // Methods
 const getItems = (fila) => {
-  if (fila.model === "selecttip") {
+  if (fila.model === "tipo") {
     return tipos.value;
   } else if (fila.model === "estado") {
     return estados.value;
@@ -162,8 +162,8 @@ const getRules = (fila) => {
 };
 
 const getDisabled = (fila) => {
-  if (fila.model === "cantidad") {
-    return !form.value.enabled;
+  if (fila.model === "garantia_cantidad") {
+    return !form.value.garantia;
   }
   return false;
 };
@@ -174,16 +174,18 @@ const handleSubmit = async () => {
     numero_de_serie: form.value.numero_de_serie,
     estado: form.value.estado,
     modelo: form.value.modelo,
-    en_seguimiento: form.value.enabled ? 1 : 0,
+    en_seguimiento: form.value.garantia ? 1 : 0,
     fecha_adquisicion: form.value.fecha_adquisicion,
     observaciones_generales: form.value.observaciones_generales,
   };
 
   try {
-    const response = await axios.post(`${myIP.value}/api/v1/maquinarias`, formData);
+    const response = await axios.post(`${myIP.value}/api/maquinarias`, formData);
     console.log("Datos enviados con éxito:", response.data);
+    alert('Datos guardados correctamente');
   } catch (error) {
     console.error("Error al enviar los datos:", error.response.data);
+    alert('Error al enviar los datos');
   }
 };
 
@@ -195,14 +197,14 @@ const handleCancel = () => {
     modelo: "",
     fecha_adquisicion: "",
     estado: null,
-    selecttip: null,
+    tipo: null,
     voltaje: "",
     peso: "",
-    velocidad: false,
-    ajustable: false,
-    pantalla: false,
-    enabled: false,
-    cantidad: "",
+    velocidad_ajustable: false,
+    facil_desmontaje: false,
+    pantalla_digital: false,
+    garantia: false,
+    garantia_cantidad: "",
     seguridad: "",
     ubicacion: "",
     observaciones_generales: "",

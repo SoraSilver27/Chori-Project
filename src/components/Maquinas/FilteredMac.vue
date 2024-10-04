@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="item in lista" :key="item.id" cols="6">
+      <v-col v-for="item in paginatedItems" :key="item.id" cols="6">
         <v-card class="bg-surface-light pa-2" @click="enviar(item.id)">
           <v-list-item>
             <!-- Estructura diferente según el tipo de item -->
@@ -18,19 +18,42 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-pagination
+      v-model="currentPage"
+      :length="pageCount"
+      :total-visible="5"
+      class="my-4"
+    ></v-pagination>
   </v-container>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import { useRouter } from "vue-router"
 const router = useRouter()
 const props = defineProps({
-  lista: {
+  items: {
     type: Array,
     required: true
   }
 });
+
+// Estado reactivo para la página actual y elementos por página
+const currentPage = ref(1);
+const itemsPerPage = 10;
+
+// Computed para obtener los ítems paginados
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return props.items.slice(start, end);
+});
+
+// Computed para obtener el número total de páginas
+const pageCount = computed(() => {
+  return Math.ceil(props.items.length / itemsPerPage);
+});
+
 const enviar =(e)=>{
   router.push(`/maquinas/${e}`)
 }

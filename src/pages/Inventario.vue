@@ -51,8 +51,6 @@
           </template>
         </v-data-table>
       </v-container>
-      <p>{{ categorias }}</p>
-      <p>{{ repuestos }}</p>
     </v-card-text>
   </v-card>
 </template>

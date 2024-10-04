@@ -4,7 +4,7 @@
       <v-card-title style="display: flex; align-items: center;" class="px-3 pt-3 pb-0">
         <!-- Input de texto que reemplaza a v-autocomplete -->
         <v-text-field
-          label="Buscador"
+          hide-details
           clearable
           v-model="searchQuery"
           placeholder="Escribe para buscar"
@@ -25,19 +25,19 @@
           <v-card-text class="pa-2" style="overflow: auto; width: auto; height: 76vh;">
             <v-tabs-window v-model="tab">
               <v-tabs-window-item :value="1">
-                <FilteredComp :lista="filteredComp" />
+                <FilteredComp :items="filteredComp" />
               </v-tabs-window-item>
 
               <v-tabs-window-item :value="2">
-                <FilteredComp :lista="filteredComp" />
+                <FilteredComp :items="filteredComp" />
               </v-tabs-window-item>
 
               <v-tabs-window-item :value="3">
-                <FilteredComp :lista="filteredComp" />
+                <FilteredComp :items="filteredComp" />
               </v-tabs-window-item>
 
               <v-tabs-window-item :value="4">
-                <FilteredComp :lista="filteredComp" />
+                <FilteredComp :items="filteredComp" />
               </v-tabs-window-item>
             </v-tabs-window>
           </v-card-text>

@@ -3,7 +3,8 @@
     <v-card>
       <v-card-title style="display: flex; align-items: center;" class="px-3 pt-3 pb-0">
         <v-text-field
-          label="Buscador"
+        
+          hide-details
           clearable
           v-model="titleSelected"
           placeholder="Escribe para buscar"
@@ -24,19 +25,19 @@
           <v-card-text class="pa-2" style="overflow: auto; width: auto; height: 76vh;">
             <v-tabs-window v-model="tab">
               <v-tabs-window-item :value="1">
-                <FilteredMac :lista="filteredMac" />
+                <FilteredMac :items="filteredMac" />
               </v-tabs-window-item>
 
               <v-tabs-window-item :value="2">
-                <FilteredMac :lista="filteredMac" />
+                <FilteredMac :items="filteredMac" />
               </v-tabs-window-item>
 
               <v-tabs-window-item :value="3">
-                <FilteredMac :lista="filteredMac" />
+                <FilteredMac :items="filteredMac" />
               </v-tabs-window-item>
 
               <v-tabs-window-item :value="4">
-                <FilteredMac :lista="filteredMac" />
+                <FilteredMac :items="filteredMac" />
               </v-tabs-window-item>
             </v-tabs-window>
           </v-card-text>
