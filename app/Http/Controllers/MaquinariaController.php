@@ -93,10 +93,6 @@ class MaquinariaController extends Controller
         if($includePlanillas){
             return new MaquinariaResource($maquinaria->loadMissing("planillas"));
         }
-        $includePreventivos = request()->query("includePreventivos");
-        if($includePreventivos){
-            return new MaquinariaResource($maquinaria->loadMissing("preventivos"));
-        }
 
         return new MaquinariaResource($maquinaria);
     }

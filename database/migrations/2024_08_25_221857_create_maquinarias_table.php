@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("modelo")->default("Sin asignar");
             $table->boolean("en_seguimiento")->default(0);
             $table->string("seguimiento")->default("Sin seguimiento");
-            $table->date("fecha_adquisicion");
+            $table->date("fecha_adquisicion")->nullable();
             $table->date("ultimo_mantenimiento")->nullable();
             $table->date("proximo_mantenimiento")->nullable();
             $table->string("observaciones_generales")->default("Sin observaciones");

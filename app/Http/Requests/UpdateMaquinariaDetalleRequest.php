@@ -37,6 +37,7 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
                 "garantia_cantidad" => ["string", "nullable"],
                 "problemas_recurrentes" => ["string", "nullable"],
                 "periodo_mantenimiento" => ["nullable"],
+                "mantenimiento" => ["required","nullable"],
             ];
         }else {
             return[
@@ -52,6 +53,7 @@ class UpdateMaquinariaDetalleRequest extends FormRequest
                 "garantia_cantidad" => ["sometimes","string", "nullable"],
                 "problemas_recurrentes" => ["sometimes","string", "nullable"],
                 "periodo_mantenimiento" => ["nullable"],
+                "mantenimiento" => ["sometimes","nullable"],
             ];
         }
     }

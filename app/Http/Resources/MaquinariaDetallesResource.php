@@ -28,6 +28,7 @@ class MaquinariaDetallesResource extends JsonResource
             "garantia_cantidad" => $this->garantia_cantidad,
             "problemas_recurrentes" => $this->problemas_recurrentes,
             "periodo_mantenimiento" => $this->periodo_mantenimiento,
+            "mantenimiento" => $this->mantenimiento,
         ];
     }
 }

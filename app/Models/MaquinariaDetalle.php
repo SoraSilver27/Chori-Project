@@ -22,6 +22,7 @@ class MaquinariaDetalle extends Model
         "garantia_cantidad",
         "problemas_recurrentes",
         "periodo_mantenimiento",
+        "mantenimiento",
     ];
 
     public function maquinaria() : BelongsTo{

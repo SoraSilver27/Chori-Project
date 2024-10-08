@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string("garantia_cantidad")->default(0);
             $table->string("problemas_recurrentes");
             $table->integer("periodo_mantenimiento")->nullable();
+            $table->string("mantenimiento")->nullable();
             $table->foreign("id_maquinaria")->references("id")->on("maquinarias");
             $table->timestamps();
         });

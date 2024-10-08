@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+//use App\Events\MantenimientoPreventivoMaquinariaEvent;
 
 class Maquinaria extends Model
 {
@@ -21,6 +22,7 @@ class Maquinaria extends Model
         "observaciones_generales",
         "ultimo_mantenimiento",
         "proximo_mantenimiento",
+
     ];
 
     public function detalles() : HasMany{
@@ -36,3 +38,5 @@ class Maquinaria extends Model
         return $this->hasMany(MantenimientoPreventivo::class, "id_maquina", "id");
     }
 }
+
+//event(new MantenimientoPreventivoMaquinariaEvent('La máquina necesitará mantenimiento en: ', now()->addHours(2)));

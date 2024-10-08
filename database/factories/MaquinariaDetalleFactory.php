@@ -17,6 +17,7 @@ class MaquinariaDetalleFactory extends Factory
      */
     public function definition(): array
     {
+        $periodo = $this->faker->randomElement([0,7,15,30,60,90,180,360,720]);
         return [
             //
             "id_maquinaria" => Maquinaria::factory(),
@@ -29,7 +30,8 @@ class MaquinariaDetalleFactory extends Factory
             "facil_desmontaje" => $this->faker->boolean(),
             "garantia" => $this->faker->boolean(),
             "problemas_recurrentes" => $this->faker->sentence(),
-            "periodo_mantenimiento" => $this->faker->numberBetween(1,1000),
+            "periodo_mantenimiento" => $periodo,
+            "mantenimiento" => $this->faker->sentence(),
         ];
     }
 }

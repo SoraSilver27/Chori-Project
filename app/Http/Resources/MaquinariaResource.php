@@ -29,7 +29,6 @@ class MaquinariaResource extends JsonResource
             "detalles" => MaquinariaDetallesResource::collection($this->whenLoaded("detalles")),
             "componentes" => ComponenteResource::collection($this->whenLoaded("componentes")),
             "planillas" => PlanillaResource::collection($this->whenLoaded("planillas")),
-            "preventivos" => MantenimientoPreventivoResource::collection($this->whenLoaded("preventivos")),
             "ultimo_mantenimiento" => $this->ultimo_mantenimiento,
             "proximo_mantenimiento" => $this->proximo_mantenimiento,
             "updated_at" => $this->updated_at,

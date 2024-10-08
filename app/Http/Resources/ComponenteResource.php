@@ -38,7 +38,6 @@ class ComponenteResource extends JsonResource
             "mantenimiento_detallado" => $this->mantenimiento_detallado,
             "fecha_ingreso" => $this->fecha_ingreso,
             "planillas" => PlanillaResource::collection($this->whenLoaded("planillas")),
-            "preventivos" => MantenimientoPreventivoResource::collection($this->whenLoaded("preventivos")),
             "updated_at" => $this->updated_at,
             "created_at" => $this->created_at,
         ];

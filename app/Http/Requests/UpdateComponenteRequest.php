@@ -25,13 +25,19 @@ class UpdateComponenteRequest extends FormRequest
         $method = $this->method();
         if($method == "PUT"){
             return[
-                "nombre" => ["required","string","nullable"],
+                "nombre" => ["string","nullable"],
                 "numero_de_serie" => ["string","nullable"],
                 "imagen" => ["binary","nullable"],
-                "modelo" => ["required","string","nullable"],
+                "modelo" => ["string","nullable"],
                 "descripcion" => ["string","nullable"],
-                "ubicacion" => ["required","nullable"],
-                "estado" => ["required",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
+                "ubicacion" => ["nullable"],
+                "periodo_mantenimiento" => ["nullable"],
+                "ultimo_mantenimiento" => ["nullable"],
+                "proximo_mantenimiento" => ["nullable"],
+                "mantenimiento" => ["required","nullable"],
+                "mantenimiento_detallado" => ["nullable"],
+                "fecha_ingreso" => ["nullable"],
+                "estado" => [Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
             ];
         }else {
             return[
@@ -41,12 +47,12 @@ class UpdateComponenteRequest extends FormRequest
                 "modelo" => ["sometimes","string","nullable"],
                 "descripcion" => ["sometimes","string","nullable"],
                 "ubicacion" => ["sometimes","nullable"],
-                "periodo_mantenimiento" => ["nullable"],
+                "periodo_mantenimiento" => ["sometimes","nullable"],
                 "ultimo_mantenimiento" => ["sometimes"],
-                "proximo_mantenimiento" => ["nullable"],
-                "mantenimiento" => ["required"],
+                "proximo_mantenimiento" => ["sometimes","nullable"],
+                "mantenimiento" => ["sometimes","nullable"],
                 "mantenimiento_detallado" => ["sometimes", "nullable"],
-                "fecha_ingreso" => ["nullable"],
+                "fecha_ingreso" => ["sometimes","nullable"],
                 "estado" => ["somentimes",Rule::in(["En uso","Disponible","Indisponible"]),"nullable"],
             ];
         }

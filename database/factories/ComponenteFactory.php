@@ -18,6 +18,7 @@ class ComponenteFactory extends Factory
     public function definition(): array
     {
         $estado = $this->faker->randomElement(["En uso", "Disponible", "Indisponible"]);
+        $periodo = $this->faker->randomElement([0,7,15,30,60,90,180,360,720]);
         return [
             //
             "ubicacion" => Maquinaria::factory(),
@@ -26,7 +27,7 @@ class ComponenteFactory extends Factory
             "modelo" => $this->faker->word(),
             "estado" => $estado,
             "descripcion" => $this->faker->sentence(),
-            "periodo_mantenimiento" => $this->faker->numberBetween(1,1000),
+            "periodo_mantenimiento" => $periodo,
             "ultimo_mantenimiento" => $this->faker->date(),
             "proximo_mantenimiento" => $this->faker->date(),
             "mantenimiento" => $this->faker->sentence(),

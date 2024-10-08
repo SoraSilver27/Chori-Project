@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+//use App\Events\MantenimientoPreventivoComponenteEvent;
+//use App\Events\StockEvent;
 
 class Componente extends Model
 {
@@ -25,9 +27,7 @@ class Componente extends Model
         "mantenimiento_detallado",
         "fecha_ingreso",
     ];
-    public function preventivos() : HasMany{
-        return $this->hasMany(MantenimientoPreventivo::class, "id_componente", "id");
-    }
+
     public function planillas() : HasMany{
         return $this->hasMany(Planilla::class, "id_componente", "id");
     }
@@ -35,3 +35,11 @@ class Componente extends Model
         return $this->belongsTo(Maquinaria::class, 'ubicacion','id' );
     }
 }
+/*
+$componentes = Componente::where('stock', '<', 10)->get();
+foreach ($componentes as $componente) {
+    event(new StockEvent($componente));
+}
+
+event(new MantenimientoPreventivoComponenteEvent('El componente necesitará mantenimiento en: ', now()->addHours(2)));
+*/
