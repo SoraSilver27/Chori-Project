@@ -11,6 +11,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: "/", component: () => import("@/pages/index.vue"), },
+  { path: "/planilla", component: () => import("@/pages/NuevaPlanilla.vue"), },
+
   { path: "/maquinas", component: () => import("@/pages/Maquinas.vue") },
   { path: "/nueva_maquina", component: () => import("@/pages/NuevaMaquina.vue") },
   { path: "/maquina", component: () => import("@/pages/Maquina.vue") },
