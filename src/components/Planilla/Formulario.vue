@@ -12,22 +12,6 @@
             density="compact"
             :disabled="getDisabled(fila)"
           />
-          <component
-            v-else-if="fila.component.name === 'VCheckbox'"
-            :is="fila.component"
-            v-model="form[fila.model]"
-            v-bind="fila.props"
-            :hide-details="fila.ocultar"
-            :model-value="form[fila.model] === 1"
-            @update:modelValue="(val) => form[fila.model] = val ? 1 : 0"
-            density="compact"
-            :disabled="getDisabled(fila)"
-          >
-            <!-- Mostrar el slot de label solo si el componente es VCheckbox -->
-            <template v-if="fila.component.name === 'VCheckbox'" v-slot:label>
-              {{ fila.text }}
-            </template>
-          </component>
         </v-col>
       </v-row>
     </v-card>
@@ -55,9 +39,6 @@ if (fila.model === 'modelo') {
 } else if (fila.model === 'numero_de_serie') {
   return !props.form.nombre;
 } 
-// else if (fila.model === 'aclaracion') {
-//   return tipoMantenimiento !== 'otro';
-// }
 return false;
 };
 
