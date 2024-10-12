@@ -32,7 +32,7 @@
             <template v-slot:activator="{ props }">
               <v-list-item
                 v-bind="props"
-                prepend-icon="mdi-package-variant"
+                prepend-icon="mdi-widgets"
                 title="Stock"
               ></v-list-item>
             </template>
@@ -59,7 +59,7 @@ export default {
       ],
       Stock: [
         ['Facturas', 'mdi-file-document', '/facturas'],
-        ['Inventario', 'mdi-widgets', '/inventario'],
+        ['Inventario', 'mdi-package-variant', '/inventario'],
       ],
     }),
   }

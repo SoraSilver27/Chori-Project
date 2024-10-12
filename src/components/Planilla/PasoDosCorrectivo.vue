@@ -58,7 +58,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn v-if="tab === 1" color="blue">Comenzar regtistros</v-btn>
+            <v-btn v-if="tab === 1" color="blue">Comenzar registros</v-btn>
             <v-btn v-else-if="tab === 2" color="blue">Buscar</v-btn>
           </v-card-actions>
 

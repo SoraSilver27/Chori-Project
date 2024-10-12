@@ -39,11 +39,16 @@
           </v-tabs-window-item>
 
           <v-tabs-window-item :value="2">
-            <PasoDosCorrectivo 
+            <PasoDosCorrectivo v-if="form.tipoMantenimiento !== 'preventivo'"
               :valorID="idMaquina"
               :form="formDos"
               :filas="filasParteDos"
               :myIP="myIP"
+            />
+            <PasoDosPreventivo v-else
+              :valorID="idMaquina"
+              :myIP="myIP"
+              :form="form"
             />
             <v-container style="display: flex; align-items: center; justify-content: center; gap: 50%;">
               <v-btn style="width: 20%;" size="large" color="blue" @click="goToStep1">Volver</v-btn>
@@ -52,7 +57,7 @@
           </v-tabs-window-item>
 
           <v-tabs-window-item :value="3">
-            tres
+            <PasoTres/>
             <v-container style="display: flex; align-items: center; justify-content: center; gap: 50%;">
               <v-btn style="width: 20%;" size="large" color="blue" @click="goToStep2">Volver</v-btn>
               <v-btn style="width: 20%;" size="large" color="blue" >Guardar</v-btn>
@@ -72,6 +77,8 @@ import { VCheckbox, VSelect, VTextarea, VTextField, VRadio } from 'vuetify/compo
 import Formulario from '@/components/Planilla/Formulario.vue';
 import FormularioDos from '@/components/Planilla/FormularioDos.vue';
 import PasoDosCorrectivo from '@/components/Planilla/PasoDosCorrectivo.vue';
+import PasoDosPreventivo from '@/components/Planilla/PasoDosPreventivo.vue';
+import PasoTres from '@/components/Planilla/PasoTres.vue';
 
 const myIP = direccionIP;
 const tab = ref(1);
@@ -144,6 +151,7 @@ const form = ref({
   telefono: '',
   tipoMantenimiento: null,
   aclaracion: '',
+  periodoSeleccionado: null,
 })
 const formDos = ref({
   problema_detectado: '',
@@ -188,15 +196,19 @@ const goToStep1 = () => {
 const goToStep2 = () => {
   if (idMaquina.value === 'No encontrada') {
     alert('Maquina o componente no encontrado');
-  // } else if (form.value.tipoMantenimiento === null) {
-  //   alert('Por favor, seleccione un tipo de mantenimiento')
+  } else if (form.value.tipoMantenimiento === null) {
+    alert('Por favor, seleccione un tipo de mantenimiento')
   } else {
     visibleTab2.value = true;
     tab.value = 2;
   }
 };
 const goToStep3 = () => {
-  visibleTab3.value = true;
-  tab.value = 3;
+  if (form.value.periodoSeleccionado !== null && form.value.periodoSeleccionado !== false) {
+    visibleTab3.value = true;
+    tab.value = 3;
+  } else {
+    alert('Por favor, seleccione uno de los mantenimientos')
+  }
 };
 </script> 
