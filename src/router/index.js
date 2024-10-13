@@ -27,7 +27,9 @@ const routes = [
   { path: "/nueva_factura", component: () => import("@/pages/Factura.vue") },
   { path: "/inventario", component: () => import("@/pages/Inventario.vue") },
   { path: "/nuevo_repuesto", component: () => import("@/pages/NuevoRepuesto.vue") },
-  { path: "/calendario", component: () => import("@/pages/Calendario.vue") }
+  { path: "/calendario", component: () => import("@/pages/Calendario.vue") },
+
+  { path: "/prueba", component: () => import("@/pages/Prueba.vue") }
 ]
 
 const router = createRouter({
