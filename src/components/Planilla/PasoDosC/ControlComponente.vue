@@ -6,11 +6,10 @@
       item-key="id"
       class="elevation-1"
     >
-          <!-- Checkbox para selección -->
       <template v-slot:item.seleccionar="{ item }">
         <v-checkbox
-          v-model="item.seleccionado"
-          @change="toggleSeleccionado(item)"
+          v-model="seleccionados[item.id]"
+       
           :value="item.id"
         ></v-checkbox>
       </template>
@@ -19,17 +18,17 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, watch } from 'vue';
 
 const props = defineProps({
-form: {
-  type: Array,
-  required: true,
-},
 componentes: {
   type: Array,
   required: true,
-}
+},
+form: {
+  type: Object,
+  required: true,
+},
 });
 
 const headers = [
@@ -39,35 +38,47 @@ const headers = [
   { title: 'Número de Serie', value: 'numero_de_serie' },
 ];
 
-// Array que contendrá los componentes seleccionados
-const componentesSeleccionados = ref([]);
 
-// Función para manejar la selección de un componente
-const toggleSeleccionado = (componente) => {
-  // Si se selecciona, lo agregamos a componentesSeleccionados
-  if (componente.seleccionado) {
-    componentesSeleccionados.value.push(componente);
-  } else {
-    // Si se deselecciona, lo removemos de componentesSeleccionados
-    componentesSeleccionados.value = componentesSeleccionados.value.filter(
-      (comp) => comp.id !== componente.id
+// Mapa para almacenar el estado de selección de cada componente
+const seleccionados = ref({});
+
+// Rellenar el estado inicial de seleccionados si ya hay elementos en componentesSeleccionados
+props.form.componentes_correct.forEach((comp) => {
+  seleccionados.value[comp.id] = true;
+});
+
+// Watch para mantener sincronizados `componentesSeleccionados` con `seleccionados`
+watch(
+  seleccionados,
+  (nuevoSeleccionados) => {
+    // Filtramos componentes que están seleccionados
+    const seleccionadosIds = Object.keys(nuevoSeleccionados).filter(
+      (id) => nuevoSeleccionados[id]
     );
-  }
-};
 
-// // Función para manejar la selección de un componente
-// const toggleSeleccionado = (componente) => {
-//   if (componente.seleccionado) {
-//     // Si el componente está seleccionado, agregarlo a 'form.componentes_correct'
-//     if (!props.form.componentes_correct.find((comp) => comp.id === componente.id)) {
-//       props.form.componentes_correct.push(componente);
-//     }
-//   } else {
-//     // Si se deselecciona, removerlo de 'form.componentes_correct'
-//     props.form.componentes_correct = props.form.componentes_correct.filter(
-//       (comp) => comp.id !== componente.id
-//     );
-//   }
-// };
+    // Actualizamos componentesSeleccionados con los componentes seleccionados
+    props.form.componentes_correct.length = 0; // Limpiamos el array original
+    seleccionadosIds.forEach((id) => {
+      const componente = props.componentes.find((comp) => comp.id === parseInt(id));
+      if (componente) {
+        props.form.componentes_correct.push(componente);
+      }
+    });
+  },
+  { deep: true, immediate: true }
+);
+
+// Sincronizar el estado del mapa `seleccionados` cuando cambie `componentes`
+watch(
+  () => props.componentes,
+  (newComponentes) => {
+    newComponentes.forEach((comp) => {
+      if (!seleccionados.value.hasOwnProperty(comp.id)) {
+        seleccionados.value[comp.id] = false;
+      }
+    });
+  },
+  { immediate: true }
+);
 
 </script>

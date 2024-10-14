@@ -152,7 +152,7 @@ const form = ref({
   tipoMantenimiento: null,
   aclaracion: '',
   periodoSeleccionado: null,
-})
+});
 const formDos = ref({
   problema_detectado: '',
   solucion_encontrada: '',
@@ -162,7 +162,8 @@ const formDos = ref({
   observaciones: '',
   repuestos_utilizados: [],
   componentes_correct: [],
-})
+});
+const formularios_enviar = ref([]);
 
 const filasUno = ref([
   {model: 'nombre', component: VSelect, size: 8, props: { label: 'Nombre', items: nombres, } },
@@ -170,25 +171,24 @@ const filasUno = ref([
   {model: 'modelo', component: VSelect, size: 4, props: { label: 'Modelo', items: modelosFiltrados, } },
   {model: 'ultimo_mantenimiento', component: VTextField, size: 4, props: { label: 'Fecha', type: 'date' } },
 ]);
-const filasDos = ref([
+const filasDos = [
   {model: 'tipoMantenimiento', component: VRadio, value: 'preventivo', size: 2, props: { label: 'Preventivo' }, },
   {model: 'tipoMantenimiento', component: VRadio, value: 'correctivo', size: 2, props: { label: 'Correctivo' }, },
   {model: 'tipoMantenimiento', component: VRadio, value: 'otro', size: 1, props: { label: 'Otro' }, },
   {model: 'aclaracion', component: VTextarea, size: 5, ocultar: 'auto', props: { label: 'Aclarar', rows: 1 }, },
-]);
-const filasTres = ref([
+];
+const filasTres = [
   {model: 'encargado', component: VSelect, size: 10, props: { label: 'Encargado' }, },
   {model: 'telefono', component: VTextField, size: 10, props: { label: 'Telefono' }, },
-]);
-
-const filasParteDos = ref([
+];
+const filasParteDos = [
   {model: 'problema_detectado', component: VTextarea, size: 12, props: { label: 'Problemas Detectados', rows: 2 } },
   {model: 'solucion_encontrada', component: VTextarea, size: 12, props: { label: 'Solucion Encontrada', rows: 2 } },
   {model: 'actividad_realizada', component: VTextarea, size: 12, props: { label: 'Actividad Realizada', rows: 2 } },
   {model: 'tercerizacion', component: VCheckbox, size: 12, text: 'Se requirio tercerizacion' },
   {model: 'seguimiento', component: VCheckbox, size: 12, text: 'Amerita seguimiento' },
   {model: 'observaciones', component: VTextarea, size: 12, props: { label: 'Observaciones', rows: 2 } },
-]);
+];
 
 const goToStep1 = () => {
   tab.value = 1;
