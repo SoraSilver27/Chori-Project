@@ -1,89 +1,60 @@
 <template>
-  <v-card class="pa-3" style="height: 100%; width: 100%;">
-    <v-card-title style="display: flex; align-items: center;" class="px-3 py-0">
-      Informacion de la maquina
-      <v-col class="pa-2 text-end">
-        <v-btn @click="handleCancel" color="primary" class="mr-4">Cancelar</v-btn>
-        <v-btn @click="handleSubmit" color="primary">Guardar</v-btn>
-      </v-col>
-    </v-card-title>
-    <v-card-text class="py-2">
-      <v-form @submit.prevent="handleSubmit" style="width: 100%; height: 100%;">
+  <v-container>
+    <v-card>
+      <v-card-title style="display: flex; align-items: center;" class="pa-5">
         <v-row>
-          <!-- Primera carta -->
-          <v-col cols="7">
-            <v-card>
-              <v-list class="bg-surface-light pb-0">
-                <v-list-item>
-                  <v-row>
-                    <v-col v-for="(fila,index) in filas" :key="index" :cols="fila.size">
-                      <v-text-field
-                        v-if="fila.component === 'v-text-field'"
-                        v-model="form[fila.model]"
-                        :rules="getRules(fila)"
-                        :disabled="getDisabled(fila)"
-                        v-bind="fila.props"
-                      ></v-text-field>
-                      <v-select
-                        v-else-if="fila.component === 'v-select'"
-                        v-model="form[fila.model]"
-                        :rules="getRules(fila)"
-                        :items="getItems(fila)"
-                        v-bind="fila.props"
-                      ></v-select>
-                      <v-list-item
-                        v-else-if="fila.component === 'v-list-item'"
-                        class="pa-1">
-                        Fecha de adquisicion:
-                      </v-list-item>
-                      <v-checkbox-btn v-else v-model="form[fila.model]">
-                        <template v-slot:label>{{ fila.text }}</template>
-                      </v-checkbox-btn>
-                    </v-col>
-                  </v-row>
-                </v-list-item>
-              </v-list>
-            </v-card>
+          <v-col cols="9">
+            Informacion de la maquina
           </v-col>
-          <!-- Segunda carta -->
-          <v-col cols="5">
-            <v-card>
-              <v-list class="bg-surface-light">
-                <v-list-item
-                  v-for="(carta, n) in cartas"
-                  :key="n"
-                  class=""
-                  :title="carta.title"
-                >
-                  <v-textarea
-                    v-model="form[carta.model]"
-                    :counter="200"
-                    rows="2"
-                    variant="outlined"
-                  ></v-textarea>
-                </v-list-item>
-              </v-list>
-            </v-card>
+          <v-col cols="3" class="pa-2 text-end">
+            <v-btn to="/maquinas" color="primary" class="mr-4">Cancelar</v-btn>
+            <v-btn @click="handleSubmit" color="primary">Guardar</v-btn>
           </v-col>
         </v-row>
-      </v-form>
-    </v-card-text>
-  </v-card>
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <v-row>
+            <v-col cols="6">
+              <PerfilInfo
+                :local="form"
+                :filas="filas"
+                :isEditing="isEditing"
+              />
+            </v-col>
+            <v-col cols="6">
+              <PerfilInfo
+                :local="formDos"
+                :filas="filasDos"
+                :isEditing="isEditing"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import { direccionIP } from "@/global";
+import { VCheckbox, VSelect, VTextarea, VTextField } from 'vuetify/components';
+import PerfilInfo from '@/components/PerfilInfo.vue';
 
-// Reactive state
 const myIP = ref(direccionIP);
+const isEditing = ref(true);
+
 const form = ref({
   nombre: "",
   numero_de_serie: "",
   modelo: "",
   fecha_adquisicion: "",
   estado: null,
+  observaciones_generales: "",
+});
+const formDos = ref({
   tipo: null,
   voltaje: "",
   peso: "",
@@ -94,10 +65,10 @@ const form = ref({
   garantia_cantidad: "",
   seguridad: "",
   ubicacion: "",
-  observaciones_generales: "",
 });
 
 const tipos = ref([
+  "Ninguno",
   "Hidraulica",
   "Electrica",
   "Neumatica",
@@ -110,63 +81,47 @@ const tipos = ref([
 
 const estados = ref(["En uso", "Disponible", "Indisponible"]);
 
-const nameRules = [
-  (value) => (value ? true : "Por favor ingrese un nombre"),
-  (value) => (value.length <= 30 ? true : "El nombre debe ser menor a 30 caracteres"),
+const filas = [
+  { model: "nombre", component: VTextField, size: 12, props: { counter: 30, label: "Nombre" } },
+  { model: "numero_de_serie", component: VTextField, size: 7, props: { counter: 15, label: "Identificador" } },
+  { model: "modelo", component: VTextField, size: 5, props: { counter: 10, label: "Modelo" } },
+  { model: "fecha_adquisicion", component: VTextField, size: 5, props: { label: "Fecha de adquisicion", type: "date" } },
+  { model: "estado", component: VSelect, size: 4, props: { label: "Estado", } },
+  { model: "observaciones_generales", component: VTextarea, size: 12, ocultar: 'auto', props: { label: "Observaciones generales", rows: 2 } },
 ];
 
-const rules = [(value) => (value ? true : "Campo obligatorio")];
+const filasDos = [
+  { model: "tipo", component: VSelect, size: 4, ocultar: 'auto', props: { label: "Tipo" } },
+  { model: "voltaje", component: VTextField, size: 4, ocultar: 'auto', props: { label: "Voltaje" } },
+  { model: "peso", component: VTextField, size: 4, ocultar: 'auto', props: { label: "Peso" } },
+  { model: "velocidad_ajustable", component: VCheckbox, size: 4, ocultar: 'auto', text: "Velocidad ajustable" },
+  { model: "facil_desmontaje", component: VCheckbox, size: 8, ocultar: 'auto', text: "Facilidad de desmontaje" },
+  { model: "pantalla_digital", component: VCheckbox, size: 4, ocultar: 'auto', text: "Pantalla digital" },
+  { model: "garantia", component: VCheckbox, size: 3, ocultar: 'auto', text: "Garantia" },
+  { model: "garantia_cantidad", component: VTextField, size: 5, ocultar: 'auto', props: { label: "Cantidad" } },
+];
 
-const filas = ref([
-  { model: "nombre", component: "v-text-field", size: 12, props: { counter: 30, label: "Nombre", density: "comfortable" } },
-  { model: "numero_de_serie", component: "v-text-field", size: 7, props: { counter: 15, label: "Identificador", density: "comfortable" } },
-  { model: "modelo", component: "v-text-field", size: 5, props: { counter: 10, label: "Modelo", density: "comfortable" } },
-  { component: "v-list-item", size: 3 },
-  { model: "fecha_adquisicion", component: "v-text-field", size: 5, props: { label: "Fecha", type: "date", density: "comfortable" } },
-  { model: "estado", component: "v-select", size: 4, props: { label: "Estado", density: "comfortable" } },
-  { model: "tipo", component: "v-select", size: 4, props: { label: "Tipo", density: "comfortable" } },
-  { model: "voltaje", component: "v-text-field", size: 4, props: { label: "Voltaje", density: "comfortable" } },
-  { model: "peso", component: "v-text-field", size: 4, props: { label: "Peso", density: "comfortable" } },
-  { model: "velocidad_ajustable", component: "v-checkbox-btn", size: 4, text: "Velocidad ajustable" },
-  { model: "facil_desmontaje", component: "v-checkbox-btn", size: 8, text: "Facilidad de desmontaje" },
-  { model: "pantalla_digital", component: "v-checkbox-btn", size: 4, text: "Pantalla digital" },
-  { model: "garantia", component: "v-checkbox-btn", size: 3, text: "Garantia" },
-  { model: "garantia_cantidad", component: "v-text-field", size: 5, props: { label: "Cantidad" } },
-]);
+// // Methods
+// const getItems = (fila) => {
+//   if (fila.model === "tipo") {
+//     return tipos.value;
+//   } else if (fila.model === "estado") {
+//     return estados.value;
+//   }
+//   return [];
+// };
 
-const cartas = ref([
-  { model: "seguridad", title: "Sistema de seguridad:" },
-  { model: "ubicacion", title: "Ubicacion:" },
-  { model: "observaciones_generales", title: "Mas informacion:" },
-]);
+// const getRules = (fila) => {
+//   if (fila.model === "nombre") {
+//     return nameRules;
+//   } else if (fila.model === "modelo") {
+//     return rules;
+//   } else if (fila.model === "selectest") {
+//     return rules;
+//   }
+//   return [];
+// };
 
-// Methods
-const getItems = (fila) => {
-  if (fila.model === "tipo") {
-    return tipos.value;
-  } else if (fila.model === "estado") {
-    return estados.value;
-  }
-  return [];
-};
-
-const getRules = (fila) => {
-  if (fila.model === "nombre") {
-    return nameRules;
-  } else if (fila.model === "modelo") {
-    return rules;
-  } else if (fila.model === "selectest") {
-    return rules;
-  }
-  return [];
-};
-
-const getDisabled = (fila) => {
-  if (fila.model === "garantia_cantidad") {
-    return !form.value.garantia;
-  }
-  return false;
-};
 
 const handleSubmit = async () => {
   const formData = {
@@ -189,26 +144,5 @@ const handleSubmit = async () => {
   }
 };
 
-const handleCancel = () => {
-  // Lógica para cancelar o resetear el formulario
-  form.value = {
-    nombre: "",
-    numero_de_serie: "",
-    modelo: "",
-    fecha_adquisicion: "",
-    estado: null,
-    tipo: null,
-    voltaje: "",
-    peso: "",
-    velocidad_ajustable: false,
-    facil_desmontaje: false,
-    pantalla_digital: false,
-    garantia: false,
-    garantia_cantidad: "",
-    seguridad: "",
-    ubicacion: "",
-    observaciones_generales: "",
-  };
-};
 </script>
 

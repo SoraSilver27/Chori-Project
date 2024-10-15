@@ -2,7 +2,6 @@
   <v-container class="bg-surface-light">
     <v-row>
       <v-col cols="6">
-        {{ formularios_componentes }}
         <PasoDosCPlanilla
           :form="form"
           :filas="filas"
@@ -35,9 +34,10 @@
           <v-card-actions>
 
             <div v-if="tab === 1">
-              <v-dialog v-model="dialog" max-width="1300">
+              <v-dialog v-model="dialog" max-width="1000">
                 <template v-slot:activator="{ props: activatorProps }">
                   <v-btn v-if="formularios_componentes.length < form.componentes_correct.length" 
+                    @click="mediador"
                     v-bind="activatorProps"
                     text="Comenzar Registro"
                     color="primary">
@@ -45,13 +45,12 @@
                 </template>
                 <template v-slot:default> 
                   <ComenzarRegistro
-                    :form="form"
+                    :componentesLocal="componentesLocal"
                     :formLocal="formLocal"
-                    :formularios_componentes="formularios_componentes"
                     :filasDos="filasDos"
                     v-model:dialog="dialog"
                     @update:dialog="dialog = $event"
-                    @update:formularios="formularios_componentes = $event"
+                    @update:formularios_componentes="agregarFormulario"
                   />
                 </template>
               </v-dialog>
@@ -95,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, onMounted } from 'vue';
+import { ref, defineProps, onMounted, watch } from 'vue';
 import { VCheckbox, VSelect, VTextarea, VTextField, VRadio } from 'vuetify/components';
 import axios from 'axios';
 import PasoDosCPlanilla from './PasoDosC/PasoDosCPlanilla.vue';
@@ -125,6 +124,12 @@ myIP: {
 const tab = ref(1);
 const componentes = ref([]);
 const formularios_componentes = ref([]);
+const componentesLocal = ref([]);
+const mediador = () => {
+  componentesLocal.value = props.form.componentes_correct.filter((comp) => {
+    return !formularios_componentes.value.some(f => f.id === comp.id);
+  });
+};
 const dialog = ref(false);
 const dialogRevisar = ref(false);
 
@@ -167,6 +172,30 @@ const cargarComponentes = async () => {
 onMounted(() => {
   cargarComponentes();
 });
+
+// Función para agregar los nuevos formularios a los ya existentes
+const agregarFormulario = (nuevosFormularios) => {
+  formularios_componentes.value = [...formularios_componentes.value, ...nuevosFormularios];
+};
+
+// Watch para monitorear cambios en componentes_correct
+watch(
+  () => [formularios_componentes.value, props.form.componentes_correct],
+  ([newVal, componentesCorrect]) => {
+    // Verificar que formularios_componentes no esté vacío y que componentes_correct tenga elementos
+    if (newVal.length > 0) {
+      const filteredComponents = newVal.filter((comp) => 
+        componentesCorrect.some(c => c.id === comp.id)
+      );
+
+      // Solo actualizar si hay un cambio real
+      if (JSON.stringify(formularios_componentes.value) !== JSON.stringify(filteredComponents)) {
+        formularios_componentes.value = filteredComponents;
+      }
+    }
+  },
+  { deep: true }
+);
 
 // Debo verificar si quiero enviar a BD desde aqui los formularios_componentes
 // O pasarlo a NuevaPlanilla y gestionar desde alli

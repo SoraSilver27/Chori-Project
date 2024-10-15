@@ -52,7 +52,8 @@
             />
             <v-container style="display: flex; align-items: center; justify-content: center; gap: 50%;">
               <v-btn style="width: 20%;" size="large" color="blue" @click="goToStep1">Volver</v-btn>
-              <v-btn style="width: 20%;" size="large" color="blue" @click="goToStep3">Siguiente</v-btn>
+              <v-btn v-if="form.tipoMantenimiento === 'preventivo'" style="width: 20%;" size="large" color="blue" @click="goToStep3">Siguiente</v-btn>
+              <v-btn v-if="form.tipoMantenimiento !== 'preventivo'" style="width: 20%;" size="large" color="blue">Guardar</v-btn>
             </v-container>
           </v-tabs-window-item>
 
@@ -187,7 +188,7 @@ const filasParteDos = [
   {model: 'actividad_realizada', component: VTextarea, size: 12, props: { label: 'Actividad Realizada', rows: 2 } },
   {model: 'tercerizacion', component: VCheckbox, size: 12, text: 'Se requirio tercerizacion' },
   {model: 'seguimiento', component: VCheckbox, size: 12, text: 'Amerita seguimiento' },
-  {model: 'observaciones', component: VTextarea, size: 12, props: { label: 'Observaciones', rows: 2 } },
+  {model: 'observaciones', component: VTextarea, size: 12, props: { label: 'Descripcion', rows: 2 } },
 ];
 
 const goToStep1 = () => {
@@ -204,7 +205,7 @@ const goToStep2 = () => {
   }
 };
 const goToStep3 = () => {
-  if (form.value.periodoSeleccionado !== null && form.value.periodoSeleccionado !== false) {
+  if (form.value.periodoSeleccionado !==  false && form.value.tipoMantenimiento === 'preventivo') {
     visibleTab3.value = true;
     tab.value = 3;
   } else {

@@ -9,7 +9,7 @@
               <component
                 v-if="fila.tipo === 'dato' && fila.component.name !== 'VCheckbox'"
                 :is="fila.component"
-                v-model="form.componentes_correct[currentIndex][fila.model]"
+                v-model="componentesLocal[currentIndex][fila.model]"
                 v-bind="fila.props"
                 hide-details
                 density="compact"
@@ -28,7 +28,6 @@
                 v-model="formLocal[fila.model]"
                 v-bind="fila.props"
                 hide-details
-                :model-value="formLocal[fila.model] === 1"
                 @update:modelValue="(val) => formLocal[fila.model] = val ? 1 : 0"
                 density="compact"
               >
@@ -53,8 +52,8 @@
 import { ref, defineProps, computed, defineEmits } from 'vue';
 
 const props = defineProps({
-  form: {
-    type: Object,
+  componentesLocal: {
+    type: Array,
     required: true,
   },
   formLocal: {
@@ -63,10 +62,6 @@ const props = defineProps({
   },
   dialog: {
     type: Boolean,
-    required: true,
-  },
-  formularios_componentes: {
-    type: Object,
     required: true,
   },
   filasDos: {
@@ -78,8 +73,9 @@ const props = defineProps({
 // Index para rastrear en cuál estamos
 const currentIndex = ref(0);
 // Computed para saber si estamos en el último elemento
-const isLastItem = computed(() => currentIndex.value === props.form.componentes_correct.length - 1);
-const emit = defineEmits(['update:dialog', 'update:formularios']);
+const isLastItem = computed(() => currentIndex.value === props.componentesLocal.length - 1);
+// const isLastItem = computed(() => currentIndex.value === props.componentesLocal.length - 1);
+const emit = defineEmits(['update:dialog', 'update:formularios_componentes']);
 // Estado local para `formularios`
 const formulariosLocal = ref([]);
 
@@ -91,15 +87,15 @@ const handleSiguiente = () => {
   // Asignar valores de props.form al formLocal
   props.filasDos.forEach((fila) => {
     if (fila.tipo === 'dato') {
-      props.formLocal[fila.model] = props.form.componentes_correct[currentIndex.value][fila.model];
-      props.formLocal.id = props.form.componentes_correct[currentIndex.value].id;
+      props.formLocal[fila.model] = props.componentesLocal[currentIndex.value][fila.model];
+      props.formLocal.id = props.componentesLocal[currentIndex.value].id;
     }
   });
 
   // Agregar el formulario actual a formulariosLocal
   formulariosLocal.value.push({ ...props.formLocal });
   // Emitir evento para actualizar `formularios` en el componente padre
-  emit('update:formularios', formulariosLocal.value);
+  emit('update:formularios_componentes', formulariosLocal.value);
 
   // Limpiar el formulario
   for (let key in props.formLocal) {
@@ -107,27 +103,33 @@ const handleSiguiente = () => {
   }
 
   // Avanzar al siguiente índice si existe
-  if (props.form.componentes_correct[currentIndex.value + 1]) {
+  if (props.componentesLocal[currentIndex.value + 1]) {
     currentIndex.value++;
   } else {
     console.log('No hay más elementos en componentes_correct');
   }
   
+  formulariosLocal.value = [];
 };
 
 const handleGuardar = () => {
+  if (!props.componentesLocal[currentIndex.value]) {
+    console.error('El índice es inválido o no hay elementos en componentesLocal.');
+    return; // Terminar la función si no hay un elemento válido
+  }
+
   // Guardar el último formulario
   props.filasDos.forEach((fila) => {
     if (fila.tipo === 'dato') {
-      props.formLocal[fila.model] = props.form.componentes_correct[currentIndex.value][fila.model];
-      props.formLocal.id = props.form.componentes_correct[currentIndex.value].id;
+      props.formLocal[fila.model] = props.componentesLocal[currentIndex.value][fila.model];
+      props.formLocal.id = props.componentesLocal[currentIndex.value].id;
     }
   });
 
   // Agregar el formulario actual a formulariosLocal
   formulariosLocal.value.push({ ...props.formLocal });
   // Emitir evento para actualizar `formularios` en el componente padre
-  emit('update:formularios', formulariosLocal.value);
+  emit('update:formularios_componentes', formulariosLocal.value);
   console.log('Datos guardados:', formulariosLocal.value);
   
   // Emitir un evento para cerrar el diálogo
@@ -138,6 +140,8 @@ const handleGuardar = () => {
   for (let key in props.formLocal) {
     props.formLocal[key] = '';
   }
+
+  formulariosLocal.value = [];
 };
 
 // Función para cerrar el diálogo manualmente
