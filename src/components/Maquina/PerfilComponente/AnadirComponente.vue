@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="bg-surface-light">
     <v-card-title>Agregar componente</v-card-title>
     <v-card-text>
       <v-select
@@ -33,7 +33,7 @@
 import { ref, computed, defineProps } from 'vue';
 
 const props = defineProps({
-  componentesNU: {
+  actualCompSelector: {
     type: Array,
     required: true,
   },
@@ -44,47 +44,30 @@ const selectedSerial = ref(null);
 const selectedModel = ref(null);
 
 const uniqueNombres = computed(() => {
-  const nombres = props.componentesNU.map((item) => item.nombre);
+  const nombres = props.actualCompSelector.map((item) => item.nombre);
   return [...new Set(nombres)];  // Nombres únicos
 });
-// // Filtrar nombres únicos de la lista de componentes
-// const filteredNames = computed(() => {
-//   let filtered = props.componentesNU || [];
-
-//   // Filtra por numero de serie seleccionado
-//   if (selectedSerial.value !== null && selectedSerial.value) {
-//     filtered = filtered.filter((item) => item.numero_de_serie === selectedSerial.value);
-//   }
-//   // Filtra por modelo seleccionado
-//   if (selectedModel.value !== null && selectedModel.value) {
-//     filtered = filtered.filter((item) => item.modelo === selectedModel.value);
-//   }
-//   // Obtén nombres únicos
-//   return [...new Set(filtered.map((item) => item.nombre))];
-  
-// });
-// console.log(filtered);
 
 // Filtrar números de serie basados en el nombre seleccionado
 const uniqueNumeroSeries = computed(() => {
   if (selectedName.value && !selectedModel.value) {
-    const serieList = props.componentesNU
+    const serieList = props.actualCompSelector
       .filter((item) => item.nombre === selectedName.value)
       .map((item) => item.numero_de_serie);
     return [...new Set(serieList)];
   } else if (selectedModel.value && !selectedName.value) {
-    const serieList = props.componentesNU
+    const serieList = props.actualCompSelector
       .filter((item) => item.modelo === selectedModel.value)
       .map((item) => item.numero_de_serie);
     return [...new Set(serieList)];
   } else if (selectedName.value && selectedModel.value) {
-    const serieList = props.componentesNU
+    const serieList = props.actualCompSelector
       .filter((item) => item.nombre === selectedName.value)
       .filter((item) => item.modelo === selectedModel.value)
       .map((item) => item.numero_de_serie);
     return [...new Set(serieList)];
   } else if (!selectedName.value && !selectedModel) {
-    const serieList = props.componentesNU.map((item) => item.numero_de_serie);
+    const serieList = props.actualCompSelector.map((item) => item.numero_de_serie);
     return [...new Set(serieList)];
   }
 });
@@ -124,11 +107,11 @@ console.log(uniqueNumeroSeries);
 //   // Actualiza las selecciones dependiendo de lo que se ha seleccionado
 // };
 
-// const resetFields = () => {
-//   selectedName.value = null;
-//   selectedSerial.value = null;
-//   selectedModel.value = null;
-// };
+const resetFields = () => {
+  selectedName.value = null;
+  selectedSerial.value = null;
+  selectedModel.value = null;
+};
 
 // // Computed para obtener el componente seleccionado
 // const selectedComponent = computed(() => {

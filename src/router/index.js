@@ -29,7 +29,8 @@ const routes = [
   { path: "/nuevo_repuesto", component: () => import("@/pages/NuevoRepuesto.vue") },
   { path: "/calendario", component: () => import("@/pages/Calendario.vue") },
 
-  { path: "/prueba", component: () => import("@/pages/Prueba.vue") }
+  { path: "/prueba", component: () => import("@/pages/Prueba.vue") },
+  { path: "/pruebados", component: () => import("@/pages/PruebaDos.vue")}
 ]
 
 const router = createRouter({

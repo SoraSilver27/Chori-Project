@@ -7,11 +7,13 @@
             v-model="form.periodoSeleccionado" 
             :value="periodo" 
             @change="onCheckboxChange(periodo)"
+            hide-details
           ></v-checkbox>
         </v-col>
         <v-col cols="3">
           <v-text-field :value="periodoTexto(periodo)" 
-            readonly hide-details class="bg-blue-darken-4"/>
+            readonly hide-details class="bg-blue-darken-4"
+          />
         </v-col>
         <v-col cols="8" class="pl-0">
           <v-expansion-panels>
@@ -20,10 +22,11 @@
               :key="index"
               :title="componente.nombre"
               :text="componente.descripcion"
+              hide-details
             />
           </v-expansion-panels>
         </v-col>
-        <v-divider :thickness="5" class="border-opacity-100" color=""/>
+        <v-divider :thickness="3" class="py-0" opacity="1" color=""/>
       </v-row>
     </v-card>
   </v-container>

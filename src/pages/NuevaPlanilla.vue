@@ -58,7 +58,9 @@
           </v-tabs-window-item>
 
           <v-tabs-window-item :value="3">
-            <PasoTres/>
+            <PasoTres
+              :form="form"
+            />
             <v-container style="display: flex; align-items: center; justify-content: center; gap: 50%;">
               <v-btn style="width: 20%;" size="large" color="blue" @click="goToStep2">Volver</v-btn>
               <v-btn style="width: 20%;" size="large" color="blue" >Guardar</v-btn>

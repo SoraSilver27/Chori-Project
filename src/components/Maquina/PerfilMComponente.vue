@@ -13,7 +13,9 @@
           <template v-slot:default="{ isActive }"> 
             <v-card title="Nuevo componente">
               <v-card-text>
-                <AnadirComponente :componentesNU="actualCompSelector"/>
+                <AnadirComponente 
+                  :actualCompSelector="actualCompSelector"
+                />
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -35,7 +37,7 @@
 
 
     <v-card-text class="pt-3">
-      <v-row v-for="(componente, i) in componentesActuales" :key="i">
+      <v-row v-for="(componente, i) in actualComp" :key="i">
         <v-col cols="3" class="pr-0">
           <v-text-field v-model="componente.nombre" label="Nombre"
             :disabled="!isEditing" class="bg-grey-darken-4" hide-details="auto"
@@ -84,12 +86,12 @@ import { direccionIP } from '@/global';
 import AnadirComponente from './PerfilComponente/AnadirComponente.vue';
 
 const props = defineProps({
-  componentesActuales: {
-    type: Object,
+  actualComp: {
+    type: Array,
     required: true,
   },
-  componentesOpcionales: {
-    type: Object,
+  actualCompSelector: {
+    type: Array,
     required: true,
   },
 });
@@ -98,7 +100,6 @@ const myIP = direccionIP;
 const ipMaquina = useRoute();
 const ID = ipMaquina.params.id;
 const isEditing = ref(false)
-const actualCompSelector = ref({});
 
 const toggleEditMode = () => {
   if (isEditing.value) {

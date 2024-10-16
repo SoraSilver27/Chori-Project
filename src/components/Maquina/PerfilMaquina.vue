@@ -192,13 +192,16 @@ const filasDetalles = ref([
   {model: 'pantalla_digital', component: VCheckbox, size: 4, ocultar: 'auto', text: 'Pantalla digital' },
   {model: 'garantia', component: VCheckbox, size: 3, ocultar: 'auto', text: 'Garantía' },
   {model: 'garantia_cantidad', component: VTextField, size: 5, ocultar: 'auto', props: { label: 'Cantidad' } },
-  {model: 'problemas_recurrentes', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Problemas recurrentes', rows: 2 } },
+  {model: 'problemas_recurrentes', component: VTextarea, size: 12, ocultar: 'auto', props: { label: 'Problemas recurrentes', rows: 3 } },
 ]);
 
 const filasMant = ref([
-  {model: 'periodo_mantenimiento', component: VSelect, size: 3, ocultar: 'auto', 
+  {model: 'periodo_mantenimiento', component: VSelect, size: 4, ocultar: 'auto', 
     props: { label: 'Periodo en dias', items: [ 0, 7, 15, 30, 60, 90, 180, 360, 720 ] } 
   },
-])
+  {model: 'mantenimiento', component: VTextarea, size: 12, ocultar: 'auto', 
+    props: { label: 'Descripcion del mantenimiento', rows: '5'}  
+  }
+,])
 
 </script>

@@ -26,8 +26,8 @@
 
               <v-tabs-window-item value="2">
                 <PerfilMComponente 
-                  :componentesActuales="actualComp"
-                  :componentesOpcionales="actualCompSelector"
+                  :actualComp="actualComp"
+                  :actualCompSelector="actualCompSelector"
                 />
               </v-tabs-window-item>
 
@@ -106,16 +106,14 @@ const fetchComponentes = async () => {
 
 watch(componentes, (newVal) => {
     if (newVal && Array.isArray(newVal) && newVal.length > 0) {
-      actualComp.value = newVal.filter(componente => componente.ubicacion.id == ID);
-      actualCompSelector.value = newVal.filter(componente => componente.ubicacion.id != ID);
+      actualComp.value = newVal.filter(componente => componente.ubicacion == ID);
+      actualCompSelector.value = newVal.filter(componente => componente.ubicacion != ID);
     } else {
       console.error('Datos de componentes no disponibles o vacíos');
     }
   },
 
 );
-
-
 onMounted(() => {
   fetchMaquina();
   fetchDetalles();
