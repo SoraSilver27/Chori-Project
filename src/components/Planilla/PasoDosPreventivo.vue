@@ -1,5 +1,6 @@
 <template>
-  <v-container>
+  <!-- Carta una de maquina -->
+  <v-container v-if="props.tipo.tipo === 'Maquina'">
     <v-card class="bg-surface-light pa-4">
       <v-row v-for="(grupo, periodo) in agrupadoPorPeriodo" :key="periodo">
         <v-col cols="1">
@@ -30,6 +31,38 @@
       </v-row>
     </v-card>
   </v-container>
+
+  <!-- Carta dos de componente -->
+  <v-container v-else>
+    <v-card class="bg-surface-light pa-4">
+      {{ form.periodoSeleccionado }}
+      {{ componente.periodo_mantenimiento }}
+      <v-row>
+        <v-col cols="1">
+          <v-checkbox
+            v-model="form.periodoSeleccionado" 
+            :value="componente.periodo_mantenimiento" 
+            hide-details
+          ></v-checkbox>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field :value="periodoTexto(componente.periodo_mantenimiento)" 
+            readonly hide-details class="bg-blue-darken-4"
+          />
+        </v-col>
+        <v-col cols="8">
+          <v-textarea 
+            :value="componente.mantenimiento" 
+            disabled rows="2"
+          />
+          <v-textarea 
+            :value="componente.mantenimiento_detallado" 
+            disabled rows="5"
+          />
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
@@ -49,6 +82,14 @@ const props = defineProps({
     type: Object,
     requiered: true,
   },
+  tipo: {
+    type: Object,
+    required: true,
+  },
+  componente: {
+    type: Object,
+    required: true,
+  }
 });
 
 const componentesCorrectivo = ref([]);
@@ -104,8 +145,12 @@ const agrupadoPorPeriodo = computed(() => {
 const onCheckboxChange = (periodo) => {
   if (props.form.periodoSeleccionado === periodo) {
     props.form.periodoSeleccionado = periodo;
-  } else {
-    props.formperiodoSeleccionado = periodo;
   }
 };
+
+
+// {{
+//     periodo_mantenimiento,
+//     mantenimiento,
+//     mantenimiento_detallado,}}
 </script>

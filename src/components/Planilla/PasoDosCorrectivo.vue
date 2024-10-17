@@ -10,7 +10,7 @@
       <v-col cols="6">
         <v-card>
           <v-tabs v-model="tab" fixed-tabs color="primary">
-            <v-tab :value="1" prepend-icon="mdi-alert">Control de componentes</v-tab>
+            <v-tab v-if="props.tipo.tipo === 'Maquina'" :value="1" prepend-icon="mdi-alert">Control de componentes</v-tab>
             <v-tab :value="2" prepend-icon="mdi-message-text">Repuestos utilizados</v-tab>
           </v-tabs>
 
@@ -119,6 +119,10 @@ myIP: {
   type: String,
   required: true,
 },
+tipo: {
+  type: Object,
+  required: true,
+}
 });
 
 const tab = ref(1);
